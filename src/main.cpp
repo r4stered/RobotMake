@@ -1,15 +1,9 @@
 #include <iostream>
-#include <wpi/interpolating_map.h>
-#include <wpi/timestamp.h>
+#include <ntcore.h>
 
 int main(int argc, char* argv[]) {
-    std::cout << "Hello Rio!\n";
-    wpi::interpolating_map<double, double> map;
-
-    std::cout << "Time since epoch: " << wpi::NowDefault() << "\n";
-
-    map.insert(3, 0);
-    map.insert(4, 10);
-    std::cout << "Result: " << map[3.5] << "\n";
+    auto myValue = nt::GetEntry(nt::GetDefaultInstance(), "MyValue");
+    nt::SetEntryValue(myValue, nt::Value::MakeString("Hello World"));
+    std::cout << nt::GetEntryValue(myValue).GetString() << "\n";
     return 0;
 }

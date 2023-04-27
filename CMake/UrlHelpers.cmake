@@ -1,8 +1,28 @@
 include(CMakePrintHelpers)
 
 function(GetWpiUrl library_name version)
+    GetWpiUrlBase("https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first" ${library_name} ${version})
+    set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
+    set(LIB_URL ${LIB_URL} PARENT_SCOPE)
+    set(PATH_SUFFIX ${PATH_SUFFIX} PARENT_SCOPE)
+endfunction()
+
+function(GetOpenCVUrl version)
+    GetWpiUrlBase("https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc2023" "opencv" ${version})
+    set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
+    set(LIB_URL ${LIB_URL} PARENT_SCOPE)
+    set(PATH_SUFFIX ${PATH_SUFFIX} PARENT_SCOPE)
+endfunction()
+
+function(GetWpiUrlBase base_url_string library_name version)
     set(OS_STRING ${CMAKE_SYSTEM_NAME})
     string(TOLOWER ${OS_STRING} OS_STRING)
+
+    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set(BUILD_TYPE_STRING "debug")
+    else()
+        set(BUILD_TYPE_STRING "")
+    endif()
 
     if(NOT DEFINED TOOLCHAIN_TRIPLE)
         if(OS_STRING STREQUAL "Darwin")
@@ -23,15 +43,15 @@ function(GetWpiUrl library_name version)
         set(STATIC_STRING "static")
     endif()
 
-    set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
+    set(BASE_URL "${base_url_string}/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
 
     set(HEADER_URL "${BASE_URL}headers.zip" PARENT_SCOPE)
-    set(LIB_URL "${BASE_URL}${OS_STRING}${ARCH_STRING}${STATIC_STRING}.zip" PARENT_SCOPE)
+    set(LIB_URL "${BASE_URL}${OS_STRING}${ARCH_STRING}${STATIC_STRING}${BUILD_TYPE_STRING}.zip" PARENT_SCOPE)
 
     if(GET_SHARED_LIBS)
         set(STATIC_STRING "shared")
     endif()
-    cmake_print_variables(STATIC_STRING)
+    cmake_print_variables(LIB_URL)
 
     set(PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${STATIC_STRING}" PARENT_SCOPE)
 endfunction()

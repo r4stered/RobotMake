@@ -11,15 +11,23 @@ FetchContent_MakeAvailable(rio_toolchain)
 
 project(rio_compile_ex)
 
+set(CMAKE_CXX_STANDARD 20)
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(wpiutil REQUIRED)
+find_package(wpinet REQUIRED)
+find_package(opencv REQUIRED)
+find_package(cscore REQUIRED)
+find_package(ntcore REQUIRED)
+find_package(cameraserver REQUIRED)
+find_package(wpimath REQUIRED)
 
 add_executable(test_exec src/main.cpp)
 
-target_link_libraries(test_exec wpiutil::wpiutil)
+target_link_libraries(test_exec wpimath::wpimath cameraserver::cameraserver ntcore::ntcore cscore::cscore opencv wpinet::wpinet wpiutil::wpiutil)
 
 if(WIN32)
   add_custom_command(TARGET test_exec POST_BUILD

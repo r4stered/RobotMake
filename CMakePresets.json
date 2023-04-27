@@ -14,6 +14,7 @@
         "binaryDir": "${sourceDir}/build/rio_release",
         "toolchainFile": "${sourceDir}/build/rio_release/_deps/rio_toolchain-src/toolchain-config.cmake",
         "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release",
           "GET_SHARED_LIBS": {
             "type": "BOOL",
             "value": "OFF"
@@ -26,6 +27,8 @@
         "description": "This will build for your local OS with shared libs.",
         "binaryDir": "${sourceDir}/build/desktop_debug_shared",
         "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Debug",
+          "CMAKE_CONFIGURATION_TYPES": "Debug",
           "GET_SHARED_LIBS": {
             "type": "BOOL",
             "value": "ON"
@@ -38,6 +41,8 @@
         "description": "This will build for your local OS with static libs.",
         "binaryDir": "${sourceDir}/build/desktop_debug_static",
         "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Debug",
+          "CMAKE_CONFIGURATION_TYPES": "Debug",
           "GET_SHARED_LIBS": {
             "type": "BOOL",
             "value": "OFF"
