@@ -1,0 +1,62 @@
+{
+    "version": 5,
+    "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0
+    },
+    "configurePresets": [
+      {
+        "name": "rio_release",
+        "displayName": "Rio Release",
+        "description": "This is the program you want to deploy to the robot",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build/rio_release",
+        "toolchainFile": "${sourceDir}/build/rio_release/_deps/rio_toolchain-src/toolchain-config.cmake",
+        "cacheVariables": {
+          "GET_SHARED_LIBS": {
+            "type": "BOOL",
+            "value": "OFF"
+          }
+        }
+      },
+      {
+        "name": "desktop_debug_shared",
+        "displayName": "Desktop Debug Shared",
+        "description": "This will build for your local OS with shared libs.",
+        "binaryDir": "${sourceDir}/build/desktop_debug_shared",
+        "cacheVariables": {
+          "GET_SHARED_LIBS": {
+            "type": "BOOL",
+            "value": "ON"
+          }
+        }
+      },
+      {
+        "name": "desktop_debug_static",
+        "displayName": "Desktop Debug Static",
+        "description": "This will build for your local OS with static libs.",
+        "binaryDir": "${sourceDir}/build/desktop_debug_static",
+        "cacheVariables": {
+          "GET_SHARED_LIBS": {
+            "type": "BOOL",
+            "value": "OFF"
+          }
+        }
+      }
+    ],
+    "buildPresets": [
+      {
+        "name": "rio_release",
+        "configurePreset": "rio_release"
+      },
+      {
+        "name": "desktop_debug_shared",
+        "configurePreset": "desktop_debug_shared"
+      },
+      {
+        "name": "desktop_debug_static",
+        "configurePreset": "desktop_debug_static"
+      }
+    ]
+  }
