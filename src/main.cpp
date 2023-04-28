@@ -1,9 +1,11 @@
 #include <iostream>
-#include <ntcore.h>
+#include <apriltag.h>
+#include <tag16h5.h>
 
 int main(int argc, char* argv[]) {
-    auto myValue = nt::GetEntry(nt::GetDefaultInstance(), "MyValue");
-    nt::SetEntryValue(myValue, nt::Value::MakeString("Hello World"));
-    std::cout << nt::GetEntryValue(myValue).GetString() << "\n";
-    return 0;
+    apriltag_family_t* fam = tag16h5_create();
+
+    std::cout << "Tag Name: " << fam->name << "\n";
+
+    tag16h5_destroy(fam);
 }

@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-GetOpenCVUrl("4.6.0-4")
+GetThirdPartyLibraryUrl("opencv" "4.6.0-4")
 
 FetchContent_Declare(
   opencv_headers
