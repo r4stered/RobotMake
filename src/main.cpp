@@ -1,5 +1,5 @@
 #include <iostream>
-#include "frc/apriltag/AprilTagDetector.h"
+#include <frc/apriltag/AprilTagDetector.h>
 
 int main(int argc, char* argv[]) {
   frc::AprilTagDetector detector;

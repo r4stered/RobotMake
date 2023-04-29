@@ -1,14 +1,37 @@
-macro(FindWpiPackage packageName version)
+macro(FindWpiPackage packageName version install_folder)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
 GetWpiUrl(${packageName} ${version})
 
+if(NOT "${install_folder}" STREQUAL "")
+  set(INSTALL_FOLDER_STR ${install_folder})
+else()
+  set(INSTALL_FOLDER_STR "")
+endif()
+
 FetchContent_Declare(
   ${packageName}_headers
-  URL ${HEADER_URL}
 )
-FetchContent_MakeAvailable(${packageName}_headers)
+
+cmake_print_variables(INSTALL_FOLDER_STR)
+
+FetchContent_Populate(
+  ${packageName}_headers
+  DOWNLOAD_COMMAND URL ${HEADER_URL}
+  SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-src/${INSTALL_FOLDER_STR}
+  BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-build/${INSTALL_FOLDER_STR}
+  SUBBUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-subbuild/${INSTALL_FOLDER_STR}
+)
+
+cmake_print_variables(${packageName}_headers_SOURCE_DIR)
+
+if(NOT "${install_folder}" STREQUAL "")
+  cmake_path(GET ${packageName}_headers_SOURCE_DIR PARENT_PATH FIXED_PATH)
+  set(${packageName}_headers_SOURCE_DIR ${FIXED_PATH})
+endif()
+
+cmake_print_variables(${packageName}_headers_SOURCE_DIR)
 
 FetchContent_Declare(
   ${packageName}_libs
