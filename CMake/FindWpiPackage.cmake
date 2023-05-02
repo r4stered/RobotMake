@@ -46,9 +46,13 @@ else()
   set(DEBUG_STRING "")
 endif()
 
+if("${packageName}" STREQUAL "hal")
+  set(LIB_PREFIX "wpi")
+endif()
+
 if(WIN32)
   find_file(${packageName}_DLL
-    NAMES ${packageName}${DEBUG_STRING}.dll
+    NAMES ${LIB_PREFIX}${packageName}${DEBUG_STRING}.dll
     HINTS ${${packageName}_libs_SOURCE_DIR} 
     PATH_SUFFIXES ${PATH_SUFFIX}
     REQUIRED
@@ -58,7 +62,7 @@ if(WIN32)
 endif()
 
 find_library(${packageName}_LIBRARY 
-  NAMES ${packageName}${DEBUG_STRING}
+  NAMES ${LIB_PREFIX}${packageName}${DEBUG_STRING}
   HINTS ${${packageName}_libs_SOURCE_DIR} 
   PATH_SUFFIXES ${PATH_SUFFIX}
   REQUIRED

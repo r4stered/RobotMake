@@ -26,10 +26,11 @@ find_package(cameraserver REQUIRED)
 find_package(wpimath REQUIRED)
 find_package(apriltaglib REQUIRED)
 find_package(apriltag REQUIRED)
+find_package(hal REQUIRED)
 
 add_executable(test_exec src/main.cpp)
 
-target_link_libraries(test_exec apriltag::apriltag apriltaglib::apriltaglib wpimath::wpimath cameraserver::cameraserver ntcore::ntcore cscore::cscore opencv wpinet::wpinet wpiutil::wpiutil)
+target_link_libraries(test_exec hal::hal apriltag::apriltag apriltaglib::apriltaglib wpimath::wpimath cameraserver::cameraserver ntcore::ntcore cscore::cscore opencv wpinet::wpinet wpiutil::wpiutil)
 
 if(WIN32)
   add_custom_command(TARGET test_exec POST_BUILD

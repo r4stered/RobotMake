@@ -1,8 +1,8 @@
-#include <iostream>
-#include <frc/apriltag/AprilTagDetector.h>
+#include "hal/HAL.h"
+#include <fmt/core.h>
 
-int main(int argc, char* argv[]) {
-  frc::AprilTagDetector detector;
-  detector.AddFamily("tag16h5");
-  detector.SetConfig({.refineEdges = false});
+int main(int argc, char *argv[])
+{
+  fmt::print("Hello World\n");
+  fmt::print("{}\n", static_cast<int32_t>(HAL_GetRuntimeType()));
 }
