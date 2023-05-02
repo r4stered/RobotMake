@@ -46,8 +46,10 @@ else()
   set(DEBUG_STRING "")
 endif()
 
-if("${packageName}" STREQUAL "hal")
+if(${packageName} STREQUAL "hal")
   set(LIB_PREFIX "wpi")
+else()
+  set(LIB_PREFIX "")
 endif()
 
 if(WIN32)
