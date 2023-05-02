@@ -28,10 +28,15 @@ find_package(apriltaglib REQUIRED)
 find_package(apriltag REQUIRED)
 find_package(hal REQUIRED)
 find_package(wpilibc REQUIRED)
+find_package(wpilibnewcommands REQUIRED)
 
 add_executable(test_exec src/main.cpp)
 
-target_link_libraries(test_exec wpilibc::wpilibc hal::hal apriltag::apriltag apriltaglib::apriltaglib wpimath::wpimath cameraserver::cameraserver ntcore::ntcore cscore::cscore opencv wpinet::wpinet wpiutil::wpiutil)
+if(MSVC)
+  target_compile_options(test_exec PRIVATE /Zc:preprocessor /bigobj)
+endif()
+
+target_link_libraries(test_exec wpilibnewcommands::wpilibnewcommands wpilibc::wpilibc hal::hal apriltag::apriltag apriltaglib::apriltaglib wpimath::wpimath cameraserver::cameraserver ntcore::ntcore cscore::cscore opencv wpinet::wpinet wpiutil::wpiutil)
 
 if(WIN32)
   add_custom_command(TARGET test_exec POST_BUILD

@@ -43,6 +43,10 @@ function(GetWpiUrlBase base_url_string library_name version)
         set(STATIC_STRING "static")
     endif()
 
+    if(${library_name} STREQUAL "wpilibnewcommands")
+        set(library_name "wpilibNewCommands")
+    endif()
+
     if(${library_name} STREQUAL "apriltaglib")
         #April tag lib only has static binaries avaliable
         set(STATIC_STRING "static")

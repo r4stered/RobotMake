@@ -27,8 +27,8 @@ FetchContent_Populate(
 cmake_print_variables(${packageName}_headers_SOURCE_DIR)
 
 if(NOT "${install_folder}" STREQUAL "")
-  cmake_path(GET ${packageName}_headers_SOURCE_DIR PARENT_PATH FIXED_PATH)
-  set(${packageName}_headers_SOURCE_DIR ${FIXED_PATH})
+  cmake_path(GET ${packageName}_headers_SOURCE_DIR PARENT_PATH ${packageName}_FIXED_PATH)
+  set(${packageName}_headers_SOURCE_DIR ${${packageName}_FIXED_PATH})
 endif()
 
 cmake_print_variables(${packageName}_headers_SOURCE_DIR)
