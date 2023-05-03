@@ -29,6 +29,7 @@ find_package(apriltag REQUIRED)
 find_package(hal REQUIRED)
 find_package(wpilibc REQUIRED)
 find_package(wpilibnewcommands REQUIRED)
+find_package(kauailabs REQUIRED)
 find_package(Threads REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
@@ -41,7 +42,22 @@ if(MSVC)
   target_compile_options(test_exec PRIVATE /Zc:preprocessor /bigobj)
 endif()
 
-target_link_libraries(test_exec Threads::Threads wpilibnewcommands::wpilibnewcommands wpilibc::wpilibc hal::hal apriltag::apriltag apriltaglib::apriltaglib wpimath::wpimath cameraserver::cameraserver ntcore::ntcore cscore::cscore opencv wpinet::wpinet wpiutil::wpiutil)
+target_link_libraries(test_exec 
+  Threads::Threads 
+  kauailabs::kauailabs
+  wpilibnewcommands::wpilibnewcommands 
+  wpilibc::wpilibc 
+  hal::hal 
+  apriltag::apriltag 
+  apriltaglib::apriltaglib 
+  wpimath::wpimath 
+  cameraserver::cameraserver 
+  ntcore::ntcore 
+  cscore::cscore 
+  opencv 
+  wpinet::wpinet 
+  wpiutil::wpiutil
+)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
   target_link_libraries(test_exec nilibraries dl)

@@ -6,6 +6,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/motorcontrol/PWMSparkMax.h>
+#include <AHRS.h>
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class.
@@ -17,6 +18,7 @@ class Robot : public frc::TimedRobot
   frc::PWMSparkMax m_rightMotor{1};
   frc::DifferentialDrive m_robotDrive{m_leftMotor, m_rightMotor};
   frc::Joystick m_stick{0};
+  AHRS navx{frc::SerialPort::kMXP};
 
 public:
   void RobotInit() override
@@ -25,6 +27,13 @@ public:
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     m_rightMotor.SetInverted(true);
+    navx.Calibrate();
+    navx.ZeroYaw();
+  }
+
+  void RobotPeriodic() override
+  {
+    fmt::print("Navx Yaw: {}\n", navx.GetYaw());
   }
 
   void TeleopPeriodic() override

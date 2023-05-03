@@ -1,5 +1,12 @@
 include(CMakePrintHelpers)
 
+function(GetKauaiLabsUrl version)
+    GetWpiUrlBase("https://dev.studica.com/maven/release/2023/com/kauailabs/navx/frc/navx-frc-cpp" "navx-frc-cpp" ${version})
+    set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
+    set(LIB_URL ${LIB_URL} PARENT_SCOPE)
+    set(PATH_SUFFIX ${PATH_SUFFIX} PARENT_SCOPE)
+endfunction()
+
 function(GetNiUrl library_name version)
     GetWpiUrlBase("https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries" ${library_name} ${version})
     set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
@@ -64,7 +71,9 @@ function(GetWpiUrlBase base_url_string library_name version)
            ${library_name} STREQUAL "visa")
         #NI libs are only avaliable as shared libs
         set(STATIC_STRING "")
-        set(BASE_URL "${base_url_string}/${library_name}/${version}/${library_name}-${version}-")      
+        set(BASE_URL "${base_url_string}/${library_name}/${version}/${library_name}-${version}-")
+    elseif(${library_name} STREQUAL "navx-frc-cpp")
+        set(BASE_URL "${base_url_string}/${version}/${library_name}-${version}-")
     else()
         set(BASE_URL "${base_url_string}/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
     endif()
@@ -78,7 +87,13 @@ function(GetWpiUrlBase base_url_string library_name version)
         set(LINK_TYPE_STRING "static")
     endif()
 
-    if(NOT (${library_name} STREQUAL "apriltaglib" OR ${library_name} STREQUAL "chipobject" OR ${library_name} STREQUAL "netcomm" OR ${library_name} STREQUAL "runtime" OR ${library_name} STREQUAL "visa"))
+    if(NOT (${library_name} STREQUAL "apriltaglib" OR 
+        ${library_name} STREQUAL "chipobject" OR 
+        ${library_name} STREQUAL "netcomm" OR 
+        ${library_name} STREQUAL "runtime" OR 
+        ${library_name} STREQUAL "visa" OR
+        ${library_name} STREQUAL "navx-frc-cpp"
+    ))
         cmake_print_variables(library_name)
         set(PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}" PARENT_SCOPE)
     else()
