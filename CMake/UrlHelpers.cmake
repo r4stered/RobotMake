@@ -1,5 +1,12 @@
 include(CMakePrintHelpers)
 
+function(GetNiUrl library_name version)
+    GetWpiUrlBase("https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries" ${library_name} ${version})
+    set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
+    set(LIB_URL ${LIB_URL} PARENT_SCOPE)
+    set(PATH_SUFFIX ${PATH_SUFFIX} PARENT_SCOPE)
+endfunction()
+
 function(GetWpiUrl library_name version)
     GetWpiUrlBase("https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first" ${library_name} ${version})
     set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
@@ -51,6 +58,13 @@ function(GetWpiUrlBase base_url_string library_name version)
         #April tag lib only has static binaries avaliable
         set(STATIC_STRING "static")
         set(BASE_URL "${base_url_string}/${library_name}/${version}/${library_name}-${version}-")
+    elseif(${library_name} STREQUAL "chipobject" OR 
+           ${library_name} STREQUAL "netcomm" OR
+           ${library_name} STREQUAL "runtime" OR
+           ${library_name} STREQUAL "visa")
+        #NI libs are only avaliable as shared libs
+        set(STATIC_STRING "")
+        set(BASE_URL "${base_url_string}/${library_name}/${version}/${library_name}-${version}-")      
     else()
         set(BASE_URL "${base_url_string}/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
     endif()
@@ -58,13 +72,16 @@ function(GetWpiUrlBase base_url_string library_name version)
     set(HEADER_URL "${BASE_URL}headers.zip" PARENT_SCOPE)
     set(LIB_URL "${BASE_URL}${OS_STRING}${ARCH_STRING}${STATIC_STRING}${BUILD_TYPE_STRING}.zip" PARENT_SCOPE)
 
-    if(GET_SHARED_LIBS)
-        if(NOT ${library_name} STREQUAL "apriltaglib")
-            set(STATIC_STRING "shared")
-            set(PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${STATIC_STRING}" PARENT_SCOPE)
-        else()
-            set(PATH_SUFFIX "${ARCH_STRING}/${STATIC_STRING}" PARENT_SCOPE)
-        endif()
+    if("${STATIC_STRING}" STREQUAL "")
+        set(LINK_TYPE_STRING "shared")
+    else()
+        set(LINK_TYPE_STRING "static")
     endif()
-    cmake_print_variables(LIB_URL)
+
+    if(NOT (${library_name} STREQUAL "apriltaglib" OR ${library_name} STREQUAL "chipobject" OR ${library_name} STREQUAL "netcomm" OR ${library_name} STREQUAL "runtime" OR ${library_name} STREQUAL "visa"))
+        cmake_print_variables(library_name)
+        set(PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}" PARENT_SCOPE)
+    else()
+        set(PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}" PARENT_SCOPE)
+    endif()
 endfunction()
