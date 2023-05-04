@@ -10,6 +10,8 @@
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/PathPoint.h>
+#include <photonlib/PhotonUtils.h>
+#include <units/length.h>
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class.
@@ -38,6 +40,9 @@ public:
         pathplanner::PathPoint(frc::Translation2d(1_m, 1_m), frc::Rotation2d(0_deg)), // position, heading
         pathplanner::PathPoint(frc::Translation2d(3_m, 3_m), frc::Rotation2d(45_deg)) // position, heading
     );
+
+    units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(2_m, 5_m, 1_deg, units::degree_t{10});
+    fmt::print("Range: {}\n", range.value());
   }
 
   void RobotPeriodic() override

@@ -31,6 +31,7 @@ find_package(wpilibc REQUIRED)
 find_package(wpilibnewcommands REQUIRED)
 find_package(kauailabs REQUIRED)
 find_package(pathplanner REQUIRED)
+find_package(photonvision REQUIRED)
 find_package(Threads REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
@@ -45,6 +46,7 @@ endif()
 
 target_link_libraries(test_exec 
   Threads::Threads 
+  photonvision::photonvision
   pathplanner::pathplanner
   kauailabs::kauailabs
   wpilibnewcommands::wpilibnewcommands 
