@@ -7,6 +7,9 @@
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/motorcontrol/PWMSparkMax.h>
 #include <AHRS.h>
+#include <pathplanner/lib/PathPlanner.h>
+#include <pathplanner/lib/PathPlanner.h>
+#include <pathplanner/lib/PathPoint.h>
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class.
@@ -29,6 +32,12 @@ public:
     m_rightMotor.SetInverted(true);
     navx.Calibrate();
     navx.ZeroYaw();
+
+    pathplanner::PathPlannerTrajectory traj1 = pathplanner::PathPlanner::generatePath(
+        pathplanner::PathConstraints(4_mps, 3_mps_sq),
+        pathplanner::PathPoint(frc::Translation2d(1_m, 1_m), frc::Rotation2d(0_deg)), // position, heading
+        pathplanner::PathPoint(frc::Translation2d(3_m, 3_m), frc::Rotation2d(45_deg)) // position, heading
+    );
   }
 
   void RobotPeriodic() override
