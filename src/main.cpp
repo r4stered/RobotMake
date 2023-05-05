@@ -12,6 +12,7 @@
 #include <pathplanner/lib/PathPoint.h>
 #include <photonlib/PhotonUtils.h>
 #include <units/length.h>
+#include <rev/CANSparkMax.h>
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class.
@@ -24,6 +25,7 @@ class Robot : public frc::TimedRobot
   frc::DifferentialDrive m_robotDrive{m_leftMotor, m_rightMotor};
   frc::Joystick m_stick{0};
   AHRS navx{frc::SerialPort::kMXP};
+  rev::CANSparkMax canMotorController{1, rev::CANSparkMax::MotorType::kBrushless};
 
 public:
   void RobotInit() override
@@ -43,11 +45,14 @@ public:
 
     units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(2_m, 5_m, 1_deg, units::degree_t{10});
     fmt::print("Range: {}\n", range.value());
+    canMotorController.RestoreFactoryDefaults();
+    canMotorController.BurnFlash();
   }
 
   void RobotPeriodic() override
   {
     fmt::print("Navx Yaw: {}\n", navx.GetYaw());
+    canMotorController.Set(1);
   }
 
   void TeleopPeriodic() override

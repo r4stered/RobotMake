@@ -1,5 +1,12 @@
 include(CMakePrintHelpers)
 
+function(GetRevUrl library_name version)
+    GetWpiUrlBase("https://maven.revrobotics.com/com/revrobotics/frc/REVLib-${library_name}" ${library_name} ${version})
+    set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
+    set(LIB_URL ${LIB_URL} PARENT_SCOPE)
+    set(PATH_SUFFIX ${PATH_SUFFIX} PARENT_SCOPE)
+endfunction()
+
 function(GetPhotonVisionUrl version)
     GetWpiUrlBase("https://maven.photonvision.org/repository/internal/org/photonvision/PhotonLib-cpp" "PhotonLib-cpp" ${version})
     set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
@@ -90,6 +97,9 @@ function(GetWpiUrlBase base_url_string library_name version)
            ${library_name} STREQUAL "PathplannerLib-cpp" OR
            ${library_name} STREQUAL "PhotonLib-cpp")
         set(BASE_URL "${base_url_string}/${version}/${library_name}-${version}-")
+    elseif(${library_name} STREQUAL "driver" OR
+           ${library_name} STREQUAL "cpp")
+        set(BASE_URL "${base_url_string}/${version}/REVLib-${library_name}-${version}-")
     else()
         set(BASE_URL "${base_url_string}/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
     endif()
