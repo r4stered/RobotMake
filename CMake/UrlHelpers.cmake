@@ -1,5 +1,20 @@
 include(CMakePrintHelpers)
 
+function(GetCtreUrl library_name version sim)
+    if(${library_name} STREQUAL "tools")
+        GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenixpro" ${library_name} ${version})
+    else()
+        if(${sim})
+            GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenix/sim" ${library_name} ${version})
+        else()
+            GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenix" ${library_name} ${version})
+        endif()
+    endif()
+    set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
+    set(LIB_URL ${LIB_URL} PARENT_SCOPE)
+    set(PATH_SUFFIX ${PATH_SUFFIX} PARENT_SCOPE)
+endfunction()
+
 function(GetRevUrl library_name version)
     GetWpiUrlBase("https://maven.revrobotics.com/com/revrobotics/frc/REVLib-${library_name}" ${library_name} ${version})
     set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
@@ -100,6 +115,15 @@ function(GetWpiUrlBase base_url_string library_name version)
     elseif(${library_name} STREQUAL "driver" OR
            ${library_name} STREQUAL "cpp")
         set(BASE_URL "${base_url_string}/${version}/REVLib-${library_name}-${version}-")
+    elseif(${library_name} STREQUAL "tools" OR
+           ${library_name} STREQUAL "api-cpp" OR
+           ${library_name} STREQUAL "cci" OR
+           ${library_name} STREQUAL "api-cpp-sim" OR
+           ${library_name} STREQUAL "cci-sim" OR
+           ${library_name} STREQUAL "wpiapi-cpp-sim" OR
+           ${library_name} STREQUAL "wpiapi-cpp")
+        set(STATIC_STRING "")
+        set(BASE_URL "${base_url_string}/${library_name}/${version}/${library_name}-${version}-")
     else()
         set(BASE_URL "${base_url_string}/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
     endif()

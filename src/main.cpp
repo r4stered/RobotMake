@@ -13,6 +13,7 @@
 #include <photonlib/PhotonUtils.h>
 #include <units/length.h>
 #include <rev/CANSparkMax.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class.
@@ -26,6 +27,7 @@ class Robot : public frc::TimedRobot
   frc::Joystick m_stick{0};
   AHRS navx{frc::SerialPort::kMXP};
   rev::CANSparkMax canMotorController{1, rev::CANSparkMax::MotorType::kBrushless};
+  ctre::phoenix::motorcontrol::can::WPI_TalonFX talonFX{5};
 
 public:
   void RobotInit() override
@@ -42,6 +44,8 @@ public:
         pathplanner::PathPoint(frc::Translation2d(1_m, 1_m), frc::Rotation2d(0_deg)), // position, heading
         pathplanner::PathPoint(frc::Translation2d(3_m, 3_m), frc::Rotation2d(45_deg)) // position, heading
     );
+
+    talonFX.Set(1);
 
     units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(2_m, 5_m, 1_deg, units::degree_t{10});
     fmt::print("Range: {}\n", range.value());
