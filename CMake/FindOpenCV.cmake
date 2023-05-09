@@ -34,6 +34,14 @@ else()
   list(APPEND OPENCV_LIST_OF_LIBS "opencv460")
 endif()
 
+#Stupid suffix conditions depending on OS
+if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
+  list(TRANSFORM OPENCV_LIST_OF_LIBS REPLACE "460" "")
+  list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.6)
+endif()
+
+cmake_print_variables(OPENCV_LIST_OF_LIBS)
+
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
   set(DEBUG_STRING "d")
 else()
@@ -102,7 +110,6 @@ if(OPENCV_FOUND AND NOT TARGET opencv::opencv)
           IMPORTED_LOCATION ${${lib}_CV_LIBRARY}
       )
     endif()
-
   target_link_libraries(opencv INTERFACE ${lib}::${lib})
   endforeach()
 endif()
