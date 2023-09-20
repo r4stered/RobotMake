@@ -67,23 +67,6 @@ target_link_libraries(test_exec
   wpiutil::wpiutil
 )
 
-set(LIBRARIES_TO_DEPLOY "")
-get_target_property(linkedRobotLibraries test_exec INTERFACE_LINK_LIBRARIES)
-foreach(LIB ${linkedRobotLibraries})
-  get_target_property(libPath ${LIB} IMPORTED_LOCATION)
-  message("Library: ${LIB} Path: ${libPath}")
-  if(${libPath} STREQUAL "libPath-NOTFOUND")
-    get_target_property(nestedLibs ${LIB} INTERFACE_LINK_LIBRARIES)
-      foreach(NESTED_LIB ${nestedLibs})
-        if(NOT ${NESTED_LIB} STREQUAL "nestedLibs-NOTFOUND")
-          get_target_property(nestedLibLoc ${NESTED_LIB} IMPORTED_LOCATION)
-          message("Library: ${NESTED_LIB} Path: ${nestedLibLoc}")
-          list(APPEND LIBRARIES_TO_DEPLOY ${nestedLibLoc})
-        endif()
-      endforeach()
-  endif()
-endforeach()
-
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
   target_link_libraries(test_exec nilibraries dl)
 endif()
