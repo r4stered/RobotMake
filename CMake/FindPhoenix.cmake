@@ -411,7 +411,12 @@ if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
           PROPERTIES
             INTERFACE_INCLUDE_DIRECTORIES ${WPIAPICPP_HEADERS}
             IMPORTED_LOCATION ${WPIAPICPP_LIBRARY}
-        )      
+        )     
+      
+      PutLibsInDeployFolder(${TOOLS_LIBRARY})
+      PutLibsInDeployFolder(${APICPP_LIBRARY})
+      PutLibsInDeployFolder(${CCI_LIBRARY})
+      PutLibsInDeployFolder(${WPIAPICPP_LIBRARY})
 
       if(PHOENIX_SIM)
         set_target_properties(

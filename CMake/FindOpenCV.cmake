@@ -110,6 +110,8 @@ if(OPENCV_FOUND AND NOT TARGET opencv::opencv)
           INTERFACE_INCLUDE_DIRECTORIES ${OPENCV_HEADERS}
           IMPORTED_LOCATION ${${lib}_CV_LIBRARY}
       )
+
+      PutLibsInDeployFolder(${${lib}_CV_LIBRARY})
     endif()
   target_link_libraries(opencv INTERFACE ${lib}::${lib})
   endforeach()

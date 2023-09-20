@@ -79,5 +79,7 @@ if(KAUAILABS_FOUND AND NOT TARGET kauailabs::kauailabs)
                 INTERFACE_INCLUDE_DIRECTORIES ${KAUAILABS_HEADERS}
                 IMPORTED_LOCATION ${KAUAILABS_LIBRARY}
         )
+
+        PutLibsInDeployFolder(${KAUAILABS_LIBRARY})
     endif()
 endif()

@@ -166,5 +166,11 @@ if(NILIBRARIES_FOUND AND NOT TARGET nilibraries::nilibraries)
         IMPORTED_LOCATION ${VISA_LIBRARY}
     )
 
+    PutLibsInDeployFolder(${CHIPOBJECT_LIBRARY})
+    PutLibsInDeployFolder(${NETCOMM_LIBRARY})
+    PutLibsInDeployFolder(${FPGASHIM_LIBRARY})
+    PutLibsInDeployFolder(${CANSHIM_LIBRARY})
+    PutLibsInDeployFolder(${VISA_LIBRARY})
+
   target_link_libraries(nilibraries INTERFACE chipobject::chipobject netcomm::netcomm canshim::canshim fpgashim::fpgashim visa::visa)
 endif()

@@ -142,6 +142,9 @@ if(REV_FOUND AND NOT TARGET rev::rev)
           INTERFACE_INCLUDE_DIRECTORIES ${REVCPP_HEADERS}
           IMPORTED_LOCATION ${REVCPP_LIBRARY}
         )
+
+      PutLibsInDeployFolder(${REVDRIVER_LIBRARY})
+      PutLibsInDeployFolder(${REVCPP_LIBRARY})
     endif()
     target_link_libraries(rev INTERFACE revcpp::revcpp revdriver::revdriver)
 endif()

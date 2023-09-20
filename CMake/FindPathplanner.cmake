@@ -91,5 +91,7 @@ if(PATHPLANNER_FOUND AND NOT TARGET pathplanner::pathplanner)
                 INTERFACE_INCLUDE_DIRECTORIES ${PATHPLANNER_HEADERS}
                 IMPORTED_LOCATION ${PATHPLANNER_LIBRARY}
         )
+
+        PutLibsInDeployFolder(${PATHPLANNER_LIBRARY})
     endif()
 endif()

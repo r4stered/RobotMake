@@ -84,5 +84,7 @@ if(PHOTONVISION_FOUND AND NOT TARGET photonvision::photonvision)
                 INTERFACE_INCLUDE_DIRECTORIES ${PHOTONVISION_HEADERS}
                 IMPORTED_LOCATION ${PHOTONVISION_LIBRARY}
         )
+
+        PutLibsInDeployFolder(${PHOTONVISION_LIBRARY})
     endif()
 endif()

@@ -1,5 +1,6 @@
 macro(FindWpiPackage packageName version install_folder)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/DeployUtils.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
 GetWpiUrl(${packageName} ${version})
@@ -107,6 +108,8 @@ if(${packageName}_FOUND AND NOT TARGET ${packageName}::${packageName})
         INTERFACE_INCLUDE_DIRECTORIES "${${packageName}_HEADERS}"
         IMPORTED_LOCATION ${${packageName}_LIBRARY}
     )
+
+    PutLibsInDeployFolder(${${packageName}_LIBRARY})
   endif()
 endif()
 

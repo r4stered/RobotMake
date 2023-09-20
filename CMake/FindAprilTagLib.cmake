@@ -52,4 +52,6 @@ if(apriltaglib_FOUND AND NOT TARGET apriltaglib::apriltaglib)
     INTERFACE_INCLUDE_DIRECTORIES "${APRILTAGLIB_HEADERS}"
     IMPORTED_LOCATION ${APRILTAGLIB_LIBRARY}
   )
+
+  PutLibsInDeployFolder(${APRILTAGLIB_LIBRARY})
 endif()
