@@ -81,8 +81,18 @@ sftp.close()
 
 print("Starting robot program!")
 channel = transport.open_session()
+
+channel = transport.open_session()
 channel.exec_command(
-    "sync; . /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r 2> /dev/null"
+    "chmod +x /home/lvuser/frcUserProgram; chown lvuser /home/lvuser/frcUserProgram; setcap cap_sys_nice+eip /home/lvuser/frcUserProgram;"
+)
+
+channel = transport.open_session()
+channel.exec_command('echo "/home/lvuser/frcUserProgram" > /home/lvuser/robotCommand')
+
+channel = transport.open_session()
+channel.exec_command(
+    "sync; source /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r 2> /dev/null"
 )
 
 transport.close()
