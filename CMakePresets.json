@@ -37,6 +37,21 @@
       }
     },
     {
+      "name": "rio_debug_shared",
+      "displayName": "Rio Debug Shared",
+      "description": "This is the program you want to deploy to the robot that has shared libs that you can debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/rio_debug_shared",
+      "toolchainFile": "${sourceDir}/build/rio_debug_shared/_deps/rio_toolchain-src/toolchain-config.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "GET_SHARED_LIBS": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      }
+    },
+    {
       "name": "desktop_debug_shared",
       "displayName": "Desktop Debug Shared",
       "description": "This will build for your local OS with shared libs.",
@@ -63,6 +78,21 @@
           "value": "OFF"
         }
       }
+    },
+    {
+      "name": "orangepi_release",
+      "displayName": "OrangePi Release",
+      "description": "This is the preset to deploy to the orange pi for vision processing",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/orangepi_release",
+      "toolchainFile": "${sourceDir}/CMake/OrangePiToolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "GET_SHARED_LIBS": {
+          "type": "BOOL",
+          "value": "OFF"
+        }
+      }
     }
   ],
   "buildPresets": [
@@ -75,12 +105,20 @@
       "configurePreset": "rio_release_shared"
     },
     {
+      "name": "rio_debug_shared",
+      "configurePreset": "rio_debug_shared"
+    },
+    {
       "name": "desktop_debug_shared",
       "configurePreset": "desktop_debug_shared"
     },
     {
       "name": "desktop_debug_static",
       "configurePreset": "desktop_debug_static"
+    },
+    {
+      "name": "orangepi_release",
+      "configurePreset": "orangepi_release"
     }
   ]
 }

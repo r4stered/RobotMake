@@ -29,51 +29,58 @@ find_package(apriltag REQUIRED)
 find_package(hal REQUIRED)
 find_package(wpilibc REQUIRED)
 find_package(wpilibnewcommands REQUIRED)
-find_package(kauailabs REQUIRED)
-find_package(pathplanner REQUIRED)
-find_package(photonvision REQUIRED)
-find_package(rev REQUIRED)
-find_package(phoenix REQUIRED)
+#if we are not building for orange pi
+if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
+  find_package(kauailabs REQUIRED)
+  find_package(pathplanner REQUIRED)
+  find_package(photonvision REQUIRED)
+  find_package(rev REQUIRED)
+  find_package(phoenix REQUIRED)
+endif()
 find_package(Threads REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
   find_package(nilibraries REQUIRED)
 endif()
 
-add_executable(test_exec src/main.cpp)
-
-if(MSVC)
-  target_compile_options(test_exec PRIVATE /Zc:preprocessor /bigobj)
+#if we are not building for orange pi
+if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
+  add_executable(robotProgram src/main.cpp)
+  if(MSVC)
+  target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
 endif()
 
-target_link_libraries(test_exec 
-  Threads::Threads 
-  phoenix
-  rev
-  photonvision::photonvision
-  pathplanner::pathplanner
-  kauailabs::kauailabs
-  wpilibnewcommands::wpilibnewcommands 
-  wpilibc::wpilibc 
-  hal::hal 
-  apriltag::apriltag 
-  apriltaglib::apriltaglib 
-  wpimath::wpimath 
-  cameraserver::cameraserver 
-  ntcore::ntcore 
-  cscore::cscore 
-  opencv 
-  wpinet::wpinet 
-  wpiutil::wpiutil
-)
-
-if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
-  target_link_libraries(test_exec nilibraries dl)
-endif()
-
-if(WIN32)
-  add_custom_command(TARGET test_exec POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:test_exec> $<TARGET_FILE_DIR:test_exec>
-    COMMAND_EXPAND_LISTS
+  target_link_libraries(robotProgram 
+    Threads::Threads 
+    phoenix
+    rev
+    photonvision::photonvision
+    pathplanner::pathplanner
+    kauailabs::kauailabs
+    wpilibnewcommands::wpilibnewcommands 
+    wpilibc::wpilibc 
+    hal::hal 
+    apriltag::apriltag 
+    apriltaglib::apriltaglib 
+    wpimath::wpimath 
+    cameraserver::cameraserver 
+    ntcore::ntcore 
+    cscore::cscore 
+    opencv 
+    wpinet::wpinet 
+    wpiutil::wpiutil
   )
+
+  if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
+    target_link_libraries(robotProgram nilibraries dl)
+  endif()
+
+  if(WIN32)
+    add_custom_command(TARGET robotProgram POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:robotProgram> $<TARGET_FILE_DIR:robotProgram>
+      COMMAND_EXPAND_LISTS
+    )
+  endif()
 endif()
+
+add_subdirectory(vision)

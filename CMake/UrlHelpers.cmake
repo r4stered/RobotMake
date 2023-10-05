@@ -84,6 +84,8 @@ function(GetWpiUrlBase base_url_string library_name version)
     else()
         if(${TOOLCHAIN_TRIPLE} STREQUAL "arm-nilrt-linux-gnueabi")
             set(ARCH_STRING "athena")
+        elseif(${TOOLCHAIN_TRIPLE} STREQUAL "aarch64-none-linux-gnu-")
+            set(ARCH_STRING "arm64")
         endif()
     endif()
 

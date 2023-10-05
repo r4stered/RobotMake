@@ -2,6 +2,8 @@ import os
 import paramiko
 import hashlib
 import json
+import sys
+import argparse
 
 
 class MySFTPClient(paramiko.SFTPClient):
@@ -50,78 +52,123 @@ server_usb = "172.22.11.2"
 rio_username = "lvuser"
 rio_password = ""
 
-lib_dir = "./build/rio_release_shared/deploy"
-lib_remote_dir = "/usr/local/frc/third-party/lib/"
 
-deploy_dir = "./deploy"
-deploy_remote_dir = "/home/lvuser/deploy/"
+def main(argv):
+    parser = argparse.ArgumentParser(
+        description="Deploys built C++ robot programs to a roborio."
+    )
+    parser.add_argument(
+        "-f",
+        "--force",
+        type=bool,
+        help="If true, force redeploy lib files.",
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        type=bool,
+        help="Will deploy debug binary and lauch gbd server on rio.",
+    )
 
-exec_dir = "./build/rio_release_shared/test_exec"
-exec_remote_dir = "/home/lvuser/"
+    args = vars(parser.parse_args(argv))
 
-transport = paramiko.Transport((server_usb, 22))
-print("Connecting to rio...")
-transport.connect(username=rio_username, password=rio_password)
-sftp = MySFTPClient.from_transport(transport)
+    transport = paramiko.Transport((server_usb, 22))
+    print("Connecting to rio...")
+    transport.connect(username=rio_username, password=rio_password)
+    sftp = MySFTPClient.from_transport(transport)
 
-print("Copying library files...")
-deploy_cache_dict = {}
-with open("./build/rio_release_shared/deploycache.json", "r+") as deploy_cache_file:
-    old_cache = json.loads(deploy_cache_file.read() or "{}")
-    for filename in os.listdir(lib_dir):
-        file_path_and_name = os.path.join(lib_dir, filename)
-        deploy_cache_dict[file_path_and_name] = sha256sum(file_path_and_name)
-        # if the file doesnt exist in the old cache, or it does exist and is different than before
-        if (old_cache.get(file_path_and_name, None) == None) or (
-            old_cache.get(file_path_and_name, None) != None
-            and old_cache[file_path_and_name] != deploy_cache_dict[file_path_and_name]
-        ):
-            print(file_path_and_name)
-            sftp.put(
-                file_path_and_name,
-                os.path.join(lib_remote_dir, filename),
-                progress,
-                confirm=True,
-            )
-    print("Done copying library files.")
+    is_debug = args["debug"]
 
-print("Copying deploy folder contents...")
-sftp.put_dir(deploy_dir, deploy_remote_dir)
-print("Done copying deploy files.")
+    build_folder = ""
+    if is_debug:
+        build_folder = "rio_debug_shared"
+    else:
+        build_folder = "rio_release_shared"
 
-with open("./build/rio_release_shared/deploycache.json", "w") as deploy_cache_file:
-    deploy_cache_file.write(json.dumps(deploy_cache_dict))
+    lib_dir = f"./build/{build_folder}/deploy"
+    lib_remote_dir = "/usr/local/frc/third-party/lib/"
 
-print("Removing old robot program...")
-channel = transport.open_session()
-channel.exec_command("rm /home/lvuser/frcUserProgram")
-channel.close()
-print("Done removing old robot program.")
+    deploy_dir = "./deploy"
+    deploy_remote_dir = "/home/lvuser/deploy/"
 
-print("Copying robot program...")
-sftp.put(exec_dir, os.path.join(exec_remote_dir, "frcUserProgram"), progress, True)
-print("Done copying robot program.")
+    exec_dir = f"./build/{build_folder}/robotProgram"
+    exec_remote_dir = "/home/lvuser/"
 
-sftp.close()
+    deploy_cache_path = f"./build/{build_folder}/deploycache.json"
 
-print("Starting robot program!")
-# Sets correct permissions and ownership for the robot program
-channel = transport.open_session()
-channel.exec_command(
-    "chmod +x /home/lvuser/frcUserProgram; chown lvuser /home/lvuser/frcUserProgram; setcap cap_sys_nice+eip /home/lvuser/frcUserProgram;"
-)
-channel.close()
+    print("Copying library files...")
+    deploy_cache_dict = {}
+    with open(deploy_cache_path, "w+") as deploy_cache_file:
+        old_cache = json.loads(deploy_cache_file.read() or "{}")
+        for filename in os.listdir(lib_dir):
+            file_path_and_name = os.path.join(lib_dir, filename)
+            deploy_cache_dict[file_path_and_name] = sha256sum(file_path_and_name)
+            # if the file doesnt exist in the old cache, or it does exist and is different than before
+            if (
+                args["force"] == True
+                or (old_cache.get(file_path_and_name, None) == None)
+                or (
+                    old_cache.get(file_path_and_name, None) != None
+                    and old_cache[file_path_and_name]
+                    != deploy_cache_dict[file_path_and_name]
+                )
+            ):
+                print(file_path_and_name)
+                sftp.put(
+                    file_path_and_name,
+                    os.path.join(lib_remote_dir, filename),
+                    progress,
+                    confirm=True,
+                )
+        print("Done copying library files.")
 
-# Sets up the correct parameters for starting the program
-channel = transport.open_session()
-channel.exec_command('echo "/home/lvuser/frcUserProgram" > /home/lvuser/robotCommand')
-channel.close()
+    print("Copying deploy folder contents...")
+    sftp.put_dir(deploy_dir, deploy_remote_dir)
+    print("Done copying deploy files.")
 
-# Kills currently running robot program and starts new one
-channel = transport.open_session()
-channel.exec_command(
-    "sync; source /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r 2> /dev/null"
-)
-channel.close()
-transport.close()
-print("Bye!")
+    with open(deploy_cache_path, "w") as deploy_cache_file:
+        deploy_cache_file.write(json.dumps(deploy_cache_dict))
+
+    print("Removing old robot program...")
+    channel = transport.open_session()
+    channel.exec_command("rm /home/lvuser/frcUserProgram")
+    channel.close()
+    print("Done removing old robot program.")
+
+    print("Copying robot program...")
+    sftp.put(exec_dir, os.path.join(exec_remote_dir, "frcUserProgram"), progress, True)
+    print("Done copying robot program.")
+
+    sftp.close()
+
+    print("Starting robot program!")
+    # Sets correct permissions and ownership for the robot program
+    channel = transport.open_session()
+    channel.exec_command(
+        "chmod +x /home/lvuser/frcUserProgram; chown lvuser /home/lvuser/frcUserProgram; setcap cap_sys_nice+eip /home/lvuser/frcUserProgram;"
+    )
+    channel.close()
+
+    # Sets up the correct parameters for starting the program
+
+    if is_debug:
+        start_command = 'echo "gdbserver host:8349 /home/lvuser/frcUserProgram" > /home/lvuser/robotCommand'
+    else:
+        start_command = 'echo "/home/lvuser/frcUserProgram" > /home/lvuser/robotCommand'
+
+    channel = transport.open_session()
+    channel.exec_command(start_command)
+    channel.close()
+
+    # Kills currently running robot program and starts new one
+    channel = transport.open_session()
+    channel.exec_command(
+        "sync; source /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r 2> /dev/null"
+    )
+    channel.close()
+    transport.close()
+    print("Bye!")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
