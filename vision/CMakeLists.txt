@@ -1,13 +1,22 @@
-add_executable(visionProgram main.cpp)
+add_executable(visionProgram main.cpp 
+  aruco/cameraparameters.cpp 
+  aruco/dictionary.cpp 
+  aruco/marker.cpp 
+  aruco/markerdetector_impl.cpp 
+  aruco/markerdetector.cpp 
+  aruco/markermap.cpp 
+  aruco/calibrator.cpp
+  aruco/ippe.cpp
+  aruco/markerlabeler.cpp
+  aruco/dictionary_based.cpp
+  aruco/debug.cpp
+)
 if(MSVC)
 target_compile_options(visionProgram PRIVATE /Zc:preprocessor /bigobj)
 endif()
 
-target_link_libraries(visionProgram 
+target_link_libraries(visionProgram
   Threads::Threads 
-  apriltag::apriltag 
-  apriltaglib::apriltaglib 
-  wpimath::wpimath 
   cameraserver::cameraserver 
   ntcore::ntcore 
   cscore::cscore 
