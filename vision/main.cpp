@@ -31,7 +31,7 @@ void calibrate_camera(std::string devicePath, nt::BooleanEntry &takePicSignal, n
     cv::Mat inputImage;
     vidCap >> inputImage;
     aruco::Calibrator calibrator;
-    calibrator.setParams(inputImage.size(), MARKER_SIZE_METERS, "aruco_calibration_board_a4.yml");
+    calibrator.setParams(inputImage.size(), MARKER_SIZE_METERS, "aruco_calibration_grid_board_a4.yml");
     aruco::MarkerDetector detector;
     do
     {
@@ -85,6 +85,7 @@ int main(int charc, char *argv[])
     cv::Mat capturedFrame;
     while (capturingFrames)
     {
+        startCalibrationEntry.Set(true);
         if (startCalibrationEntry.Get())
         {
             vidCap.release();
