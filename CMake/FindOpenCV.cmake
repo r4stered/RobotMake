@@ -1,17 +1,11 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-GetThirdPartyLibraryUrl("opencv" "4.6.0-4")
+getthirdpartylibraryurl("opencv" "4.6.0-4")
 
-FetchContent_Declare(
-  opencv_headers
-  URL ${HEADER_URL}
-)
+FetchContent_Declare(opencv_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(opencv_headers)
 
-FetchContent_Declare(
-  opencv_libs
-  URL ${LIB_URL}
-)
+FetchContent_Declare(opencv_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(opencv_libs)
 
 set(OPENCV_LIST_OF_LIBS "")
@@ -35,7 +29,7 @@ else()
   list(APPEND OPENCV_LIST_OF_LIBS "opencv460")
 endif()
 
-#Stupid suffix conditions depending on OS
+# Stupid suffix conditions depending on OS
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
   list(TRANSFORM OPENCV_LIST_OF_LIBS REPLACE "460" "")
   list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.6)
@@ -51,37 +45,29 @@ endif()
 
 if(WIN32)
   foreach(lib ${OPENCV_LIST_OF_LIBS})
-    find_file(${lib}_CV_DLL
+    find_file(
+      ${lib}_CV_DLL
       NAMES ${lib}${DEBUG_STRING}.dll
-      HINTS ${opencv_libs_SOURCE_DIR} 
-      PATH_SUFFIXES ${PATH_SUFFIX}
-      REQUIRED
-      NO_DEFAULT_PATH
-      NO_CMAKE_FIND_ROOT_PATH
-    )
+      HINTS ${opencv_libs_SOURCE_DIR}
+      PATH_SUFFIXES ${PATH_SUFFIX} REQUIRED
+      NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
   endforeach()
 endif()
 
 foreach(lib ${OPENCV_LIST_OF_LIBS})
-  find_library(${lib}_CV_LIBRARY 
-    NAMES ${lib}${DEBUG_STRING} 
-    HINTS ${opencv_libs_SOURCE_DIR} 
-    PATH_SUFFIXES ${PATH_SUFFIX}
-    REQUIRED
-    NO_DEFAULT_PATH
-    NO_CMAKE_FIND_ROOT_PATH
-  )
+  find_library(
+    ${lib}_CV_LIBRARY
+    NAMES ${lib}${DEBUG_STRING}
+    HINTS ${opencv_libs_SOURCE_DIR}
+    PATH_SUFFIXES ${PATH_SUFFIX} REQUIRED
+    NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
 endforeach()
 
 set(OPENCV_HEADERS ${opencv_headers_SOURCE_DIR})
 
 include(FindPackageHandleStandardArgs)
 
-find_package_handle_standard_args(
-  opencv 
-  DEFAULT_MSG
-  OPENCV_HEADERS
-)
+find_package_handle_standard_args(opencv DEFAULT_MSG OPENCV_HEADERS)
 
 mark_as_advanced(OPENCV_HEADERS)
 
@@ -98,21 +84,17 @@ if(OPENCV_FOUND AND NOT TARGET opencv::opencv)
     if(WIN32)
       set_target_properties(
         ${lib}::${lib}
-        PROPERTIES
-          INTERFACE_INCLUDE_DIRECTORIES ${OPENCV_HEADERS}
-          IMPORTED_LOCATION ${${lib}_CV_DLL}
-          IMPORTED_IMPLIB ${${lib}_CV_LIBRARY}
-      )
+        PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${OPENCV_HEADERS}
+                   IMPORTED_LOCATION ${${lib}_CV_DLL}
+                   IMPORTED_IMPLIB ${${lib}_CV_LIBRARY})
     else()
       set_target_properties(
         ${lib}::${lib}
-        PROPERTIES
-          INTERFACE_INCLUDE_DIRECTORIES ${OPENCV_HEADERS}
-          IMPORTED_LOCATION ${${lib}_CV_LIBRARY}
-      )
+        PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${OPENCV_HEADERS}
+                   IMPORTED_LOCATION ${${lib}_CV_LIBRARY})
 
-      PutLibsInDeployFolder(${${lib}_CV_LIBRARY})
+      putlibsindeployfolder(${${lib}_CV_LIBRARY})
     endif()
-  target_link_libraries(opencv INTERFACE ${lib}::${lib})
+    target_link_libraries(opencv INTERFACE ${lib}::${lib})
   endforeach()
 endif()
