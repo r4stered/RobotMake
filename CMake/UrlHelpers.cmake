@@ -1,14 +1,10 @@
 include(CMakePrintHelpers)
 
 function(GetCtreUrl library_name version sim)
-    if(${library_name} STREQUAL "tools")
-        GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenixpro" ${library_name} ${version})
+    if(${sim})
+        GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenix6/sim" ${library_name} ${version})
     else()
-        if(${sim})
-            GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenix/sim" ${library_name} ${version})
-        else()
-            GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenix" ${library_name} ${version})
-        endif()
+        GetWpiUrlBase("https://maven.ctr-electronics.com/release/com/ctre/phoenix6" ${library_name} ${version})
     endif()
     set(HEADER_URL ${HEADER_URL} PARENT_SCOPE)
     set(LIB_URL ${LIB_URL} PARENT_SCOPE)
@@ -118,12 +114,17 @@ function(GetWpiUrlBase base_url_string library_name version)
            ${library_name} STREQUAL "cpp")
         set(BASE_URL "${base_url_string}/${version}/REVLib-${library_name}-${version}-")
     elseif(${library_name} STREQUAL "tools" OR
-           ${library_name} STREQUAL "api-cpp" OR
-           ${library_name} STREQUAL "cci" OR
-           ${library_name} STREQUAL "api-cpp-sim" OR
-           ${library_name} STREQUAL "cci-sim" OR
+           ${library_name} STREQUAL "tools-sim" OR
            ${library_name} STREQUAL "wpiapi-cpp-sim" OR
-           ${library_name} STREQUAL "wpiapi-cpp")
+           ${library_name} STREQUAL "wpiapi-cpp" OR 
+           ${library_name} STREQUAL "simTalonSRX" OR 
+           ${library_name} STREQUAL "simTalonFX" OR 
+           ${library_name} STREQUAL "simVictorSPX" OR 
+           ${library_name} STREQUAL "simPigeonIMU" OR 
+           ${library_name} STREQUAL "simCANCoder" OR 
+           ${library_name} STREQUAL "simProTalonFX" OR 
+           ${library_name} STREQUAL "simProCANcoder" OR 
+           ${library_name} STREQUAL "simProPigeon2")
         set(STATIC_STRING "")
         set(BASE_URL "${base_url_string}/${library_name}/${version}/${library_name}-${version}-")
     else()

@@ -13,7 +13,7 @@
 #include <photonlib/PhotonUtils.h>
 #include <units/length.h>
 #include <rev/CANSparkMax.h>
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix6/TalonFX.hpp>
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class.
@@ -27,7 +27,7 @@ class Robot : public frc::TimedRobot
   frc::Joystick m_stick{0};
   AHRS navx{frc::SerialPort::kMXP};
   rev::CANSparkMax canMotorController{1, rev::CANSparkMax::MotorType::kBrushless};
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX talonFX{5};
+  ctre::phoenix6::hardware::TalonFX talonFX{6};
 
 public:
   void RobotInit() override

@@ -4,12 +4,7 @@ if(NOT "${TOOLCHAIN_TRIPLE}" STREQUAL "arm-nilrt-linux-gnueabi")
     set(PHOENIX_SIM TRUE)
 endif()
 
-GetCtreUrl("tools" "23.0.12" FALSE)
-
-FetchContent_Declare(
-  tools_headers
-  URL ${HEADER_URL}
-)
+GetCtreUrl("tools" "23.10.0-alpha-8" False)
 
 FetchContent_Declare(
   tools_headers
@@ -23,45 +18,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(tools_libs)
 
-GetCtreUrl("api-cpp" "5.30.4" FALSE)
-
-FetchContent_Declare(
-  apicpp_headers
-  URL ${HEADER_URL}
-)
-
-FetchContent_Declare(
-  apicpp_headers
-  URL ${HEADER_URL}
-)
-FetchContent_MakeAvailable(apicpp_headers)
-
-FetchContent_Declare(
-  apicpp_libs
-  URL ${LIB_URL}
-)
-FetchContent_MakeAvailable(apicpp_libs)
-
-GetCtreUrl("cci" "5.30.4" False)
-
-FetchContent_Declare(
-  cci_headers
-  URL ${HEADER_URL}
-)
-
-FetchContent_Declare(
-  cci_headers
-  URL ${HEADER_URL}
-)
-FetchContent_MakeAvailable(cci_headers)
-
-FetchContent_Declare(
-  cci_libs
-  URL ${LIB_URL}
-)
-FetchContent_MakeAvailable(cci_libs)
-
-GetCtreUrl("wpiapi-cpp" "5.30.4" False)
+GetCtreUrl("wpiapi-cpp" "23.10.0-alpha-8" False)
 
 FetchContent_Declare(
   wpiapicpp_headers
@@ -76,57 +33,145 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(wpiapicpp_libs)
 
 if(PHOENIX_SIM)
-    GetCtreUrl("api-cpp-sim" "5.30.4" True)
+  GetCtreUrl("tools-sim" "23.10.0-alpha-8" True)
 
-    FetchContent_Declare(
-      apicppsim_headers
+  FetchContent_Declare(
+      toolssim_headers
       URL ${HEADER_URL}
-    )
-    FetchContent_MakeAvailable(apicppsim_headers)
+  )
+  FetchContent_MakeAvailable(toolssim_headers)
 
-    FetchContent_Declare(
-      apicppsim_libs
+  FetchContent_Declare(
+      toolssim_libs
       URL ${LIB_URL}
-    )
-    FetchContent_MakeAvailable(apicppsim_libs)
+  )
+  FetchContent_MakeAvailable(toolssim_libs)
 
-    GetCtreUrl("cci-sim" "5.30.4" True)
+  GetCtreUrl("wpiapi-cpp-sim" "23.10.0-alpha-8" True)
 
-    FetchContent_Declare(
-        ccisim_headers
-        URL ${HEADER_URL}
-    )
+  FetchContent_Declare(
+      wpiapicppsim_headers
+      URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(wpiapicppsim_headers)
 
-    FetchContent_Declare(
-        ccisim_headers
-        URL ${HEADER_URL}
-    )
-    FetchContent_MakeAvailable(ccisim_headers)
+  FetchContent_Declare(
+      wpiapicppsim_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(wpiapicppsim_libs)
 
-    FetchContent_Declare(
-        ccisim_libs
-        URL ${LIB_URL}
-    )
-    FetchContent_MakeAvailable(ccisim_libs)
+  GetCtreUrl("simTalonSRX" "23.10.0-alpha-8" True)
 
-    GetCtreUrl("wpiapi-cpp-sim" "5.30.4" True)
+  FetchContent_Declare(
+    simtalonsrx_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simtalonsrx_headers)
 
-    FetchContent_Declare(
-        wpiapicppsim_headers
-        URL ${HEADER_URL}
-    )
+  FetchContent_Declare(
+    simtalonsrx_libs
+    URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simtalonsrx_libs)
 
-    FetchContent_Declare(
-        wpiapicppsim_headers
-        URL ${HEADER_URL}
-    )
-    FetchContent_MakeAvailable(wpiapicppsim_headers)
+  GetCtreUrl("simTalonFX" "23.10.0-alpha-8" True)
 
-    FetchContent_Declare(
-        wpiapicppsim_libs
-        URL ${LIB_URL}
-    )
-    FetchContent_MakeAvailable(wpiapicppsim_libs)
+  FetchContent_Declare(
+    simtalonfx_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simtalonfx_headers)
+
+  FetchContent_Declare(
+    simtalonfx_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simtalonfx_libs)
+
+  GetCtreUrl("simVictorSPX" "23.10.0-alpha-8" True)
+
+  FetchContent_Declare(
+    simvictorspx_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simvictorspx_headers)
+
+  FetchContent_Declare(
+    simvictorspx_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simvictorspx_libs)
+
+  GetCtreUrl("simPigeonIMU" "23.10.0-alpha-8" True)
+
+  FetchContent_Declare(
+    simpigeonimu_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simpigeonimu_headers)
+
+  FetchContent_Declare(
+    simpigeonimu_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simpigeonimu_libs)
+
+  GetCtreUrl("simCANCoder" "23.10.0-alpha-8" True)
+
+  FetchContent_Declare(
+    simcancoder_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simcancoder_headers)
+
+  FetchContent_Declare(
+    simcancoder_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simcancoder_libs)
+
+  GetCtreUrl("simProTalonFX" "23.10.0-alpha-8" True)
+
+  FetchContent_Declare(
+    simprotalonfx_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simprotalonfx_headers)
+
+  FetchContent_Declare(
+    simprotalonfx_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simprotalonfx_libs)
+
+  GetCtreUrl("simProCANcoder" "23.10.0-alpha-8" True)
+
+  FetchContent_Declare(
+    simprocancoder_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simprocancoder_headers)
+
+  FetchContent_Declare(
+    simprocancoder_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simprocancoder_libs)
+
+  GetCtreUrl("simProPigeon2" "23.10.0-alpha-8" True)
+
+  FetchContent_Declare(
+    simpropigeon2_headers
+    URL ${HEADER_URL}
+  )
+  FetchContent_MakeAvailable(simpropigeon2_headers)
+
+  FetchContent_Declare(
+    simpropigeon2_libs
+      URL ${LIB_URL}
+  )
+  FetchContent_MakeAvailable(simpropigeon2_libs)
 endif()
 
 
@@ -146,26 +191,8 @@ if(WIN32)
     NO_CMAKE_FIND_ROOT_PATH
   )
 
-  find_file(APICPP_DLL
-    NAMES "CTRE_Phoenix.dll"
-    HINTS ${apicpp_libs_SOURCE_DIR} 
-    PATH_SUFFIXES ${PATH_SUFFIX}
-    REQUIRED
-    NO_DEFAULT_PATH
-    NO_CMAKE_FIND_ROOT_PATH
-  )
-
-  find_file(CCI_DLL
-    NAMES "CTRE_PhoenixCCI.dll"
-    HINTS ${cci_libs_SOURCE_DIR} 
-    PATH_SUFFIXES ${PATH_SUFFIX}
-    REQUIRED
-    NO_DEFAULT_PATH
-    NO_CMAKE_FIND_ROOT_PATH
-  )
-
   find_file(WPIAPICPP_DLL
-    NAMES "CTRE_Phoenix_WPI.dll"
+    NAMES "CTRE_Phoenix6_WPI.dll"
     HINTS ${wpiapicpp_libs_SOURCE_DIR} 
     PATH_SUFFIXES ${PATH_SUFFIX}
     REQUIRED
@@ -174,18 +201,9 @@ if(WIN32)
   )
 
   if(PHOENIX_SIM)
-    find_file(APICPPSIM_DLL
-      NAMES "CTRE_PhoenixSim.dll"
-      HINTS ${apicppsim_libs_SOURCE_DIR} 
-      PATH_SUFFIXES ${PATH_SUFFIX}
-      REQUIRED
-      NO_DEFAULT_PATH
-      NO_CMAKE_FIND_ROOT_PATH
-    )
-
-    find_file(CCISIM_DLL
-      NAMES "CTRE_PhoenixCCISim.dll"
-      HINTS ${ccisim_libs_SOURCE_DIR} 
+    find_file(TOOLSSIM_DLL
+      NAMES "CTRE_PhoenixTools_Sim.dll"
+      HINTS ${toolssim_libs_SOURCE_DIR} 
       PATH_SUFFIXES ${PATH_SUFFIX}
       REQUIRED
       NO_DEFAULT_PATH
@@ -193,12 +211,84 @@ if(WIN32)
     )
 
     find_file(WPIAPICPPSIM_DLL
-      NAMES "CTRE_Phoenix_WPISim.dll"
+      NAMES "CTRE_Phoenix6_WPISim.dll"
       HINTS ${wpiapicppsim_libs_SOURCE_DIR} 
       PATH_SUFFIXES ${PATH_SUFFIX}
       REQUIRED
       NO_DEFAULT_PATH
       NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMTALONSRX_DLL
+    NAMES "CTRE_SimTalonSRX.dll"
+    HINTS ${simtalonsrx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMTALONFX_DLL
+    NAMES "CTRE_SimTalonFX.dll"
+    HINTS ${simtalonfx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMVICTORSPX_DLL
+    NAMES "CTRE_SimVictorSPX.dll"
+    HINTS ${simvictorspx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMPIGEONIMU_DLL
+    NAMES "CTRE_SimPigeonIMU.dll"
+    HINTS ${simpigeonimu_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMCANCODER_DLL
+    NAMES "CTRE_SimCANCoder.dll"
+    HINTS ${simcancoder_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMPROTALONFX_DLL
+    NAMES "CTRE_SimProTalonFX.dll"
+    HINTS ${simprotalonfx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMPROCANCODER_DLL
+    NAMES "CTRE_SimProCANcoder.dll"
+    HINTS ${simprocancoder_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+    )
+
+    find_file(SIMPROPIGEON2_DLL
+    NAMES "CTRE_SimProPigeon2.dll"
+    HINTS ${simpropigeon2_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
     )
   endif()
 endif()
@@ -214,28 +304,8 @@ find_library(
 )
 
 find_library(
-    APICPP_LIBRARY
-    NAMES "CTRE_Phoenix"
-    HINTS ${apicpp_libs_SOURCE_DIR} 
-    PATH_SUFFIXES ${PATH_SUFFIX}
-    REQUIRED
-    NO_DEFAULT_PATH
-    NO_CMAKE_FIND_ROOT_PATH
-)
-
-find_library(
-    CCI_LIBRARY
-    NAMES "CTRE_PhoenixCCI"
-    HINTS ${cci_libs_SOURCE_DIR} 
-    PATH_SUFFIXES ${PATH_SUFFIX}
-    REQUIRED
-    NO_DEFAULT_PATH
-    NO_CMAKE_FIND_ROOT_PATH
-)
-
-find_library(
     WPIAPICPP_LIBRARY
-    NAMES "CTRE_Phoenix_WPI"
+    NAMES "CTRE_Phoenix6_WPI"
     HINTS ${wpiapicpp_libs_SOURCE_DIR} 
     PATH_SUFFIXES ${PATH_SUFFIX}
     REQUIRED
@@ -245,9 +315,9 @@ find_library(
 
 if(PHOENIX_SIM)
   find_library(
-    APICPPSIM_LIBRARY
-    NAMES "CTRE_PhoenixSim"
-    HINTS ${apicppsim_libs_SOURCE_DIR} 
+    TOOLSSIM_LIBRARY
+    NAMES "CTRE_PhoenixTools_Sim"
+    HINTS ${toolssim_libs_SOURCE_DIR} 
     PATH_SUFFIXES ${PATH_SUFFIX}
     REQUIRED
     NO_DEFAULT_PATH
@@ -255,9 +325,9 @@ if(PHOENIX_SIM)
   )
 
   find_library(
-      CCISIM_LIBRARY
-      NAMES "CTRE_PhoenixCCISim"
-      HINTS ${ccisim_libs_SOURCE_DIR} 
+      WPIAPICPPSIM_LIBRARY
+      NAMES "CTRE_Phoenix6_WPISim"
+      HINTS ${wpiapicppsim_libs_SOURCE_DIR} 
       PATH_SUFFIXES ${PATH_SUFFIX}
       REQUIRED
       NO_DEFAULT_PATH
@@ -265,25 +335,100 @@ if(PHOENIX_SIM)
   )
 
   find_library(
-      WPIAPICPPSIM_LIBRARY
-      NAMES "CTRE_Phoenix_WPISim"
-      HINTS ${wpiapicppsim_libs_SOURCE_DIR} 
-      PATH_SUFFIXES ${PATH_SUFFIX}
-      REQUIRED
-      NO_DEFAULT_PATH
-      NO_CMAKE_FIND_ROOT_PATH
+    SIMTALONSRX_LIBRARY
+    NAMES "CTRE_SimTalonSRX"
+    HINTS ${simtalonsrx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMTALONFX_LIBRARY
+    NAMES "CTRE_SimTalonFX"
+    HINTS ${simtalonfx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMVICTORSPX_LIBRARY
+    NAMES "CTRE_SimVictorSPX"
+    HINTS ${simvictorspx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMPIGEONIMU_LIBRARY
+    NAMES "CTRE_SimPigeonIMU"
+    HINTS ${simpigeonimu_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMCANCODER_LIBRARY
+    NAMES "CTRE_SimCANCoder"
+    HINTS ${simcancoder_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMPROTALONFX_LIBRARY
+    NAMES "CTRE_SimProTalonFX"
+    HINTS ${simprotalonfx_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMPROCANCODER_LIBRARY
+    NAMES "CTRE_SimProCANcoder"
+    HINTS ${simprocancoder_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+
+  find_library(
+    SIMPROPIGEON2_LIBRARY
+    NAMES "CTRE_SimProPigeon2"
+    HINTS ${simpropigeon2_libs_SOURCE_DIR} 
+    PATH_SUFFIXES ${PATH_SUFFIX}
+    REQUIRED
+    NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
   )
 endif()
 
 set(TOOLS_HEADERS ${tools_headers_SOURCE_DIR})
-set(APICPP_HEADERS ${apicpp_headers_SOURCE_DIR})
-set(CCI_HEADERS ${cci_headers_SOURCE_DIR})
 set(WPIAPICPP_HEADERS ${wpiapicpp_headers_SOURCE_DIR})
 
 if(PHOENIX_SIM)
-  set(APICPPSIM_HEADERS ${apicppsim_headers_SOURCE_DIR})
-  set(CCISIM_HEADERS ${ccisim_headers_SOURCE_DIR})
+  set(TOOLSSIM_HEADERS ${toolssim_headers_SOURCE_DIR})
   set(WPIAPICPPSIM_HEADERS ${wpiapicppsim_headers_SOURCE_DIR})
+  set(SIMTALONSRX_HEADERS ${simtalonsrx_headers_SOURCE_DIR})
+  set(SIMTALONFX_HEADERS ${simtalonfx_headers_SOURCE_DIR})
+  set(SIMVICTORSPX_HEADERS ${simvictorspx_headers_SOURCE_DIR})
+  set(SIMPIGEONIMU_HEADERS ${simpigeonimu_headers_SOURCE_DIR})
+  set(SIMCANCODER_HEADERS ${simcancoder_headers_SOURCE_DIR})
+  set(SIMPROTALONFX_HEADERS ${simprotalonfx_headers_SOURCE_DIR})
+  set(SIMPROCANCODER_HEADERS ${simprocancoder_headers_SOURCE_DIR})
+  set(SIMPROPIGEON2_HEADERS ${simpropigeon2_headers_SOURCE_DIR})
 endif()
 
 include(FindPackageHandleStandardArgs)
@@ -293,27 +438,33 @@ find_package_handle_standard_args(
   DEFAULT_MSG
   TOOLS_HEADERS
   TOOLS_LIBRARY
-  APICPP_HEADERS
-  APICPP_LIBRARY
-  CCI_HEADERS
-  CCI_LIBRARY
+  WPIAPICPP_HEADERS
+  WPIAPICPP_LIBRARY
 )
 
 mark_as_advanced(  
   TOOLS_HEADERS
   TOOLS_LIBRARY
-  APICPP_HEADERS
-  APICPP_LIBRARY
-  CCI_HEADERS
-  CCI_LIBRARY
   WPIAPICPP_HEADERS
   WPIAPICPP_LIBRARY
-  APICPPSIM_HEADERS
-  APICPPSIM_LIBRARY
-  CCISIM_HEADERS
-  CCISIM_LIBRARY
   WPIAPICPPSIM_HEADERS
   WPIAPICPPSIM_LIBRARY
+  SIMTALONSRX_HEADERS
+  SIMTALONSRX_LIBRARY
+  SIMTALONFX_HEADERS
+  SIMTALONFX_LIBRARY
+  SIMVICTORSPX_HEADERS
+  SIMVICTORSPX_LIBRARY
+  SIMPIGEONIMU_HEADERS
+  SIMPIGEONIMU_LIBRARY
+  SIMCANCODER_HEADERS
+  SIMCANCODER_LIBRARY
+  SIMPROTALONFX_HEADERS
+  SIMPROTALONFX_LIBRARY
+  SIMPROCANCODER_HEADERS
+  SIMPROCANCODER_LIBRARY
+  SIMPROPIGEON2_HEADERS
+  SIMPROPIGEON2_LIBRARY
 )
 
 add_library(phoenix INTERFACE)
@@ -321,14 +472,19 @@ add_library(phoenix INTERFACE)
 if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
 
     add_library(tools::tools SHARED IMPORTED)
-    add_library(apicpp::apicpp SHARED IMPORTED)
-    add_library(cci::cci SHARED IMPORTED)
     add_library(wpiapicpp::wpiapicpp SHARED IMPORTED)
 
     if(PHOENIX_SIM)
-      add_library(apicppsim::apicppsim SHARED IMPORTED)
-      add_library(ccisim::ccisim SHARED IMPORTED)
+      add_library(toolssim::toolssim SHARED IMPORTED)
       add_library(wpiapicppsim::wpiapicppsim SHARED IMPORTED)
+      add_library(simtalonsrx::simtalonsrx SHARED IMPORTED)
+      add_library(simtalonfx::simtalonfx SHARED IMPORTED)
+      add_library(simvictorspx::simvictorspx SHARED IMPORTED)
+      add_library(simpigeonimu::simpigeonimu SHARED IMPORTED)
+      add_library(simcancoder::simcancoder SHARED IMPORTED)
+      add_library(simprotalonfx::simprotalonfx SHARED IMPORTED)
+      add_library(simprocancoder::simprocancoder SHARED IMPORTED)
+      add_library(simpropigeon2::simpropigeon2 SHARED IMPORTED)
     endif()
 
     if(WIN32)
@@ -340,21 +496,6 @@ if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
                 IMPORTED_IMPLIB ${TOOLS_LIBRARY}
         )
         set_target_properties(
-            apicpp::apicpp
-            PROPERTIES
-                INTERFACE_INCLUDE_DIRECTORIES ${APICPP_HEADERS}
-                IMPORTED_LOCATION ${APICPP_DLL}
-                IMPORTED_IMPLIB ${APICPP_LIBRARY}
-        )
-        set_target_properties(
-            cci::cci
-            PROPERTIES
-                INTERFACE_INCLUDE_DIRECTORIES ${CCI_HEADERS}
-                IMPORTED_LOCATION ${CCI_DLL}
-                IMPORTED_IMPLIB ${CCI_LIBRARY}
-        )
-
-        set_target_properties(
           wpiapicpp::wpiapicpp
           PROPERTIES
               INTERFACE_INCLUDE_DIRECTORIES ${WPIAPICPP_HEADERS}
@@ -364,28 +505,84 @@ if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
 
         if(PHOENIX_SIM)
           set_target_properties(
-            apicppsim::apicppsim
+          toolssim::toolssim
             PROPERTIES
-                INTERFACE_INCLUDE_DIRECTORIES ${APICPPSIM_HEADERS}
-                IMPORTED_LOCATION ${APICPPSIM_DLL}
-                IMPORTED_IMPLIB ${APICPPSIM_LIBRARY}
+              INTERFACE_INCLUDE_DIRECTORIES ${TOOLSSIM_HEADERS}
+              IMPORTED_LOCATION ${TOOLSSIM_DLL}
+              IMPORTED_IMPLIB ${TOOLSSIM_LIBRARY}
+          )   
+
+          set_target_properties(
+            wpiapicppsim::wpiapicppsim
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${WPIAPICPPSIM_HEADERS}
+              IMPORTED_LOCATION ${WPIAPICPPSIM_DLL}
+              IMPORTED_IMPLIB ${WPIAPICPPSIM_LIBRARY}
           )
 
           set_target_properties(
-              ccisim::ccisim
-              PROPERTIES
-                  INTERFACE_INCLUDE_DIRECTORIES ${CCISIM_HEADERS}
-                  IMPORTED_LOCATION ${CCISIM_DLL}
-                  IMPORTED_IMPLIB ${CCISIM_LIBRARY}
+            simtalonsrx::simtalonsrx
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMTALONSRX_HEADERS}
+              IMPORTED_LOCATION ${SIMTALONSRX_DLL}
+              IMPORTED_IMPLIB ${SIMTALONSRX_LIBRARY}
           )
 
           set_target_properties(
-              wpiapicppsim::wpiapicppsim
-              PROPERTIES
-                  INTERFACE_INCLUDE_DIRECTORIES ${WPIAPICPPSIM_HEADERS}
-                  IMPORTED_LOCATION ${WPIAPICPPSIM_DLL}
-                  IMPORTED_IMPLIB ${WPIAPICPPSIM_LIBRARY}
-          )          
+            simtalonfx::simtalonfx
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMTALONFX_HEADERS}
+              IMPORTED_LOCATION ${SIMTALONFX_DLL}
+              IMPORTED_IMPLIB ${SIMTALONFX_LIBRARY}
+          )
+
+          set_target_properties(
+            simvictorspx::simvictorspx
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMVICTORSPX_HEADERS}
+              IMPORTED_LOCATION ${SIMVICTORSPX_DLL}
+              IMPORTED_IMPLIB ${SIMVICTORSPX_LIBRARY}
+          )
+
+          set_target_properties(
+            simpigeonimu::simpigeonimu
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMPIGEONIMU_HEADERS}
+              IMPORTED_LOCATION ${SIMPIGEONIMU_DLL}
+              IMPORTED_IMPLIB ${SIMPIGEONIMU_LIBRARY}
+          )
+
+          set_target_properties(
+            simcancoder::simcancoder
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMCANCODER_HEADERS}
+              IMPORTED_LOCATION ${SIMCANCODER_DLL}
+              IMPORTED_IMPLIB ${SIMCANCODER_LIBRARY}
+          )
+
+          set_target_properties(
+            simprotalonfx::simprotalonfx
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMPROTALONFX_HEADERS}
+              IMPORTED_LOCATION ${SIMPROTALONFX_DLL}
+              IMPORTED_IMPLIB ${SIMPROTALONFX_LIBRARY}
+          )
+
+          set_target_properties(
+            simprocancoder::simprocancoder
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMPROCANCODER_HEADERS}
+              IMPORTED_LOCATION ${SIMPROCANCODER_DLL}
+              IMPORTED_IMPLIB ${SIMPROCANCODER_LIBRARY}
+          )
+
+          set_target_properties(
+            simpropigeon2::simpropigeon2
+            PROPERTIES
+              INTERFACE_INCLUDE_DIRECTORIES ${SIMPROPIGEON2_HEADERS}
+              IMPORTED_LOCATION ${SIMPROPIGEON2_DLL}
+              IMPORTED_IMPLIB ${SIMPROPIGEON2_LIBRARY}
+          )
         endif()
     else()
       set_target_properties(
@@ -395,18 +592,6 @@ if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
           IMPORTED_LOCATION ${TOOLS_LIBRARY}
         )
       set_target_properties(
-        apicpp::apicpp
-        PROPERTIES
-          INTERFACE_INCLUDE_DIRECTORIES ${APICPP_HEADERS}
-          IMPORTED_LOCATION ${APICPP_LIBRARY}
-        )
-      set_target_properties(
-        cci::cci
-        PROPERTIES
-          INTERFACE_INCLUDE_DIRECTORIES ${CCI_HEADERS}
-          IMPORTED_LOCATION ${CCI_LIBRARY}
-        )
-      set_target_properties(
           wpiapicpp::wpiapicpp
           PROPERTIES
             INTERFACE_INCLUDE_DIRECTORIES ${WPIAPICPP_HEADERS}
@@ -414,36 +599,88 @@ if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
         )     
       
       PutLibsInDeployFolder(${TOOLS_LIBRARY})
-      PutLibsInDeployFolder(${APICPP_LIBRARY})
-      PutLibsInDeployFolder(${CCI_LIBRARY})
       PutLibsInDeployFolder(${WPIAPICPP_LIBRARY})
 
       if(PHOENIX_SIM)
         set_target_properties(
-          apicppsim::apicppsim
+          toolssim::toolssim
           PROPERTIES
-            INTERFACE_INCLUDE_DIRECTORIES ${APICPPSIM_HEADERS}
-            IMPORTED_LOCATION ${APICPPSIM_LIBRARY}
+            INTERFACE_INCLUDE_DIRECTORIES ${TOOLSSIM_HEADERS}
+            IMPORTED_LOCATION ${OOLSSIM_LIBRARY}
         )
-
-        set_target_properties(
-          ccisim::ccisim
-          PROPERTIES
-            INTERFACE_INCLUDE_DIRECTORIES ${CCISIM_HEADERS}
-            IMPORTED_LOCATION ${CCISIM_LIBRARY}
-          )
-
         set_target_properties(
           wpiapicppsim::wpiapicppsim
           PROPERTIES
             INTERFACE_INCLUDE_DIRECTORIES ${WPIAPICPPSIM_HEADERS}
             IMPORTED_LOCATION ${WPIAPICPPSIM_LIBRARY}
-          )
+        )
+        set_target_properties(
+          simtalonsrx::simtalonsrx
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMTALONSRX_HEADERS}
+            IMPORTED_LOCATION ${SIMTALONSRX_LIBRARY}
+        )
+        set_target_properties(
+          simtalonfx::simtalonfx
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMTALONFX_HEADERS}
+            IMPORTED_LOCATION ${SIMTALONFX_LIBRARY}
+        )
+        set_target_properties(
+          simvictorspx::simvictorspx
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMVICTORSPX_HEADERS}
+            IMPORTED_LOCATION ${SIMVICTORSPX_LIBRARY}
+        )
+        set_target_properties(
+          simpigeonimu::simpigeonimu
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMPIGEONIMU_HEADERS}
+            IMPORTED_LOCATION ${SIMPIGEONIMU_LIBRARY}
+        )
+        set_target_properties(
+          simcancoder::simcancoder
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMCANCODER_HEADERS}
+            IMPORTED_LOCATION ${SIMCANCODER_LIBRARY}
+        )
+        set_target_properties(
+          simprotalonfx::simprotalonfx
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMPROTALONFX_HEADERS}
+            IMPORTED_LOCATION ${SIMPROTALONFX_LIBRARY}
+        )
+        set_target_properties(
+          simprocancoder::simprocancoder
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMPROCANCODER_HEADERS}
+            IMPORTED_LOCATION ${SIMPROCANCODER_LIBRARY}
+        )
+        set_target_properties(
+          simpropigeon2::simpropigeon2
+          PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES ${SIMPROPIGEON2_HEADERS}
+            IMPORTED_LOCATION ${SIMPROPIGEON2_LIBRARY}
+        )
       endif()
     endif()
     if(PHOENIX_SIM)
-      target_link_libraries(phoenix INTERFACE tools::tools apicpp::apicpp cci::cci wpiapicpp::wpiapicpp apicppsim::apicppsim ccisim::ccisim wpiapicppsim::wpiapicppsim)
+      target_link_libraries(phoenix 
+      INTERFACE 
+      tools::tools 
+      wpiapicpp::wpiapicpp 
+      toolssim::toolssim 
+      wpiapicppsim::wpiapicppsim 
+      simtalonsrx::simtalonsrx
+      simtalonfx::simtalonfx
+      simvictorspx::simvictorspx
+      simpigeonimu::simpigeonimu
+      simcancoder::simcancoder
+      simprotalonfx::simprotalonfx
+      simprocancoder::simprocancoder
+      simpropigeon2::simpropigeon2
+    )
     else()
-      target_link_libraries(phoenix INTERFACE tools::tools apicpp::apicpp cci::cci wpiapicpp::wpiapicpp)
+      target_link_libraries(phoenix INTERFACE tools::tools wpiapicpp::wpiapicpp)
     endif()
 endif()
