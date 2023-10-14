@@ -31,11 +31,11 @@ find_package(wpilibc REQUIRED)
 find_package(wpilibnewcommands REQUIRED)
 # if we are not building for orange pi
 if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
-  find_package(kauailabs REQUIRED)
-  find_package(pathplanner REQUIRED)
-  find_package(photonvision REQUIRED)
-  find_package(rev REQUIRED)
-  find_package(phoenix REQUIRED)
+  # find_package(kauailabs REQUIRED)
+  # find_package(pathplanner REQUIRED)
+  # find_package(photonvision REQUIRED)
+  # find_package(rev REQUIRED)
+  # find_package(phoenix REQUIRED)
 endif()
 find_package(Threads REQUIRED)
 
@@ -45,44 +45,7 @@ endif()
 
 # if we are not building for orange pi
 if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
-  add_executable(robotProgram src/main.cpp)
-  if(MSVC)
-    target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
-  endif()
-
-  target_link_libraries(
-    robotProgram
-    Threads::Threads
-    phoenix
-    rev
-    photonvision::photonvision
-    pathplanner::pathplanner
-    kauailabs::kauailabs
-    wpilibnewcommands::wpilibnewcommands
-    wpilibc::wpilibc
-    hal::hal
-    apriltag::apriltag
-    apriltaglib::apriltaglib
-    wpimath::wpimath
-    cameraserver::cameraserver
-    ntcore::ntcore
-    cscore::cscore
-    opencv
-    wpinet::wpinet
-    wpiutil::wpiutil)
-
-  if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
-    target_link_libraries(robotProgram nilibraries dl)
-  endif()
-
-  if(WIN32)
-    add_custom_command(
-      TARGET robotProgram
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:robotProgram>
-              $<TARGET_FILE_DIR:robotProgram>
-      COMMAND_EXPAND_LISTS)
-  endif()
+  add_subdirectory(robotProgram)
 endif()
 
 add_subdirectory(vision)

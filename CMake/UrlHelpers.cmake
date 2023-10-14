@@ -114,7 +114,7 @@ endfunction()
 
 function(GetThirdPartyLibraryUrl library_name version)
   getwpiurlbase(
-    "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc2023"
+    "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc2024"
     ${library_name}
     ${version})
   set(HEADER_URL

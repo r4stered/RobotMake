@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getniurl("chipobject" "2023.3.0")
+getniurl("chipobject" "2024.1.1")
 
 FetchContent_Declare(chipobject_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(chipobject_headers)
@@ -8,7 +8,7 @@ FetchContent_MakeAvailable(chipobject_headers)
 FetchContent_Declare(chipobject_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(chipobject_libs)
 
-getniurl("netcomm" "2023.3.0")
+getniurl("netcomm" "2024.1.1")
 
 FetchContent_Declare(netcomm_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(netcomm_headers)
@@ -16,12 +16,12 @@ FetchContent_MakeAvailable(netcomm_headers)
 FetchContent_Declare(netcomm_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(netcomm_libs)
 
-getniurl("runtime" "2023.3.0")
+getniurl("runtime" "2024.1.1")
 
 FetchContent_Declare(runtime_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(runtime_libs)
 
-getniurl("visa" "2023.3.0")
+getniurl("visa" "2024.1.1")
 
 FetchContent_Declare(visa_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(visa_headers)
@@ -33,7 +33,7 @@ cmake_print_variables(chipobject_libs_SOURCE_DIR)
 cmake_print_variables(PATH_SUFFIX)
 find_library(
   CHIPOBJECT_LIBRARY
-  NAMES "libRoboRIO_FRC_ChipObject.so.23.0.0"
+  NAMES "libRoboRIO_FRC_ChipObject.so.24.0.0"
   HINTS ${chipobject_libs_SOURCE_DIR}
   PATH_SUFFIXES ${PATH_SUFFIX} REQUIRED
   NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -42,7 +42,7 @@ set(CHIPOBJECT_HEADERS ${chipobject_libs_SOURCE_DIR})
 
 find_library(
   NETCOMM_LIBRARY
-  NAMES "libFRC_NetworkCommunication.so.23.0.0"
+  NAMES "libFRC_NetworkCommunication.so.24.0.0"
   HINTS ${netcomm_libs_SOURCE_DIR}
   PATH_SUFFIXES ${PATH_SUFFIX} REQUIRED
   NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -65,7 +65,7 @@ find_library(
 
 find_library(
   VISA_LIBRARY
-  NAMES "libvisa.so.22.5.0"
+  NAMES "libvisa.so.23.3.0"
   HINTS ${visa_libs_SOURCE_DIR}
   PATH_SUFFIXES ${PATH_SUFFIX} REQUIRED
   NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

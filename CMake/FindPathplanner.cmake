@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getpathplannerurl("2023.4.3")
+getpathplannerurl("2024.0.0-beta-1")
 
 set(INSTALL_FOLDER_STR "pathplanner")
 

@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getthirdpartylibraryurl("apriltaglib" "3.2.0-4")
+getthirdpartylibraryurl("apriltaglib" "3.3.0-1")
 
 FetchContent_Declare(apriltaglib_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(apriltaglib_headers)
