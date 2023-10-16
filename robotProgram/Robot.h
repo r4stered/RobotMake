@@ -10,7 +10,6 @@
 #include <frc2/command/CommandPtr.h>
 
 #include "RobotContainer.h"
-// #include "ctre-swerve/SwerveDrivebase.h"
 
 class Robot : public frc::TimedRobot
 {
@@ -32,8 +31,5 @@ public:
 
 private:
   std::optional<frc2::CommandPtr> m_autonomousCommand;
-
-  // SwerveDrivebase drivebase;
-
   RobotContainer m_container;
 };

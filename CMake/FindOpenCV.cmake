@@ -36,8 +36,6 @@ if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
   list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.8)
 endif()
 
-cmake_print_variables(OPENCV_LIST_OF_LIBS)
-
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
   set(DEBUG_STRING "d")
 else()

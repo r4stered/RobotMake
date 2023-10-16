@@ -29,8 +29,6 @@ FetchContent_MakeAvailable(visa_headers)
 FetchContent_Declare(visa_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(visa_libs)
 
-cmake_print_variables(chipobject_libs_SOURCE_DIR)
-cmake_print_variables(PATH_SUFFIX)
 find_library(
   CHIPOBJECT_LIBRARY
   NAMES "libRoboRIO_FRC_ChipObject.so.24.0.0"

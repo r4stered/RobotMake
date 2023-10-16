@@ -231,7 +231,6 @@ function(GetWpiUrlBase base_url_string library_name version)
       OR ${library_name} STREQUAL "visa"
       OR ${library_name} STREQUAL "navx-frc-cpp"
       OR ${library_name} STREQUAL "PathplannerLib-cpp"))
-    cmake_print_variables(library_name)
     set(PATH_SUFFIX
         "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}"
         PARENT_SCOPE)

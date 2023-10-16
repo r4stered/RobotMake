@@ -14,9 +14,6 @@ else()
   set(DEBUG_STRING "")
 endif()
 
-cmake_print_variables(kauailabs_headers_SOURCE_DIR)
-cmake_print_variables(PATH_SUFFIX)
-
 if(WIN32)
   find_file(
     KAUAILABS_DLL

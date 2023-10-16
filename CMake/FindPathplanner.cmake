@@ -4,11 +4,8 @@ getpathplannerurl("2024.0.0-beta-1")
 
 set(INSTALL_FOLDER_STR "pathplanner")
 
-FetchContent_Declare(pathplanner_headers URL ${HEADER_URL})
-
-FetchContent_Populate(
-  pathplanner_headers
-  DOWNLOAD_COMMAND
+FetchContent_Declare(
+  pathplanner_headers 
   URL ${HEADER_URL}
   SOURCE_DIR
     ${CMAKE_CURRENT_BINARY_DIR}/_deps/pathplanner_headers-src/${INSTALL_FOLDER_STR}
@@ -17,6 +14,8 @@ FetchContent_Populate(
   SUBBUILD_DIR
     ${CMAKE_CURRENT_BINARY_DIR}/_deps/pathplanner_headers-subbuild/${INSTALL_FOLDER_STR}
 )
+
+FetchContent_MakeAvailable(pathplanner_headers)
 
 cmake_path(GET pathplanner_headers_SOURCE_DIR PARENT_PATH
            pathplanner_FIXED_PATH)
@@ -30,9 +29,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 else()
   set(DEBUG_STRING "")
 endif()
-
-cmake_print_variables(pathplanner_headers_SOURCE_DIR)
-cmake_print_variables(PATH_SUFFIX)
 
 if(WIN32)
   find_file(
