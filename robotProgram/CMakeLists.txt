@@ -1,14 +1,12 @@
 add_executable(robotProgram)
 
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${rio_compile_ex_SOURCE_DIR}/robotProgram/*.h")
-
-add_subdirectory(str)
-
-target_sources(robotProgram PUBLIC Robot.cpp RobotContainer.cpp ${HEADER_LIST})
-
 if(MSVC)
-target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
+  target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
 endif()
+
+target_include_directories(robotProgram PRIVATE "${CMAKE_CURRENT_LIST_DIR}/include")
+
+add_subdirectory(src)
 
 target_link_libraries(
 robotProgram
