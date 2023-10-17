@@ -27,11 +27,11 @@ class SwerveDrivebase
 {
 public:
   SwerveDrivebase();
-  ~SwerveDrivebase();
+  virtual ~SwerveDrivebase();
   void SetControl(std::unique_ptr<RequestTypes::SwerveRequest> request);
   void TareEverything();
   void SeedFieldRelative();
-  void SeedFieldRelative(frc::Pose2d location);
+  virtual void SeedFieldRelative(frc::Pose2d location);
   SwerveDriveState GetState();
   void AddVisionMeasurement(frc::Pose2d visionRobotPose, units::second_t timestamp, wpi::array<double, 3> visionMeasurementStdDevs);
   void AddVisionMeasurement(frc::Pose2d visionRobotPose, units::second_t timestamp);
@@ -40,7 +40,7 @@ public:
   void RegisterTelemetry(std::function<void(SwerveDriveState)> consumerFunc);
   bool IsOdometryValid();
 
-private:
+protected:
   void UpdateOdometry();
 
   ctre::phoenix6::hardware::Pigeon2 imu{constants::drivebase::can::IMU, "*"};

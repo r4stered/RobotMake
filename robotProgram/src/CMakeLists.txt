@@ -6,6 +6,7 @@ cmake_print_variables(HEADER_LIST)
 target_sources(robotProgram PRIVATE Robot.cpp RobotContainer.cpp ${HEADER_LIST})
 
 add_subdirectory(ctre-swerve)
+add_subdirectory(subsystems)
 
 source_group(
   TREE "${PROJECT_SOURCE_DIR}/robotProgram/include"
