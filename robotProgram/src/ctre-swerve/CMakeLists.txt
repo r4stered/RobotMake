@@ -1,1 +1,1 @@
-target_sources(robotProgram PRIVATE SimSwerveDrivetrain.cpp SwerveDrivebase.cpp SwerveModule.cpp)
+target_sources(robotProgram PRIVATE SimSwerveDrivetrain.cpp SwerveDrivebase.cpp SwerveModule.cpp CTREPIDController.cpp)
