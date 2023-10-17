@@ -26,11 +26,11 @@ void SwerveDrivebase::UpdateOdometry()
   std::array<ctre::phoenix6::BaseStatusSignal *, 18> allSignals;
   int successfulDaqs = 0;
   int failedDaqs = 0;
-  frc::LinearFilter<double> lowpass = frc::LinearFilter<double>::MovingAverage(50);
-  frc::MedianFilter<double> peakRemover = frc::MedianFilter<double>(3);
-  double lastTime = 0;
-  double currentTime = 0;
-  double averageLoopTime = 0;
+  frc::LinearFilter<units::second_t> lowpass = frc::LinearFilter<units::second_t>::MovingAverage(50);
+  frc::MedianFilter<units::second_t> peakRemover = frc::MedianFilter<units::second_t>(3);
+  units::second_t lastTime = 0_s;
+  units::second_t currentTime = 0_s;
+  units::second_t averageLoopTime = 0_s;
 
   for (int i = 0; i < 4; i++)
   {
@@ -59,7 +59,7 @@ void SwerveDrivebase::UpdateOdometry()
     std::unique_lock<std::shared_mutex> writeLock(lock);
 
     lastTime = currentTime;
-    currentTime = ctre::phoenix6::GetCurrentTimeSeconds();
+    currentTime = units::second_t{ctre::phoenix6::GetCurrentTimeSeconds()};
     averageLoopTime = lowpass.Calculate(peakRemover.Calculate(currentTime - lastTime));
 
     if (status.IsOK())

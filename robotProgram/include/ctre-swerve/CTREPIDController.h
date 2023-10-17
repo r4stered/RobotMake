@@ -13,237 +13,232 @@
 
 #include "units/time.h"
 
-namespace frc
+/**
+ * Implements a PID control loop.
+ */
+class WPILIB_DLLEXPORT CTREPIDController
+    : public wpi::Sendable,
+      public wpi::SendableHelper<CTREPIDController>
 {
+public:
+    /**
+     * Allocates a CTREPIDController with the given constants for Kp, Ki, and Kd.
+     *
+     * @param Kp     The proportional coefficient.
+     * @param Ki     The integral coefficient.
+     * @param Kd     The derivative coefficient.
+     * @param period The period between controller updates in seconds. The
+     *               default is 20 milliseconds. Must be non-zero and positive.
+     */
+    CTREPIDController(double Kp, double Ki, double Kd);
+
+    ~CTREPIDController() override = default;
+
+    CTREPIDController(const CTREPIDController &) = default;
+    CTREPIDController &operator=(const CTREPIDController &) = default;
+    CTREPIDController(CTREPIDController &&) = default;
+    CTREPIDController &operator=(CTREPIDController &&) = default;
 
     /**
-     * Implements a PID control loop.
+     * Sets the PID Controller gain parameters.
+     *
+     * Sets the proportional, integral, and differential coefficients.
+     *
+     * @param Kp Proportional coefficient
+     * @param Ki Integral coefficient
+     * @param Kd Differential coefficient
      */
-    class WPILIB_DLLEXPORT CTREPIDController
-        : public wpi::Sendable,
-          public wpi::SendableHelper<CTREPIDController>
-    {
-    public:
-        /**
-         * Allocates a CTREPIDController with the given constants for Kp, Ki, and Kd.
-         *
-         * @param Kp     The proportional coefficient.
-         * @param Ki     The integral coefficient.
-         * @param Kd     The derivative coefficient.
-         * @param period The period between controller updates in seconds. The
-         *               default is 20 milliseconds. Must be non-zero and positive.
-         */
-        CTREPIDController(double Kp, double Ki, double Kd);
+    void SetPID(double Kp, double Ki, double Kd);
 
-        ~CTREPIDController() override = default;
+    /**
+     * Sets the proportional coefficient of the PID controller gain.
+     *
+     * @param Kp proportional coefficient
+     */
+    void SetP(double Kp);
 
-        CTREPIDController(const CTREPIDController &) = default;
-        CTREPIDController &operator=(const CTREPIDController &) = default;
-        CTREPIDController(CTREPIDController &&) = default;
-        CTREPIDController &operator=(CTREPIDController &&) = default;
+    /**
+     * Sets the integral coefficient of the PID controller gain.
+     *
+     * @param Ki integral coefficient
+     */
+    void SetI(double Ki);
 
-        /**
-         * Sets the PID Controller gain parameters.
-         *
-         * Sets the proportional, integral, and differential coefficients.
-         *
-         * @param Kp Proportional coefficient
-         * @param Ki Integral coefficient
-         * @param Kd Differential coefficient
-         */
-        void SetPID(double Kp, double Ki, double Kd);
+    /**
+     * Sets the differential coefficient of the PID controller gain.
+     *
+     * @param Kd differential coefficient
+     */
+    void SetD(double Kd);
 
-        /**
-         * Sets the proportional coefficient of the PID controller gain.
-         *
-         * @param Kp proportional coefficient
-         */
-        void SetP(double Kp);
+    /**
+     * Gets the proportional coefficient.
+     *
+     * @return proportional coefficient
+     */
+    double GetP() const;
 
-        /**
-         * Sets the integral coefficient of the PID controller gain.
-         *
-         * @param Ki integral coefficient
-         */
-        void SetI(double Ki);
+    /**
+     * Gets the integral coefficient.
+     *
+     * @return integral coefficient
+     */
+    double GetI() const;
 
-        /**
-         * Sets the differential coefficient of the PID controller gain.
-         *
-         * @param Kd differential coefficient
-         */
-        void SetD(double Kd);
+    /**
+     * Gets the differential coefficient.
+     *
+     * @return differential coefficient
+     */
+    double GetD() const;
 
-        /**
-         * Gets the proportional coefficient.
-         *
-         * @return proportional coefficient
-         */
-        double GetP() const;
+    /**
+     * Gets the period of this controller.
+     *
+     * @return The period of the controller.
+     */
+    units::second_t GetPeriod() const;
 
-        /**
-         * Gets the integral coefficient.
-         *
-         * @return integral coefficient
-         */
-        double GetI() const;
+    /**
+     * Gets the position tolerance of this controller.
+     *
+     * @return The position tolerance of the controller.
+     */
+    double GetPositionTolerance() const;
 
-        /**
-         * Gets the differential coefficient.
-         *
-         * @return differential coefficient
-         */
-        double GetD() const;
+    /**
+     * Gets the velocity tolerance of this controller.
+     *
+     * @return The velocity tolerance of the controller.
+     */
+    double GetVelocityTolerance() const;
 
-        /**
-         * Gets the period of this controller.
-         *
-         * @return The period of the controller.
-         */
-        units::second_t GetPeriod() const;
+    /**
+     * Returns the current setpoint of the CTREPIDController.
+     *
+     * @return The current setpoint.
+     */
+    double GetSetpoint() const;
 
-        /**
-         * Gets the position tolerance of this controller.
-         *
-         * @return The position tolerance of the controller.
-         */
-        double GetPositionTolerance() const;
+    /**
+     * Returns true if the error is within the tolerance of the setpoint.
+     *
+     * This will return false until at least one input value has been computed.
+     */
+    bool AtSetpoint() const;
 
-        /**
-         * Gets the velocity tolerance of this controller.
-         *
-         * @return The velocity tolerance of the controller.
-         */
-        double GetVelocityTolerance() const;
+    /**
+     * Enables continuous input.
+     *
+     * Rather then using the max and min input range as constraints, it considers
+     * them to be the same point and automatically calculates the shortest route
+     * to the setpoint.
+     *
+     * @param minimumInput The minimum value expected from the input.
+     * @param maximumInput The maximum value expected from the input.
+     */
+    void EnableContinuousInput(double minimumInput, double maximumInput);
 
-        /**
-         * Returns the current setpoint of the CTREPIDController.
-         *
-         * @return The current setpoint.
-         */
-        double GetSetpoint() const;
+    /**
+     * Disables continuous input.
+     */
+    void DisableContinuousInput();
 
-        /**
-         * Returns true if the error is within the tolerance of the setpoint.
-         *
-         * This will return false until at least one input value has been computed.
-         */
-        bool AtSetpoint() const;
+    /**
+     * Returns true if continuous input is enabled.
+     */
+    bool IsContinuousInputEnabled() const;
 
-        /**
-         * Enables continuous input.
-         *
-         * Rather then using the max and min input range as constraints, it considers
-         * them to be the same point and automatically calculates the shortest route
-         * to the setpoint.
-         *
-         * @param minimumInput The minimum value expected from the input.
-         * @param maximumInput The maximum value expected from the input.
-         */
-        void EnableContinuousInput(double minimumInput, double maximumInput);
+    /**
+     * Sets the minimum and maximum values for the integrator.
+     *
+     * When the cap is reached, the integrator value is added to the controller
+     * output rather than the integrator value times the integral gain.
+     *
+     * @param minimumIntegral The minimum value of the integrator.
+     * @param maximumIntegral The maximum value of the integrator.
+     */
+    void SetIntegratorRange(double minimumIntegral, double maximumIntegral);
 
-        /**
-         * Disables continuous input.
-         */
-        void DisableContinuousInput();
+    /**
+     * Sets the error which is considered tolerable for use with AtSetpoint().
+     *
+     * @param positionTolerance Position error which is tolerable.
+     * @param velocityTolerance Velocity error which is tolerable.
+     */
+    void SetTolerance(
+        double positionTolerance,
+        double velocityTolerance = std::numeric_limits<double>::infinity());
 
-        /**
-         * Returns true if continuous input is enabled.
-         */
-        bool IsContinuousInputEnabled() const;
+    /**
+     * Returns the difference between the setpoint and the measurement.
+     */
+    double GetPositionError() const;
 
-        /**
-         * Sets the minimum and maximum values for the integrator.
-         *
-         * When the cap is reached, the integrator value is added to the controller
-         * output rather than the integrator value times the integral gain.
-         *
-         * @param minimumIntegral The minimum value of the integrator.
-         * @param maximumIntegral The maximum value of the integrator.
-         */
-        void SetIntegratorRange(double minimumIntegral, double maximumIntegral);
+    /**
+     * Returns the velocity error.
+     */
+    double GetVelocityError() const;
 
-        /**
-         * Sets the error which is considered tolerable for use with AtSetpoint().
-         *
-         * @param positionTolerance Position error which is tolerable.
-         * @param velocityTolerance Velocity error which is tolerable.
-         */
-        void SetTolerance(
-            double positionTolerance,
-            double velocityTolerance = std::numeric_limits<double>::infinity());
+    /**
+     * Returns the next output of the PID controller.
+     *
+     * @param measurement The current measurement of the process variable.
+     * @param setpoint The new setpoint of the controller.
+     */
+    double Calculate(double measurement, double setpoint, units::second_t currentTimestamp);
 
-        /**
-         * Returns the difference between the setpoint and the measurement.
-         */
-        double GetPositionError() const;
+    /**
+     * Reset the previous error, the integral term, and disable the controller.
+     */
+    void Reset();
 
-        /**
-         * Returns the velocity error.
-         */
-        double GetVelocityError() const;
+    double GetLastAppliedOutput();
 
-        /**
-         * Returns the next output of the PID controller.
-         *
-         * @param measurement The current measurement of the process variable.
-         * @param setpoint The new setpoint of the controller.
-         */
-        double Calculate(double measurement, double setpoint, units::second_t currentTimestamp);
+    void InitSendable(wpi::SendableBuilder &builder) override;
 
-        /**
-         * Reset the previous error, the integral term, and disable the controller.
-         */
-        void Reset();
+private:
+    // Factor for "proportional" control
+    double m_Kp;
 
-        double GetLastAppliedOutput();
+    // Factor for "integral" control
+    double m_Ki;
 
-        void InitSendable(wpi::SendableBuilder &builder) override;
+    // Factor for "derivative" control
+    double m_Kd;
 
-    private:
-        // Factor for "proportional" control
-        double m_Kp;
+    double m_maximumIntegral = 1.0;
 
-        // Factor for "integral" control
-        double m_Ki;
+    double m_minimumIntegral = -1.0;
 
-        // Factor for "derivative" control
-        double m_Kd;
+    double m_maximumInput = 0;
 
-        double m_maximumIntegral = 1.0;
+    double m_minimumInput = 0;
 
-        double m_minimumIntegral = -1.0;
+    // Do the endpoints wrap around? eg. Absolute encoder
+    bool m_continuous = false;
 
-        double m_maximumInput = 0;
+    // The error at the time of the most recent call to Calculate()
+    double m_positionError = 0;
+    double m_velocityError = 0;
 
-        double m_minimumInput = 0;
+    // The error at the time of the second-most-recent call to Calculate() (used
+    // to compute velocity)
+    double m_prevError = 0;
 
-        // Do the endpoints wrap around? eg. Absolute encoder
-        bool m_continuous = false;
+    // The sum of the errors for use in the integral calc
+    double m_totalError = 0;
 
-        // The error at the time of the most recent call to Calculate()
-        double m_positionError = 0;
-        double m_velocityError = 0;
+    // The error that is considered at setpoint.
+    double m_positionTolerance = 0.05;
+    double m_velocityTolerance = std::numeric_limits<double>::infinity();
 
-        // The error at the time of the second-most-recent call to Calculate() (used
-        // to compute velocity)
-        double m_prevError = 0;
+    double m_setpoint = 0;
+    double m_measurement = 0;
 
-        // The sum of the errors for use in the integral calc
-        double m_totalError = 0;
+    bool m_haveSetpoint = false;
+    bool m_haveMeasurement = false;
 
-        // The error that is considered at setpoint.
-        double m_positionTolerance = 0.05;
-        double m_velocityTolerance = std::numeric_limits<double>::infinity();
-
-        double m_setpoint = 0;
-        double m_measurement = 0;
-
-        bool m_haveSetpoint = false;
-        bool m_haveMeasurement = false;
-
-        double m_lastAppliedOutput = 0;
-        units::second_t m_lastTimestamp = 0_s;
-    };
-
-} // namespace frc
+    double m_lastAppliedOutput = 0;
+    units::second_t m_lastTimestamp = 0_s;
+};

@@ -20,7 +20,7 @@ struct SwerveDriveState
   int failedDaqs{0};
   frc::Pose2d pose{};
   std::array<frc::SwerveModuleState, 4> moduleStates;
-  double odometryPeriod{0};
+  units::second_t odometryPeriod{0};
 };
 
 class SwerveDrivebase
@@ -69,7 +69,7 @@ private:
 
   std::unique_ptr<RequestTypes::SwerveRequest>
       requestToApply = std::make_unique<RequestTypes::Idle>();
-  RequestTypes::SwerveControlRequestParameters requestParameters{constants::drivebase::kinematics::kinematics, frc::Pose2d{}, 0.0, {frc::Translation2d{}, frc::Translation2d{}, frc::Translation2d{}, frc::Translation2d{}}};
+  RequestTypes::SwerveControlRequestParameters requestParameters{constants::drivebase::kinematics::kinematics, frc::Pose2d{}, 0.0_s, {frc::Translation2d{}, frc::Translation2d{}, frc::Translation2d{}, frc::Translation2d{}}};
 
   std::function<void(SwerveDriveState)> telemetryFunction;
   bool validOdom{false};
