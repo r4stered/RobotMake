@@ -35,7 +35,7 @@ if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
   # find_package(pathplanner REQUIRED)
   # find_package(photonvision REQUIRED)
   # find_package(rev REQUIRED)
-  # find_package(phoenix REQUIRED)
+  find_package(phoenix REQUIRED)
 endif()
 find_package(Threads REQUIRED)
 

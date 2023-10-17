@@ -8,6 +8,7 @@
 #include <units/current.h>
 #include <str/Units.h>
 #include <units/angular_velocity.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
 
 namespace constants {
 
@@ -75,6 +76,29 @@ namespace constants {
       static constexpr double FR_ENC_OFFSET = 0;
       static constexpr double BL_ENC_OFFSET = 0;
       static constexpr double BR_ENC_OFFSET = 0;
+    }
+
+    namespace kinematics {
+      static std::array<frc::Translation2d, 4> moduleLocations {
+        frc::Translation2d{
+          physical::WHEELBASE_LENGTH / 2,
+          physical::WHEELBASE_WIDTH / 2
+        },
+        frc::Translation2d{
+          physical::WHEELBASE_LENGTH / 2,
+          -physical::WHEELBASE_WIDTH / 2
+        },
+        frc::Translation2d{
+          -physical::WHEELBASE_LENGTH / 2,
+          physical::WHEELBASE_WIDTH / 2
+        },
+        frc::Translation2d{
+          -physical::WHEELBASE_LENGTH / 2,
+          -physical::WHEELBASE_WIDTH / 2
+        },
+      };
+
+      static frc::SwerveDriveKinematics<4> kinematics{moduleLocations};
     }
   }
 }

@@ -11,7 +11,7 @@ add_subdirectory(src)
 target_link_libraries(
 robotProgram
 Threads::Threads
-# phoenix
+phoenix
 # rev
 # photonvision::photonvision
 # pathplanner::pathplanner
