@@ -202,4 +202,139 @@ namespace RequestTypes
   private:
     std::array<frc::SwerveModuleState, 4> lastAppliedState{};
   };
+
+  class PointWheelsAt : public SwerveRequest
+  {
+  public:
+    frc::Rotation2d moduleDirection{};
+    bool isOpenLoop = true;
+    ctre::phoenix::StatusCode Apply(SwerveControlRequestParameters parameters, std::array<SwerveModule, 4> &modules) override
+    {
+      for (int i = 0; i < modules.size(); i++)
+      {
+        frc::SwerveModuleState state{0_mps, moduleDirection};
+        modules[i].GoToState(state, isOpenLoop);
+      }
+      return ctre::phoenix::StatusCode::OK;
+    };
+
+    PointWheelsAt &withIsOpenLoop(bool isOpenLoop)
+    {
+      this->isOpenLoop = isOpenLoop;
+      return *this;
+    }
+
+    PointWheelsAt &withModuleDirection(frc::Rotation2d moduleDir)
+    {
+      this->moduleDirection = moduleDir;
+      return *this;
+    }
+  };
+
+  class RobotCentric : public SwerveRequest
+  {
+  public:
+    units::meters_per_second_t velocityX;
+    units::meters_per_second_t velocityY;
+    units::radians_per_second_t rotationalRate;
+    units::meters_per_second_t deadband = 0_mps;
+    units::radians_per_second_t rotationalDeadband = 0_rad_per_s;
+    bool isOpenLoop = true;
+    ctre::phoenix::StatusCode Apply(SwerveControlRequestParameters parameters, std::array<SwerveModule, 4> &modules) override
+    {
+      units::meters_per_second_t toApplyX = velocityX;
+      units::meters_per_second_t toApplyY = velocityY;
+      units::radians_per_second_t toApplyOmega = rotationalRate;
+      if (units::math::sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < deadband)
+      {
+        toApplyX = 0_mps;
+        toApplyY = 0_mps;
+      }
+      if (units::math::abs(toApplyOmega) < rotationalDeadband)
+      {
+        toApplyOmega = 0_rad_per_s;
+      }
+      frc::ChassisSpeeds speeds = frc::ChassisSpeeds{toApplyX, toApplyY, toApplyOmega};
+      auto states = parameters.kinematics.ToSwerveModuleStates(speeds, frc::Translation2d{});
+      for (int i = 0; i < modules.size(); i++)
+      {
+        modules[i].GoToState(states[i], isOpenLoop);
+      }
+      return ctre::phoenix::StatusCode::OK;
+    };
+
+    RobotCentric &withIsOpenLoop(bool isOpenLoop)
+    {
+      this->isOpenLoop = isOpenLoop;
+      return *this;
+    }
+
+    RobotCentric &withVelocityX(units::meters_per_second_t velX)
+    {
+      this->velocityX = velX;
+      return *this;
+    }
+
+    RobotCentric &withVelocityY(units::meters_per_second_t velY)
+    {
+      this->velocityY = velY;
+      return *this;
+    }
+
+    RobotCentric &withRotationalRate(units::radians_per_second_t omega)
+    {
+      this->rotationalRate = omega;
+      return *this;
+    }
+
+    RobotCentric &withDeadband(units::meters_per_second_t deadband)
+    {
+      this->deadband = deadband;
+      return *this;
+    }
+
+    RobotCentric &withRotationalDeadband(units::radians_per_second_t rotDeadband)
+    {
+      this->rotationalDeadband = rotDeadband;
+      return *this;
+    }
+
+  private:
+    std::array<frc::SwerveModuleState, 4> lastAppliedState{};
+  };
+
+  class ApplyChassisSpeeds : public SwerveRequest
+  {
+  public:
+    frc::ChassisSpeeds speeds{};
+    frc::Translation2d centerOfRotation{};
+    bool isOpenLoop = true;
+    ctre::phoenix::StatusCode Apply(SwerveControlRequestParameters parameters, std::array<SwerveModule, 4> &modules) override
+    {
+      auto states = parameters.kinematics.ToSwerveModuleStates(speeds, centerOfRotation);
+      for (int i = 0; i < modules.size(); i++)
+      {
+        modules[i].GoToState(states[i], isOpenLoop);
+      }
+      return ctre::phoenix::StatusCode::OK;
+    };
+
+    ApplyChassisSpeeds &withIsOpenLoop(bool isOpenLoop)
+    {
+      this->isOpenLoop = isOpenLoop;
+      return *this;
+    }
+
+    ApplyChassisSpeeds &withCenterOfRotation(frc::Translation2d CoR)
+    {
+      this->centerOfRotation = CoR;
+      return *this;
+    }
+
+    ApplyChassisSpeeds &withSpeeds(frc::ChassisSpeeds chassisSpeeds)
+    {
+      this->speeds = chassisSpeeds;
+      return *this;
+    }
+  };
 }
