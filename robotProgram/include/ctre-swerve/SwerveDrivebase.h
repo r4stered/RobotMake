@@ -12,6 +12,7 @@
 #include <thread>
 #include <shared_mutex>
 #include "ctre-swerve/SwerveRequest.h"
+#include "ctre-swerve/SimSwerveDrivetrain.h"
 
 struct SwerveDriveState
 {
@@ -27,6 +28,17 @@ class SwerveDrivebase
 public:
   SwerveDrivebase();
   ~SwerveDrivebase();
+  void SetControl(std::unique_ptr<RequestTypes::SwerveRequest> request);
+  void TareEverything();
+  void SeedFieldRelative();
+  void SeedFieldRelative(frc::Pose2d location);
+  SwerveDriveState GetState();
+  void AddVisionMeasurement(frc::Pose2d visionRobotPose, units::second_t timestamp, wpi::array<double, 3> visionMeasurementStdDevs);
+  void AddVisionMeasurement(frc::Pose2d visionRobotPose, units::second_t timestamp);
+  void SetVisionMeasurementStdDevs(wpi::array<double, 3> visionMeasurementStdDevs);
+  void UpdateSimState(units::second_t dt, units::volt_t supplyVoltage);
+  void RegisterTelemetry(std::function<void(SwerveDriveState)> consumerFunc);
+  bool IsOdometryValid();
 
 private:
   void UpdateOdometry();
@@ -53,6 +65,12 @@ private:
 
   SwerveDriveState cachedState{};
 
-  std::unique_ptr<RequestTypes::SwerveRequest> requestToApply = std::make_unique<RequestTypes::Idle>();
+  SimSwerveDrivetrain simDrivetrain{imu};
+
+  std::unique_ptr<RequestTypes::SwerveRequest>
+      requestToApply = std::make_unique<RequestTypes::Idle>();
   RequestTypes::SwerveControlRequestParameters requestParameters{constants::drivebase::kinematics::kinematics, frc::Pose2d{}, 0.0, {frc::Translation2d{}, frc::Translation2d{}, frc::Translation2d{}, frc::Translation2d{}}};
+
+  std::function<void(SwerveDriveState)> telemetryFunction;
+  bool validOdom{false};
 };
