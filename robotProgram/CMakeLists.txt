@@ -1,5 +1,8 @@
 add_executable(robotProgram)
 
+set_property(TARGET robotProgram PROPERTY CXX_STANDARD 20)
+set_property(TARGET robotProgram PROPERTY CXX_STANDARD_REQUIRED ON)
+
 if(MSVC)
   target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
 endif()

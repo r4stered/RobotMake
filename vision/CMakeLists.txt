@@ -15,6 +15,9 @@ if(MSVC)
 target_compile_options(visionProgram PRIVATE /Zc:preprocessor /bigobj)
 endif()
 
+set_property(TARGET visionProgram PROPERTY CXX_STANDARD 20)
+set_property(TARGET visionProgram PROPERTY CXX_STANDARD_REQUIRED ON)
+
 target_link_libraries(visionProgram
   Threads::Threads 
   cameraserver::cameraserver 

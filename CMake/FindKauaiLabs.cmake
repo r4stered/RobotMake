@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getkauailabsurl("2023.0.3")
+getkauailabsurl("2024.0.1-beta-2")
 
 FetchContent_Declare(kauailabs_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(kauailabs_headers)

@@ -11,8 +11,6 @@ FetchContent_MakeAvailable(rio_toolchain)
 
 project(rio_compile_ex)
 
-set(CMAKE_CXX_STANDARD 20)
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
