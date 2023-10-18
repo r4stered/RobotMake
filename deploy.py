@@ -91,7 +91,7 @@ def main(argv):
     deploy_dir = "./deploy"
     deploy_remote_dir = "/home/lvuser/deploy/"
 
-    exec_dir = f"./build/{build_folder}/robotProgram"
+    exec_dir = f"./build/{build_folder}/robotProgram/robotProgram"
     exec_remote_dir = "/home/lvuser/"
 
     deploy_cache_path = f"./build/{build_folder}/deploycache.json"
