@@ -5,7 +5,7 @@ include(FetchContent)
 
 FetchContent_Declare(
   rio_toolchain
-  URL https://github.com/wpilibsuite/opensdk/releases/download/v2023-8/cortexa9_vfpv3-roborio-academic-2023-x86_64-w64-mingw32-Toolchain-12.1.0.zip
+  URL https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-w64-mingw32-Toolchain-12.1.0.zip
 )
 FetchContent_MakeAvailable(rio_toolchain)
 
