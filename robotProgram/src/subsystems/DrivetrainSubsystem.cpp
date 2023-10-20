@@ -1,8 +1,10 @@
 #include "subsystems/DrivetrainSubsystem.h"
 #include <frc2/command/RunCommand.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
-DrivetrainSubsystem::DrivetrainSubsystem() : SwerveDrivebase()
+DrivetrainSubsystem::DrivetrainSubsystem()
 {
+    frc::SmartDashboard::PutData("Field", &field);
 }
 
 DrivetrainSubsystem::~DrivetrainSubsystem()
@@ -12,12 +14,14 @@ DrivetrainSubsystem::~DrivetrainSubsystem()
 frc2::CommandPtr DrivetrainSubsystem::ApplyRequest(std::function<std::unique_ptr<RequestTypes::SwerveRequest>()> requestSupplier)
 {
     return frc2::RunCommand{[this, requestSupplier]
-                            { SetControl(requestSupplier()); }}
+                            { SetControl(requestSupplier()); }, {this}}
         .ToPtr();
 }
 
 void DrivetrainSubsystem::Periodic()
 {
+    field.SetRobotPose(odometry.GetEstimatedPosition());
+    frc::SmartDashboard::PutBoolean("Is Odom Valid", IsOdometryValid());
 }
 
 void DrivetrainSubsystem::SimulationPeriodic()

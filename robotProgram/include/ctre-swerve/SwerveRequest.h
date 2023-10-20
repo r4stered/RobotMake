@@ -43,7 +43,7 @@ namespace RequestTypes
     bool isOpenLoop = true;
     ctre::phoenix::StatusCode Apply(SwerveControlRequestParameters parameters, std::array<SwerveModule, 4> &modules) override
     {
-      for (int i = 0; i < modules.size(); i++)
+      for (size_t i = 0; i < modules.size(); i++)
       {
         frc::SwerveModuleState state{0_mps, parameters.swervePositions[i].Angle()};
         modules[i].GoToState(state, isOpenLoop);
@@ -83,7 +83,7 @@ namespace RequestTypes
       }
       frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(toApplyX, toApplyY, toApplyOmega, parameters.currentPose.Rotation());
       auto states = parameters.kinematics.ToSwerveModuleStates(speeds, frc::Translation2d{});
-      for (int i = 0; i < modules.size(); i++)
+      for (size_t i = 0; i < modules.size(); i++)
       {
         modules[i].GoToState(states[i], isOpenLoop);
       }
@@ -156,7 +156,7 @@ namespace RequestTypes
       }
       frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(toApplyX, toApplyY, toApplyOmega, parameters.currentPose.Rotation());
       auto states = parameters.kinematics.ToSwerveModuleStates(speeds, frc::Translation2d{});
-      for (int i = 0; i < modules.size(); i++)
+      for (size_t i = 0; i < modules.size(); i++)
       {
         modules[i].GoToState(states[i], isOpenLoop);
       }
@@ -210,7 +210,7 @@ namespace RequestTypes
     bool isOpenLoop = true;
     ctre::phoenix::StatusCode Apply(SwerveControlRequestParameters parameters, std::array<SwerveModule, 4> &modules) override
     {
-      for (int i = 0; i < modules.size(); i++)
+      for (size_t i = 0; i < modules.size(); i++)
       {
         frc::SwerveModuleState state{0_mps, moduleDirection};
         modules[i].GoToState(state, isOpenLoop);
@@ -256,7 +256,7 @@ namespace RequestTypes
       }
       frc::ChassisSpeeds speeds = frc::ChassisSpeeds{toApplyX, toApplyY, toApplyOmega};
       auto states = parameters.kinematics.ToSwerveModuleStates(speeds, frc::Translation2d{});
-      for (int i = 0; i < modules.size(); i++)
+      for (size_t i = 0; i < modules.size(); i++)
       {
         modules[i].GoToState(states[i], isOpenLoop);
       }
@@ -312,7 +312,7 @@ namespace RequestTypes
     ctre::phoenix::StatusCode Apply(SwerveControlRequestParameters parameters, std::array<SwerveModule, 4> &modules) override
     {
       auto states = parameters.kinematics.ToSwerveModuleStates(speeds, centerOfRotation);
-      for (int i = 0; i < modules.size(); i++)
+      for (size_t i = 0; i < modules.size(); i++)
       {
         modules[i].GoToState(states[i], isOpenLoop);
       }

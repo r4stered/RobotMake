@@ -2,8 +2,9 @@
 
 #include "ctre-swerve/SwerveDrivebase.h"
 #include "frc2/command/SubsystemBase.h"
+#include <frc/smartdashboard/Field2d.h>
 
-class DrivetrainSubsystem : public SwerveDrivebase, public frc2::SubsystemBase
+class DrivetrainSubsystem : public frc2::SubsystemBase, public SwerveDrivebase
 {
 public:
     DrivetrainSubsystem();
@@ -16,4 +17,5 @@ public:
     void SeedFieldRelative(frc::Pose2d location) override;
 
 private:
+    frc::Field2d field{};
 };

@@ -22,7 +22,6 @@ SwerveDrivebase::~SwerveDrivebase()
 
 void SwerveDrivebase::UpdateOdometry()
 {
-
   std::array<ctre::phoenix6::BaseStatusSignal *, 18> allSignals;
   int successfulDaqs = 0;
   int failedDaqs = 0;
@@ -50,7 +49,7 @@ void SwerveDrivebase::UpdateOdometry()
 
   fmt::print("About to go infinite >:)\n");
 
-  // runs in seperate thread so we chillin'
+  //runs in seperate thread so we chillin'
   while (true)
   {
     ctre::phoenix::StatusCode status;
@@ -92,7 +91,7 @@ void SwerveDrivebase::UpdateOdometry()
     cachedState.pose = odometry.GetEstimatedPosition();
     cachedState.odometryPeriod = averageLoopTime;
 
-    telemetryFunction(cachedState);
+    //telemetryFunction(cachedState);
 
     if (successfulDaqs > 2)
     {

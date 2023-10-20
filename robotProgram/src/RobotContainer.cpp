@@ -13,6 +13,8 @@ RobotContainer::RobotContainer() : drive(RequestTypes::FieldCentric().withIsOpen
 
 void RobotContainer::ConfigureBindings()
 {
+  //drivetrainSub.RegisterTelemetry([this](SwerveDriveState state){driveTelem.Telemeterize(state);});
+
   drivetrainSub.SetDefaultCommand(
       drivetrainSub.ApplyRequest(
           [this]
