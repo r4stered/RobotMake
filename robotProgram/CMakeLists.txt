@@ -17,7 +17,7 @@ Threads::Threads
 phoenix
 # rev
 # photonvision::photonvision
-# pathplanner::pathplanner
+pathplanner::pathplanner
 # kauailabs::kauailabs
 wpilibnewcommands::wpilibnewcommands
 wpilibc::wpilibc

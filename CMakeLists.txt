@@ -3,10 +3,17 @@ cmake_minimum_required(VERSION 3.25)
 include(CMakePrintHelpers)
 include(FetchContent)
 
-FetchContent_Declare(
-  rio_toolchain
-  URL https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-w64-mingw32-Toolchain-12.1.0.zip
-)
+if(CMAKE_HOST_UNIX)
+  FetchContent_Declare(
+    rio_toolchain
+    URL https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-linux-gnu-Toolchain-12.1.0.tgz
+  )
+elseif(CMAKE_HOST_WIN32)
+  FetchContent_Declare(
+    rio_toolchain
+    URL https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-w64-mingw32-Toolchain-12.1.0.zip
+  )
+endif()
 FetchContent_MakeAvailable(rio_toolchain)
 
 project(rio_compile_ex)
@@ -30,7 +37,7 @@ find_package(wpilibnewcommands REQUIRED)
 # if we are not building for orange pi
 if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
   # find_package(kauailabs REQUIRED)
-  # find_package(pathplanner REQUIRED)
+  find_package(pathplanner REQUIRED)
   # find_package(photonvision REQUIRED)
   # find_package(rev REQUIRED)
   find_package(phoenix REQUIRED)

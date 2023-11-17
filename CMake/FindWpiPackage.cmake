@@ -1,4 +1,4 @@
-macro(FindWpiPackage packageName version install_folder)
+function(FindWpiPackage packageName version install_folder)
 
   include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/DeployUtils.cmake)
   include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
@@ -56,9 +56,18 @@ macro(FindWpiPackage packageName version install_folder)
       NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
   endif()
 
+
+  if(${packageName} STREQUAL "hal")
+    set(REAL_LIB_NAME "Hal")
+  elseif(${packageName} STREQUAL "wpilibnewcommands")
+    set(REAL_LIB_NAME "wpilibNewCommands")
+  else()
+    set(REAL_LIB_NAME ${packageName})
+  endif()
+
   find_library(
     ${packageName}_LIBRARY
-    NAMES ${LIB_PREFIX}${packageName}${DEBUG_STRING}
+    NAMES ${LIB_PREFIX}${REAL_LIB_NAME}${DEBUG_STRING}
     HINTS ${${packageName}_libs_SOURCE_DIR}
     PATH_SUFFIXES ${PATH_SUFFIX} REQUIRED
     NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -95,4 +104,4 @@ macro(FindWpiPackage packageName version install_folder)
     endif()
   endif()
 
-endmacro(FindWpiPackage)
+endfunction(FindWpiPackage)
