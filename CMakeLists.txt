@@ -48,6 +48,8 @@ find_package(Threads REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
   find_package(nilibraries REQUIRED)
+else()
+  find_package(halsim_gui REQUIRED)
 endif()
 
 # if we are not building for orange pi

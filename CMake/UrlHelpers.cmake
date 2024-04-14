@@ -160,6 +160,22 @@ function(GetThirdPartyLibraryUrl library_name version)
       PARENT_SCOPE)
 endfunction()
 
+function(GetHalExtUrl library_name version)
+  getwpiurlbase(
+          "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/halsim"
+          ${library_name}
+          ${version})
+  set(HEADER_URL
+          ${HEADER_URL}
+          PARENT_SCOPE)
+  set(LIB_URL
+          ${LIB_URL}
+          PARENT_SCOPE)
+  set(PATH_SUFFIX
+          ${PATH_SUFFIX}
+          PARENT_SCOPE)
+endfunction()
+
 function(GetWpiUrlBase base_url_string library_name version)
   set(OS_STRING ${CMAKE_SYSTEM_NAME})
   string(TOLOWER ${OS_STRING} OS_STRING)
@@ -236,7 +252,8 @@ function(GetWpiUrlBase base_url_string library_name version)
     OR ${library_name} STREQUAL "simCANCoder"
     OR ${library_name} STREQUAL "simProTalonFX"
     OR ${library_name} STREQUAL "simProCANcoder"
-    OR ${library_name} STREQUAL "simProPigeon2")
+    OR ${library_name} STREQUAL "simProPigeon2"
+    OR ${library_name} STREQUAL "halsim_gui")
     set(STATIC_STRING "")
     set(BASE_URL
         "${base_url_string}/${library_name}/${version}/${library_name}-${version}-"
