@@ -4,9 +4,10 @@
 
 #include "str/SwerveDriveSim.h"
 
+#include <units/current.h>
+
 #include "Constants.h"
 #include "str/SwerveModule.h"
-#include "units/current.h"
 
 using namespace str;
 

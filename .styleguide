@@ -1,0 +1,19 @@
+cppHeaderFileInclude {
+  \.h$
+  \.hpp$
+  \.inc$
+  \.inl$
+}
+
+cppSrcFileInclude {
+  \.cpp$
+}
+
+generatedFileExclude {
+  FRCNetComm\.java$
+  simulation/gz_msgs/src/include/simulation/gz_msgs/msgs\.h$
+  fieldImages/src/main/native/resources/
+  apriltag/src/test/resources/
+  src/main/deploy
+  requirements.txt
+}

@@ -4,17 +4,19 @@ include(CMakePrintHelpers)
 include(FetchContent)
 
 if(CMAKE_HOST_UNIX)
-  FetchContent_Declare(
-    rio_toolchain
-    URL https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-linux-gnu-Toolchain-12.1.0.tgz
-  )
+    fetchcontent_declare(
+        rio_toolchain
+        URL
+            https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-linux-gnu-Toolchain-12.1.0.tgz
+    )
 elseif(CMAKE_HOST_WIN32)
-  FetchContent_Declare(
-    rio_toolchain
-    URL https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-w64-mingw32-Toolchain-12.1.0.zip
-  )
+    fetchcontent_declare(
+        rio_toolchain
+        URL
+            https://github.com/wpilibsuite/opensdk/releases/download/v2024-1/cortexa9_vfpv3-roborio-academic-2024-x86_64-w64-mingw32-Toolchain-12.1.0.zip
+    )
 endif()
-FetchContent_MakeAvailable(rio_toolchain)
+fetchcontent_makeavailable(rio_toolchain)
 
 project(rio_compile_ex)
 
@@ -38,23 +40,23 @@ find_package(choreo REQUIRED)
 find_package(playingwithfusion REQUIRED)
 # if we are not building for orange pi
 if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
-  # find_package(kauailabs REQUIRED)
-  find_package(pathplanner REQUIRED)
-  find_package(photonvision REQUIRED)
-  find_package(rev REQUIRED)
-  find_package(phoenix REQUIRED)
+    # find_package(kauailabs REQUIRED)
+    find_package(pathplanner REQUIRED)
+    find_package(photonvision REQUIRED)
+    find_package(rev REQUIRED)
+    find_package(phoenix REQUIRED)
 endif()
 find_package(Threads REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
-  find_package(nilibraries REQUIRED)
+    find_package(nilibraries REQUIRED)
 else()
-  find_package(halsim_gui REQUIRED)
+    find_package(halsim_gui REQUIRED)
 endif()
 
 # if we are not building for orange pi
 if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
-  add_subdirectory(robotProgram)
+    add_subdirectory(robotProgram)
 endif()
 
 #add_subdirectory(vision)

@@ -5,9 +5,9 @@
 #include "subsystems/ClimberSubsystem.h"
 
 #include <frc2/command/Commands.h>
+#include <wpi/sendable/SendableBuilder.h>
 
 #include "frc/smartdashboard/SmartDashboard.h"
-#include "wpi/sendable/SendableBuilder.h"
 
 ClimberSubsystem::ClimberSubsystem() {
   ConfigureMotor();

@@ -13,6 +13,7 @@
 #include <frc/smartdashboard/Field2d.h>
 #include <frc/smartdashboard/FieldObject2d.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/current.h>
 #include <units/math.h>
@@ -31,7 +32,6 @@
 #include "frc2/command/Commands.h"
 #include "frc2/command/Requirements.h"
 #include "str/SwerveDriveSim.h"
-#include "units/angle.h"
 
 using namespace str;
 

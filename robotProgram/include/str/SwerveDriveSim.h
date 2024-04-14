@@ -4,13 +4,14 @@
 
 #pragma once
 
+#include <units/angle.h>
+#include <units/angular_velocity.h>
+#include <units/current.h>
+#include <units/velocity.h>
+
 #include "Constants.h"
 #include "frc/simulation/DCMotorSim.h"
 #include "frc/system/plant/DCMotor.h"
-#include "units/angle.h"
-#include "units/angular_velocity.h"
-#include "units/current.h"
-#include "units/velocity.h"
 
 namespace str {
 

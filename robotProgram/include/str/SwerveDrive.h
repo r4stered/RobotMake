@@ -14,6 +14,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 #include <networktables/StringTopic.h>
+#include <units/angular_velocity.h>
 #include <units/current.h>
 
 #include <array>
@@ -29,7 +30,6 @@
 #include "frc/geometry/Rotation2d.h"
 #include "frc/kinematics/SwerveModulePosition.h"
 #include "str/SwerveDriveSim.h"
-#include "units/angular_velocity.h"
 
 namespace str {
 class SwerveDrive {
