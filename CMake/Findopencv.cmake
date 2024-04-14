@@ -32,7 +32,9 @@ endif()
 
 # Stupid suffix conditions depending on OS
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi" OR CMAKE_HOST_UNIX)
-  list(TRANSFORM OPENCV_LIST_OF_LIBS REPLACE "480" "")
+  if(GET_SHARED_LIBS)
+    list(TRANSFORM OPENCV_LIST_OF_LIBS REPLACE "480" "")
+  endif()
   list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.8)
 endif()
 

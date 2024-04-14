@@ -9,91 +9,116 @@
 #include <units/angular_velocity.h>
 #include <units/length.h>
 #include <units/velocity.h>
+#include <units/voltage.h>
 
 #include <numbers>
 
-namespace str {
-class Units {
-public:
-  static constexpr units::meter_t ConvertEncoderTicksToDistance(double ticks,
-    int encoderResolution, double gearing, units::meter_t wheelRadius)
-  {
-    return (ticks / (encoderResolution * gearing))
-      * (2 * std::numbers::pi * wheelRadius);
-  }
+namespace units {
 
-  static constexpr units::meter_t ConvertAngularDistanceToLinearDistance(
-    units::radian_t turns, units::meter_t wheelRadius)
-  {
-    return units::meter_t{turns.to<double>() * wheelRadius.to<double>()};
-  }
+template <typename T>
+bool essentiallyEqual(T a, T b, units::scalar_t epsilon) {
+  return units::math::abs(a - b) <=
+         ((units::math::abs(a) > units::math::abs(b) ? units::math::abs(b)
+                                                     : units::math::abs(a)) *
+          epsilon);
+}
 
-  static constexpr units::radian_t ConvertTicksToAngle(
-    double ticks, int encoderResolution, double gearing, bool wrap = true)
-  {
-    units::radian_t retVal = units::radian_t(
-      (ticks / (encoderResolution * gearing)) * (2 * std::numbers::pi));
-    return wrap ? frc::AngleModulus(retVal) : retVal;
-  }
+// SHOOTER
+using radian_volt_kp_unit =
+    units::compound_unit<units::volt, units::inverse<units::radians>>;
+using radian_volt_kp_unit_t = units::unit_t<radian_volt_kp_unit>;
 
-  static constexpr double ConvertDistanceToEncoderTicks(units::meter_t distance,
-    int encoderResolution, double gearing, units::meter_t wheelRadius)
-  {
-    return distance * (encoderResolution * gearing)
-      / (std::numbers::pi * 2 * wheelRadius);
-  }
+using radian_volt_ki_unit = units::compound_unit<
+    units::volt,
+    units::inverse<units::compound_unit<units::radian, units::seconds>>>;
+using radian_volt_ki_unit_t = units::unit_t<radian_volt_ki_unit>;
 
-  static constexpr double ConvertAngleToEncoderTicks(units::radian_t angle,
-    int encoderResolution, double gearing, bool wrap = true)
-  {
-    if (wrap) {
-      angle = frc::AngleModulus(angle);
-    }
-    return angle.to<double>() * (encoderResolution * gearing)
-      / (std::numbers::pi * 2);
-  }
+using radian_volt_kd_unit =
+    units::compound_unit<units::volt,
+                         units::inverse<units::radians_per_second>>;
+using radian_volt_kd_unit_t = units::unit_t<radian_volt_kd_unit>;
 
-  static constexpr units::radians_per_second_t
-  ConvertLinearVelocityToAngularVelocity(
-    units::meters_per_second_t linearVelocity, units::meter_t radius)
-  {
-    return units::radians_per_second_t(
-      linearVelocity.to<double>() / radius.to<double>());
-  }
+using meter_volt_kp_unit =
+    units::compound_unit<units::volt, units::inverse<units::meters>>;
+using meter_volt_kp_unit_t = units::unit_t<meter_volt_kp_unit>;
 
-  static constexpr units::meters_per_second_t
-  ConvertAngularVelocityToLinearVelocity(
-    units::radians_per_second_t angularVelocity, units::meter_t radius)
-  {
-    return units::meters_per_second_t(
-      angularVelocity.to<double>() * radius.to<double>());
-  }
+using meter_volt_ki_unit = units::compound_unit<
+    units::volt,
+    units::inverse<units::compound_unit<units::meter, units::seconds>>>;
+using meter_volt_ki_unit_t = units::unit_t<meter_volt_ki_unit>;
 
-  // TODO: implement our own abs function as std::abs isnt constexpr until c++23
-  static double Deadband(double input, double deadband)
-  {
-    if (std::abs(input) > deadband) {
-      if (input > 0.0) {
-        return (input - deadband) / (1.0 - deadband);
-      } else {
-        return (input + deadband) / (1.0 - deadband);
-      }
-    } else {
-      return 0.0;
-    }
-  }
+using meter_volt_kd_unit =
+    units::compound_unit<units::volt, units::inverse<units::meters_per_second>>;
+using meter_volt_kd_unit_t = units::unit_t<meter_volt_kd_unit>;
 
-  static constexpr double map(
-    double x, double in_min, double in_max, double out_min, double out_max)
-  {
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-  }
+constexpr units::meter_t ConvertEncoderTicksToDistance(
+    int ticks, int encoderResolution, double gearing,
+    units::meter_t wheelRadius) {
+  return (ticks / (encoderResolution * gearing)) *
+         (2 * std::numbers::pi * wheelRadius);
+}
 
-  template <typename T> static constexpr int sgn(T val)
-  {
-    return (T(0) < val) - (val < T(0));
-  }
+constexpr units::meter_t ConvertAngularDistanceToLinearDistance(
+    units::radian_t turns, units::meter_t wheelRadius) {
+  // https://www.calculussolution.com/blog/arc-length
+  // radians are actually dimensionless
+  return (turns / 1_rad) * wheelRadius;
+}
 
-private:
-};
-} // namespace str
+constexpr units::radian_t ConvertLinearDistanceToAngularDistance(
+    units::meter_t distance, units::meter_t wheelRadius) {
+  return (distance / wheelRadius) * 1_rad;
+}
+
+constexpr units::radian_t ConvertTicksToAngle(int ticks, int encoderResolution,
+                                              double gearing,
+                                              bool wrap = true) {
+  auto angle = (ticks / (encoderResolution * gearing)) *
+               units::radian_t{2 * std::numbers::pi};
+  return wrap ? frc::AngleModulus(angle) : angle;
+}
+
+constexpr int ConvertDistanceToEncoderTicks(units::meter_t distance,
+                                            int encoderResolution,
+                                            double gearing,
+                                            units::meter_t wheelRadius) {
+  return distance * (encoderResolution * gearing) /
+         (std::numbers::pi * 2 * wheelRadius);
+}
+
+constexpr int ConvertAngleToEncoderTicks(units::radian_t angle,
+                                         int encoderResolution, double gearing,
+                                         bool wrap = true) {
+  if (wrap) {
+    angle = frc::AngleModulus(angle);
+  }
+  return angle * (encoderResolution * gearing) /
+         units::radian_t{std::numbers::pi * 2};
+}
+
+constexpr units::radians_per_second_t ConvertLinearVelocityToAngularVelocity(
+    units::meters_per_second_t linearVelocity, units::meter_t radius) {
+  // https://www.calculussolution.com/blog/arc-length
+  // radians are actually dimensionless
+  return linearVelocity / (radius / 1_rad);
+}
+
+constexpr units::meters_per_second_t ConvertAngularVelocityToLinearVelocity(
+    units::radians_per_second_t angularVelocity, units::meter_t radius) {
+  // https://www.calculussolution.com/blog/arc-length
+  // radians are actually dimensionless
+  return angularVelocity * (radius / 1_rad);
+}
+
+template <typename T>
+  requires std::is_arithmetic_v<T> || units::traits::is_unit_t_v<T>
+constexpr T Map(T input, T minIn, T maxIn, T minOut, T maxOut) {
+  return (input - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut;
+}
+
+template <typename T>
+constexpr int sgn(T val) {
+  return (T(0) < val) - (val < T(0));
+}
+
+}  // namespace units

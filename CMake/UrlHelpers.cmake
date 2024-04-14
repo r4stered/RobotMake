@@ -35,10 +35,42 @@ function(GetRevUrl library_name version)
       PARENT_SCOPE)
 endfunction()
 
-function(GetPhotonVisionUrl version)
+function(GetPhotonVisionUrl library_name version)
   getwpiurlbase(
-    "https://maven.photonvision.org/repository/internal/org/photonvision/PhotonLib-cpp"
-    "PhotonLib-cpp"
+    "https://maven.photonvision.org/repository/internal/org/photonvision"
+    ${library_name}
+    ${version})
+  set(HEADER_URL
+      ${HEADER_URL}
+      PARENT_SCOPE)
+  set(LIB_URL
+      ${LIB_URL}
+      PARENT_SCOPE)
+  set(PATH_SUFFIX
+      ${PATH_SUFFIX}
+      PARENT_SCOPE)
+endfunction()
+
+function(GetChoreoUrl version)
+  getwpiurlbase(
+    "https://github.com/SleipnirGroup/ChoreoLib/raw/main/dep/com/choreo/lib/ChoreoLib-cpp"
+    "ChoreoLib-cpp"
+    ${version})
+  set(HEADER_URL
+      ${HEADER_URL}
+      PARENT_SCOPE)
+  set(LIB_URL
+      ${LIB_URL}
+      PARENT_SCOPE)
+  set(PATH_SUFFIX
+      ${PATH_SUFFIX}
+      PARENT_SCOPE)
+endfunction()
+
+function(GetPlayingWithFusionUrl library_name version)
+  getwpiurlbase(
+    "https://www.playingwithfusion.com/frc/maven/com/playingwithfusion/frc/PlayingWithFusion-${library_name}"
+    ${library_name}
     ${version})
   set(HEADER_URL
       ${HEADER_URL}
@@ -182,11 +214,16 @@ function(GetWpiUrlBase base_url_string library_name version)
   elseif(
     ${library_name} STREQUAL "navx-frc-cpp"
     OR ${library_name} STREQUAL "PathplannerLib-cpp"
-    OR ${library_name} STREQUAL "PhotonLib-cpp")
+    OR ${library_name} STREQUAL "ChoreoLib-cpp")
     set(BASE_URL "${base_url_string}/${version}/${library_name}-${version}-")
   elseif(${library_name} STREQUAL "driver" OR ${library_name} STREQUAL "cpp")
-    set(BASE_URL
-        "${base_url_string}/${version}/REVLib-${library_name}-${version}-")
+    #janky way to handle rev and playingwithfusion urls
+    string(FIND ${base_url_string} "Fusion" FOUND_FUSION_URL)
+    if(${FOUND_FUSION_URL} EQUAL -1)
+      set(BASE_URL "${base_url_string}/${version}/REVLib-${library_name}-${version}-")
+    else()
+      set(BASE_URL "${base_url_string}/${version}/PlayingWithFusion-${library_name}-${version}-")
+    endif()
   elseif(
     ${library_name} STREQUAL "tools"
     OR ${library_name} STREQUAL "tools-sim"
@@ -204,6 +241,11 @@ function(GetWpiUrlBase base_url_string library_name version)
     set(BASE_URL
         "${base_url_string}/${library_name}/${version}/${library_name}-${version}-"
     )
+  elseif(
+    ${library_name} STREQUAL "photonlib"
+    OR ${library_name} STREQUAL "photontargeting"
+  )
+    set(BASE_URL "${base_url_string}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-")
   else()
     set(BASE_URL
         "${base_url_string}/${library_name}/${library_name}-cpp/${version}/${library_name}-cpp-${version}-"
@@ -230,12 +272,16 @@ function(GetWpiUrlBase base_url_string library_name version)
       OR ${library_name} STREQUAL "runtime"
       OR ${library_name} STREQUAL "visa"
       OR ${library_name} STREQUAL "navx-frc-cpp"
-      OR ${library_name} STREQUAL "PathplannerLib-cpp"))
+      OR ${library_name} STREQUAL "PathplannerLib-cpp"
+      OR ${library_name} STREQUAL "photonlib"
+      OR ${library_name} STREQUAL "photontargeting"
+      OR ${library_name} STREQUAL "ChoreoLib-cpp"
+      OR (NOT ${FOUND_FUSION_URL} EQUAL -1)))
     set(PATH_SUFFIX
         "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}"
         PARENT_SCOPE)
   else()
-    set(PATH_SUFFIX
+      set(PATH_SUFFIX
         "${ARCH_STRING}/${LINK_TYPE_STRING}"
         PARENT_SCOPE)
   endif()

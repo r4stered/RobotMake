@@ -15,8 +15,10 @@ target_link_libraries(
 robotProgram
 Threads::Threads
 phoenix
-# rev
-# photonvision::photonvision
+rev
+photonvision
+playingwithfusion
+choreo::choreo
 pathplanner::pathplanner
 # kauailabs::kauailabs
 wpilibnewcommands::wpilibnewcommands

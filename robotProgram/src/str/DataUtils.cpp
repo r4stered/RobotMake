@@ -11,18 +11,18 @@
 #include <fstream>
 #include <sstream>
 
-void DataUtils::SetupDataLogging()
-{
+using namespace str;
+
+void DataUtils::SetupDataLogging() {
   // These lines of code will record all changes to network table values as well
   // as driverstation joystick and control values
   frc::DataLogManager::Start();
   frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog());
 }
 
-void DataUtils::LogGitInfo()
-{
-  std::string branchFileName
-    = frc::filesystem::GetDeployDirectory() + "/" + "branch.txt";
+void DataUtils::LogGitInfo() {
+  std::string branchFileName =
+      frc::filesystem::GetDeployDirectory() + "/" + "branch.txt";
 
   std::ifstream branchFile(branchFileName);
   if (branchFile.fail()) {
@@ -32,8 +32,8 @@ void DataUtils::LogGitInfo()
   std::stringstream branchStream;
   branchStream << branchFile.rdbuf();
 
-  std::string commitFileName
-    = frc::filesystem::GetDeployDirectory() + "/" + "commit.txt";
+  std::string commitFileName =
+      frc::filesystem::GetDeployDirectory() + "/" + "commit.txt";
   std::ifstream commitFile(commitFileName);
   if (commitFile.fail()) {
     frc::DataLogManager::Log(fmt::format("Error opening branch file!"));
@@ -43,6 +43,6 @@ void DataUtils::LogGitInfo()
   commitStream << commitFile.rdbuf();
 
   frc::DataLogManager::Log(
-    fmt::format("Robot is running code on branch {} with commit {}",
-      branchStream.str(), commitStream.str()));
+      fmt::format("Robot is running code on branch {} with commit {}",
+                  branchStream.str(), commitStream.str()));
 }

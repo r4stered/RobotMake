@@ -4,18 +4,16 @@
 
 #pragma once
 
+#include <frc/PowerDistribution.h>
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
 
 #include <optional>
 
 #include "RobotContainer.h"
-// #include "Vision.h"
-#include "str/Alert.h"
-#include "str/SwerveModule.h"
 
 class Robot : public frc::TimedRobot {
-public:
+ public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;
@@ -32,11 +30,12 @@ public:
   void TestExit() override;
   void SimulationPeriodic() override;
 
-private:
-  std::optional<frc2::CommandPtr> m_autonomousCommand;
+ private:
+  frc2::Command* m_autonomousCommand;
 
-  alert::Alert canError{"CAN errors detected, robot may not be controllable.",
-    alert::AlertType::CRITICAL};
   RobotContainer m_container;
-  // Vision m_vision;
+
+  units::radian_t prevAngle;
+
+  frc::PowerDistribution pdh{1, frc::PowerDistribution::ModuleType::kRev};
 };
