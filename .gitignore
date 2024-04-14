@@ -4,3 +4,6 @@ venv/
 .vs
 .cache/
 *.wpilog
+simgui-ds.json
+simgui-window.json
+simgui.json

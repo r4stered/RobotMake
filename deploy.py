@@ -88,7 +88,7 @@ def main(argv):
     lib_dir = f"./build/{build_folder}/deploy"
     lib_remote_dir = "/usr/local/frc/third-party/lib/"
 
-    deploy_dir = "./deploy"
+    deploy_dir = "./src/main/deploy/"
     deploy_remote_dir = "/home/lvuser/deploy/"
 
     exec_dir = f"./build/{build_folder}/robotProgram/robotProgram"
