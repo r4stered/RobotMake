@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getphotonvisionurl("v2023.4.2")
+getphotonvisionurl("v2024.3.1")
 
 FetchContent_Declare(photonvision_headers URL ${HEADER_URL})
 

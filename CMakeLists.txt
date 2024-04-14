@@ -53,4 +53,4 @@ if(NOT TOOLCHAIN_TRIPLE STREQUAL "aarch64-none-linux-gnu-")
   add_subdirectory(robotProgram)
 endif()
 
-add_subdirectory(vision)
+#add_subdirectory(vision)

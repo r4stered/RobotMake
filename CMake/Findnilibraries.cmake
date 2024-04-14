@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getniurl("chipobject" "2024.1.1")
+getniurl("chipobject" "2024.2.1")
 
 FetchContent_Declare(chipobject_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(chipobject_headers)
@@ -8,7 +8,7 @@ FetchContent_MakeAvailable(chipobject_headers)
 FetchContent_Declare(chipobject_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(chipobject_libs)
 
-getniurl("netcomm" "2024.1.1")
+getniurl("netcomm" "2024.2.1")
 
 FetchContent_Declare(netcomm_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(netcomm_headers)
@@ -16,12 +16,12 @@ FetchContent_MakeAvailable(netcomm_headers)
 FetchContent_Declare(netcomm_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(netcomm_libs)
 
-getniurl("runtime" "2024.1.1")
+getniurl("runtime" "2024.2.1")
 
 FetchContent_Declare(runtime_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(runtime_libs)
 
-getniurl("visa" "2024.1.1")
+getniurl("visa" "2024.2.1")
 
 FetchContent_Declare(visa_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(visa_headers)

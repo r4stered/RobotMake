@@ -4,7 +4,7 @@ if(NOT "${TOOLCHAIN_TRIPLE}" STREQUAL "arm-nilrt-linux-gnueabi")
   set(PHOENIX_SIM TRUE)
 endif()
 
-getctreurl("tools" "24.0.0-beta-2" False)
+getctreurl("tools" "24.2.0" False)
 
 FetchContent_Declare(tools_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(tools_headers)
@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(tools_headers)
 FetchContent_Declare(tools_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(tools_libs)
 
-getctreurl("wpiapi-cpp" "24.0.0-beta-2" False)
+getctreurl("wpiapi-cpp" "24.2.0" False)
 
 FetchContent_Declare(wpiapicpp_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(wpiapicpp_headers)
@@ -21,7 +21,7 @@ FetchContent_Declare(wpiapicpp_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(wpiapicpp_libs)
 
 if(PHOENIX_SIM)
-  getctreurl("tools-sim" "24.0.0-beta-2" True)
+  getctreurl("tools-sim" "24.2.0" True)
 
   FetchContent_Declare(toolssim_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(toolssim_headers)
@@ -29,7 +29,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(toolssim_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(toolssim_libs)
 
-  getctreurl("wpiapi-cpp-sim" "24.0.0-beta-2" True)
+  getctreurl("wpiapi-cpp-sim" "24.2.0" True)
 
   FetchContent_Declare(wpiapicppsim_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(wpiapicppsim_headers)
@@ -37,7 +37,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(wpiapicppsim_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(wpiapicppsim_libs)
 
-  getctreurl("simTalonSRX" "24.0.0-beta-2" True)
+  getctreurl("simTalonSRX" "24.2.0" True)
 
   FetchContent_Declare(simtalonsrx_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simtalonsrx_headers)
@@ -45,7 +45,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simtalonsrx_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simtalonsrx_libs)
 
-  getctreurl("simTalonFX" "24.0.0-beta-2" True)
+  getctreurl("simTalonFX" "24.2.0" True)
 
   FetchContent_Declare(simtalonfx_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simtalonfx_headers)
@@ -53,7 +53,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simtalonfx_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simtalonfx_libs)
 
-  getctreurl("simVictorSPX" "24.0.0-beta-2" True)
+  getctreurl("simVictorSPX" "24.2.0" True)
 
   FetchContent_Declare(simvictorspx_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simvictorspx_headers)
@@ -61,7 +61,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simvictorspx_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simvictorspx_libs)
 
-  getctreurl("simPigeonIMU" "24.0.0-beta-2" True)
+  getctreurl("simPigeonIMU" "24.2.0" True)
 
   FetchContent_Declare(simpigeonimu_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simpigeonimu_headers)
@@ -69,7 +69,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simpigeonimu_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simpigeonimu_libs)
 
-  getctreurl("simCANCoder" "24.0.0-beta-2" True)
+  getctreurl("simCANCoder" "24.2.0" True)
 
   FetchContent_Declare(simcancoder_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simcancoder_headers)
@@ -77,7 +77,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simcancoder_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simcancoder_libs)
 
-  getctreurl("simProTalonFX" "24.0.0-beta-2" True)
+  getctreurl("simProTalonFX" "24.2.0" True)
 
   FetchContent_Declare(simprotalonfx_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simprotalonfx_headers)
@@ -85,7 +85,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simprotalonfx_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simprotalonfx_libs)
 
-  getctreurl("simProCANcoder" "24.0.0-beta-2" True)
+  getctreurl("simProCANcoder" "24.2.0" True)
 
   FetchContent_Declare(simprocancoder_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simprocancoder_headers)
@@ -93,7 +93,7 @@ if(PHOENIX_SIM)
   FetchContent_Declare(simprocancoder_libs URL ${LIB_URL})
   FetchContent_MakeAvailable(simprocancoder_libs)
 
-  getctreurl("simProPigeon2" "24.0.0-beta-2" True)
+  getctreurl("simProPigeon2" "24.2.0" True)
 
   FetchContent_Declare(simpropigeon2_headers URL ${HEADER_URL})
   FetchContent_MakeAvailable(simpropigeon2_headers)

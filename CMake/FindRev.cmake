@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getrevurl("driver" "2023.1.3")
+getrevurl("driver" "2024.2.4")
 
 FetchContent_Declare(revdriver_headers URL ${HEADER_URL})
 
@@ -10,7 +10,7 @@ FetchContent_MakeAvailable(revdriver_headers)
 FetchContent_Declare(revdriver_libs URL ${LIB_URL})
 FetchContent_MakeAvailable(revdriver_libs)
 
-getrevurl("cpp" "2023.1.3")
+getrevurl("cpp" "2024.2.4")
 
 FetchContent_Declare(revcpp_headers URL ${HEADER_URL})
 

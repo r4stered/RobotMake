@@ -1,6 +1,6 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-getthirdpartylibraryurl("opencv" "4.8.0-1")
+getthirdpartylibraryurl("opencv" "4.8.0-2")
 
 FetchContent_Declare(opencv_headers URL ${HEADER_URL})
 FetchContent_MakeAvailable(opencv_headers)
