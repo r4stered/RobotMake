@@ -7,13 +7,17 @@ if(MSVC)
     target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
 endif()
 
-target_include_directories(robotProgram PRIVATE "${CMAKE_CURRENT_LIST_DIR}/include")
+target_include_directories(robotProgram PRIVATE "${CMAKE_CURRENT_LIST_DIR}/include" ${OPENGL_INCLUDE_DIRS})
 
 add_subdirectory(src)
 
 target_link_libraries(
     robotProgram
     Threads::Threads
+    apriltaglib::apriltaglib
+    googletest::googletest
+    imgui::imgui
+    ${OPENGL_LIBRARIES}
     wpimath::wpimath
     wpinet::wpinet
 )

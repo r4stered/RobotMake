@@ -1,9 +1,11 @@
-function(FindWpiPackage packageName install_folder)
+function(FindWpiPackage packageName version install_folder url_func)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/DeployUtils.cmake)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
-    GetWpiUrl(${packageName} ${version})
+    # This is janky but it gets rid of a lot of duplicate code
+    cmake_language(EVAL CODE "${url_func}(${packageName} ${version})")
 
+    # TODO: not sure if needed
     if(NOT "${install_folder}" STREQUAL "")
         set(INSTALL_FOLDER_STR ${install_folder})
     else()

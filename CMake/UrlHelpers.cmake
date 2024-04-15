@@ -1,5 +1,5 @@
 include(CMakePrintHelpers)
-include(Versions)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/Versions.cmake)
 
 # This function sets OS_STRING equal to the appropriate url string for downloading wpi deps
 function(GetOsNameForUrl)
@@ -58,6 +58,42 @@ function(GetSharedOrStaticStringForUrl is_shared)
     return(PROPAGATE SHARED_STRING)
 endfunction(GetSharedOrStaticStringForUrl)
 
+# Gets the header and lib url for a third party wpi packages. All of these are only static except opencv
+# Returns 
+    # ${library_name}_HEADER_URL - the url to the headers of the library
+    # ${library_name}_LIB_URL - the url to the lib of the library
+    # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
+function(GetThirdpartyUrl library_name version)
+    GetOsNameForUrl()
+    GetBuildTypeForUrl()
+    GetArchStringForUrl()
+    GetSharedOrStaticStringForUrl(${GET_SHARED_LIBS})
+
+    # These libs are avaliable as static only, so force it
+    if(${library_name} STREQUAL "apriltaglib" OR
+       ${library_name} STREQUAL "googletest" OR
+       ${library_name} STREQUAL "imgui" OR
+       ${library_name} STREQUAL "libssh"
+    )
+        set(SHARED_STRING "static")
+    endif()
+
+    set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc${WPI_YEAR}/${library_name}/${version}")
+
+    set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-${version}-headers.zip")
+    set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+
+    # Sets the subdirectory to search in when calling find_library and similar functions
+    if("${SHARED_STRING}" STREQUAL "")
+        set(LINK_TYPE_STRING "shared")
+    else()
+        set(LINK_TYPE_STRING "static")
+    endif()
+    set(${library_name}_PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}")
+
+    return(PROPAGATE ${library_name}_HEADER_URL ${library_name}_LIB_URL ${library_name}_PATH_SUFFIX)
+endfunction(GetThirdpartyUrl)
+
 # Gets the header and lib url for a wpi package. You must make sure GET_SHARED_LIBS is set to True or False before calling this
 # Returns 
     # ${library_name}_HEADER_URL - the url to the headers of the library
@@ -75,7 +111,7 @@ function(GetWpiUrl library_name)
     set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-cpp-${WPI_VERSION}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
 
     # Sets the subdirectory to search in when calling find_library and similar functions
-    if(${GET_SHARED_LIBS})
+    if("${SHARED_STRING}" STREQUAL "")
         set(LINK_TYPE_STRING "shared")
     else()
         set(LINK_TYPE_STRING "static")
