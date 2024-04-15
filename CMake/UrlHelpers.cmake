@@ -123,6 +123,12 @@ function(GetWpiUrl library_name)
     set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-cpp-${WPI_VERSION}-headers.zip")
     set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-cpp-${WPI_VERSION}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
 
+    #Special case for wierd capitilization of commands v2
+    if(${library_name} STREQUAL "wpilibnewcommands")
+        string(REPLACE "wpilibnewcommands" "wpilibNewCommands" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "wpilibnewcommands" "wpilibNewCommands" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
     # Sets the subdirectory to search in when calling find_library and similar functions
     if("${SHARED_STRING}" STREQUAL "")
         set(LINK_TYPE_STRING "shared")

@@ -37,5 +37,7 @@ find_package(cscore REQUIRED)
 find_package(ntcore REQUIRED)
 find_package(cameraserver REQUIRED)
 find_package(hal)
+find_package(wpilibc REQUIRED)
+find_package(wpilibnewcommands REQUIRED)
 
 add_subdirectory(robotProgram)

@@ -16,6 +16,15 @@
 
 #include "hal/HALBase.h"
 
+#include <frc/Encoder.h>
+
+
+#include "frc2/command/CommandPtr.h"
+#include "frc2/command/CommandScheduler.h"
+#include "frc2/command/Commands.h"
+
+using namespace frc2;
+
 using namespace frc;
 
 int main() {
@@ -50,5 +59,13 @@ int main() {
 
   int type = HAL_GetRuntimeType();
   fmt::print("runtime type: {}\n", type);
+
+  frc::Encoder m_encoder{1, 2, false, frc::Encoder::k4X};
+  m_encoder.SetMinRate(1.0);
+
+  int counter = 0;
+  CommandPtr movedFrom = cmd::Run([&counter] { counter++; });
+  CommandPtr movedTo = std::move(movedFrom);
+  return 0;
   return 0;
 }

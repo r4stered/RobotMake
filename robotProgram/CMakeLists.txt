@@ -15,11 +15,10 @@ target_link_libraries(
     robotProgram
     ${CMAKE_DL_LIBS}
     Threads::Threads
-    cameraserver::cameraserver
+    wpilibnewcommands
     libssh
     apriltag::apriltag
     googletest::googletest
-    hal
 )
 
 if(WIN32)
