@@ -22,6 +22,7 @@
 #include "frc2/command/CommandPtr.h"
 #include "frc2/command/CommandScheduler.h"
 #include "frc2/command/Commands.h"
+#include "wpigui.h"
 
 using namespace frc2;
 
@@ -66,6 +67,8 @@ int main() {
   int counter = 0;
   CommandPtr movedFrom = cmd::Run([&counter] { counter++; });
   CommandPtr movedTo = std::move(movedFrom);
-  return 0;
+
+  wpi::gui::CreateContext();
+  wpi::gui::Exit();
   return 0;
 }

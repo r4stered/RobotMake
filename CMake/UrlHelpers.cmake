@@ -118,6 +118,11 @@ function(GetWpiUrl library_name)
     GetArchStringForUrl()
     GetSharedOrStaticStringForUrl(${GET_SHARED_LIBS})
 
+    # These libs are avaliable as static only, so force it
+    if(${library_name} STREQUAL "wpigui")
+        set(SHARED_STRING "static")
+    endif()
+
     set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/${library_name}/${library_name}-cpp/${WPI_VERSION}")
 
     set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-cpp-${WPI_VERSION}-headers.zip")

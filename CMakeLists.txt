@@ -39,5 +39,7 @@ find_package(cameraserver REQUIRED)
 find_package(hal)
 find_package(wpilibc REQUIRED)
 find_package(wpilibnewcommands REQUIRED)
+find_package(imgui REQUIRED)
+find_package(wpigui REQUIRED)
 
 add_subdirectory(robotProgram)
