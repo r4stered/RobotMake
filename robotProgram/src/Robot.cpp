@@ -14,12 +14,15 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
+#include "hal/HALBase.h"
+
 using namespace frc;
 
 int main() {
   ssh_session my_ssh_session = ssh_new();
-  if (my_ssh_session == NULL)
+  if (my_ssh_session == nullptr) {
     return -1;
+  }
   ssh_free(my_ssh_session);
   cv::Mat mat;
   fmt::print("Channels: {}\n", mat.channels());
@@ -44,5 +47,8 @@ int main() {
   nt->PutNumber("testkey", 5);
   nt::ResetInstance(inst.GetHandle());
   nt::NetworkTableInstance::Destroy(inst);
+
+  int type = HAL_GetRuntimeType();
+  fmt::print("runtime type: {}\n", type);
   return 0;
 }

@@ -19,6 +19,7 @@ target_link_libraries(
     libssh
     apriltag::apriltag
     googletest::googletest
+    hal
 )
 
 if(WIN32)

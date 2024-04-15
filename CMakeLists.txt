@@ -36,5 +36,6 @@ find_package(apriltag REQUIRED)
 find_package(cscore REQUIRED)
 find_package(ntcore REQUIRED)
 find_package(cameraserver REQUIRED)
+find_package(hal)
 
 add_subdirectory(robotProgram)
