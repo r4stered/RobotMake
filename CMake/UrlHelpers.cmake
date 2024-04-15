@@ -134,6 +134,12 @@ function(GetWpiUrl library_name)
         string(REPLACE "wpilibnewcommands" "wpilibNewCommands" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
     endif()
 
+    #Special case for wierd capitilization of field images
+    if(${library_name} STREQUAL "fieldimages")
+        string(REPLACE "fieldimages" "fieldImages" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "fieldimages" "fieldImages" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
     # Sets the subdirectory to search in when calling find_library and similar functions
     if("${SHARED_STRING}" STREQUAL "")
         set(LINK_TYPE_STRING "shared")

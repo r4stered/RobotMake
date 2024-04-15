@@ -24,6 +24,13 @@
 #include "frc2/command/Commands.h"
 #include "wpigui.h"
 
+#include <iostream>
+
+#include "fields/2024-crescendo.h"
+#include "fields/fields.h"
+#include <opencv2/imgcodecs.hpp>
+#include <vector>
+
 using namespace frc2;
 
 using namespace frc;
@@ -70,5 +77,10 @@ int main() {
 
   wpi::gui::CreateContext();
   wpi::gui::Exit();
+
+  static const fields::Field kField = {"2024 Crescendo",
+                                       fields::GetResource_2024_crescendo_json,
+                                       fields::GetResource_2024_field_png};
+  std::cout << kField.getJson() << "\n";
   return 0;
 }
