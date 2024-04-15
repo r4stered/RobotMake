@@ -21,6 +21,10 @@ else()
     list(APPEND opencv_libs "opencv480")
 endif()
 
+if(WIN32)
+    list(TRANSFORM opencv_libs APPEND "480")
+endif()
+
 list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.8)
 list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.8.debug)
 

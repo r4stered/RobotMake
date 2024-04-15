@@ -46,7 +46,10 @@ if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
 else()
     find_package(imgui REQUIRED)
     find_package(wpigui REQUIRED)
-    find_package(fieldimages REQUIRED)
+    # TODO: There is only a dll on windows?
+    if(NOT WIN32)
+        find_package(fieldimages REQUIRED)
+    endif()
     find_package(halsim_gui REQUIRED)
 endif()
 

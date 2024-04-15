@@ -30,9 +30,14 @@ if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
 else()
     target_link_libraries(
         robotProgram
-        fieldImages::fieldImages
         wpigui::wpigui
     )
+    if(NOT WIN32)
+        target_link_libraries(
+            robotProgram
+            fieldImages::fieldImages
+        )
+    endif()
 endif()
 
 if(WIN32)

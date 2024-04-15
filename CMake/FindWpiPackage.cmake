@@ -50,17 +50,21 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
         endif()
     endif()
 
+    string(FIND "${${packageName}_LIB_URL}" "static" FOUND_STATIC_LIB)
+
     foreach(lib_name ${lib_names})
         if(WIN32)
-            find_file(
-                ${lib_name}_DLL
-                NAMES ${LIB_PREFIX}${lib_name}${DEBUG_STRING}.dll
-                HINTS ${${packageName}_libs_SOURCE_DIR}
-                PATH_SUFFIXES ${${packageName}_PATH_SUFFIX}
-                REQUIRED
-                NO_DEFAULT_PATH
-                NO_CMAKE_FIND_ROOT_PATH
-            )
+            if(${FOUND_STATIC_LIB} EQUAL -1)
+                find_file(
+                    ${lib_name}_DLL
+                    NAMES ${LIB_PREFIX}${lib_name}${DEBUG_STRING}.dll
+                    HINTS ${${packageName}_libs_SOURCE_DIR}
+                    PATH_SUFFIXES ${${packageName}_PATH_SUFFIX}
+                    REQUIRED
+                    NO_DEFAULT_PATH
+                    NO_CMAKE_FIND_ROOT_PATH
+                )
+            endif()
         endif()
 
         find_library(
@@ -102,13 +106,13 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
 
     if(${packageName}_FOUND AND NOT TARGET ${packageName}::${packageName})
         foreach(lib_name ${lib_names})        
-            if(GET_SHARED_LIBS)
+            if(${FOUND_STATIC_LIB} EQUAL -1)
                 add_library(${lib_name}::${lib_name} SHARED IMPORTED)
             else()
                 add_library(${lib_name}::${lib_name} STATIC IMPORTED)
             endif()
 
-            if(WIN32)
+            if(WIN32 AND (${FOUND_STATIC_LIB} EQUAL -1))
                 set_target_properties(
                     ${lib_name}::${lib_name}
                     PROPERTIES
