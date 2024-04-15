@@ -11,6 +11,9 @@
 #include "frc/apriltag/AprilTagFieldLayout.h"
 #include "frc/geometry/Pose3d.h"
 
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
+
 using namespace frc;
 
 int main() {
@@ -35,5 +38,11 @@ int main() {
   auto mirrorPose =
       Pose3d{54_ft, 27_ft, 0_ft, Rotation3d{0_deg, 0_deg, 180_deg}};
   mirrorPose = Pose3d{50_ft, 23_ft, 4_ft, Rotation3d{0_deg, 0_deg, 0_deg}};
+
+  auto inst = nt::NetworkTableInstance::Create();
+  auto nt = inst.GetTable("containskey");
+  nt->PutNumber("testkey", 5);
+  nt::ResetInstance(inst.GetHandle());
+  nt::NetworkTableInstance::Destroy(inst);
   return 0;
 }

@@ -15,11 +15,10 @@ target_link_libraries(
     robotProgram
     ${CMAKE_DL_LIBS}
     Threads::Threads
-    opencv
+    cameraserver::cameraserver
     libssh
     apriltag::apriltag
     googletest::googletest
-    wpinet::wpinet
 )
 
 if(WIN32)

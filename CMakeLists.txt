@@ -33,5 +33,8 @@ find_package(apriltaglib REQUIRED)
 find_package(libssh REQUIRED)
 find_package(opencv REQUIRED)
 find_package(apriltag REQUIRED)
+find_package(cscore REQUIRED)
+find_package(ntcore REQUIRED)
+find_package(cameraserver REQUIRED)
 
 add_subdirectory(robotProgram)
