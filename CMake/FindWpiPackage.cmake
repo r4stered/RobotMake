@@ -1,4 +1,4 @@
-function(FindWpiPackage packageName version install_folder url_func)
+function(FindWpiPackage packageName lib_name version has_debug_postfix install_folder url_func)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/DeployUtils.cmake)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
@@ -10,6 +10,11 @@ function(FindWpiPackage packageName version install_folder url_func)
         set(INSTALL_FOLDER_STR ${install_folder})
     else()
         set(INSTALL_FOLDER_STR "")
+    endif()
+
+    # Handle the case where the package name is different than the library file name
+    if("${lib_name}" STREQUAL "")
+        set(lib_name ${packageName})
     endif()
 
     fetchcontent_declare(
@@ -35,16 +40,18 @@ function(FindWpiPackage packageName version install_folder url_func)
     fetchcontent_declare(${packageName}_libs URL ${${packageName}_LIB_URL})
     fetchcontent_makeavailable(${packageName}_libs)
 
-    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        set(DEBUG_STRING "d")
-    else()
-        set(DEBUG_STRING "")
+    if(${has_debug_postfix})
+        if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+            set(DEBUG_STRING "d")
+        else()
+            set(DEBUG_STRING "")
+        endif()
     endif()
 
     if(WIN32)
         find_file(
             ${packageName}_DLL
-            NAMES ${LIB_PREFIX}${packageName}${DEBUG_STRING}.dll
+            NAMES ${LIB_PREFIX}${lib_name}${DEBUG_STRING}.dll
             HINTS ${${packageName}_libs_SOURCE_DIR}
             PATH_SUFFIXES ${${packageName}_PATH_SUFFIX}
             REQUIRED
@@ -55,7 +62,7 @@ function(FindWpiPackage packageName version install_folder url_func)
 
     find_library(
         ${packageName}_LIBRARY
-        NAMES ${LIB_PREFIX}${packageName}${DEBUG_STRING}
+        NAMES ${LIB_PREFIX}${lib_name}${DEBUG_STRING}
         HINTS ${${packageName}_libs_SOURCE_DIR}
         PATH_SUFFIXES ${${packageName}_PATH_SUFFIX}
         REQUIRED

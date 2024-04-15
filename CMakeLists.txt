@@ -32,5 +32,6 @@ find_package(imgui REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(googletest REQUIRED)
 find_package(apriltaglib REQUIRED)
+find_package(libssh REQUIRED)
 
 add_subdirectory(robotProgram)

@@ -89,7 +89,13 @@ function(GetThirdpartyUrl library_name version)
     else()
         set(LINK_TYPE_STRING "static")
     endif()
+
     set(${library_name}_PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}")
+
+    # Libssh has the os in the subdirectories
+    if("${library_name}" STREQUAL "libssh")
+        set(${library_name}_PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}")
+    endif()
 
     return(PROPAGATE ${library_name}_HEADER_URL ${library_name}_LIB_URL ${library_name}_PATH_SUFFIX)
 endfunction(GetThirdpartyUrl)

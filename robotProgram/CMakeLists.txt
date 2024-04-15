@@ -14,6 +14,7 @@ add_subdirectory(src)
 target_link_libraries(
     robotProgram
     Threads::Threads
+    libssh::libssh
     apriltaglib::apriltaglib
     googletest::googletest
     imgui::imgui

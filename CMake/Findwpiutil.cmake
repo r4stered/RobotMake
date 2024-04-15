@@ -1,3 +1,3 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FindWpiPackage.cmake)
 
-FindWpiPackage(wpiutil "" "" GetWpiUrl)
+FindWpiPackage(wpiutil "" "" "" YES GetWpiUrl)

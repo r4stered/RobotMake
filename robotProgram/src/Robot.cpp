@@ -2,14 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the MIT License file in the root of this project
 
-#include <apriltag.h>
-#include <tag36h11.h>
+#define LIBSSH_STATIC
+
+#include <libssh/libssh.h>
+
 
 int main() {
-  apriltag_detector_t *td = apriltag_detector_create();
-  apriltag_family_t *tf = tag36h11_create();
-  apriltag_detector_add_family(td, tf);
-  apriltag_detector_destroy(td);
-  tag36h11_destroy(tf);
+  ssh_session my_ssh_session = ssh_new();
+  if (my_ssh_session == NULL)
+    return -1;
+  ssh_free(my_ssh_session);
   return 0;
 }
