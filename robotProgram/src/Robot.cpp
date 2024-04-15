@@ -1,86 +1,47 @@
-// Copyright (c) FRC 2053.
+// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
-// the MIT License file in the root of this project
+// the WPILib BSD license file in the root directory of this project.
 
-#define LIBSSH_STATIC
+#include <frc/TimedRobot.h>
 
-#include <libssh/libssh.h>
-#include <opencv2/core.hpp>
-#include <fmt/format.h>
-#include "frc/apriltag/AprilTag.h"
-#include "frc/apriltag/AprilTagFieldLayout.h"
-#include "frc/geometry/Pose3d.h"
+class MyRobot : public frc::TimedRobot {
+  /**
+   * This function is run when the robot is first started up and should be
+   * used for any initialization code.
+   */
+  void RobotInit() override {}
 
-#include "networktables/NetworkTable.h"
-#include "networktables/NetworkTableInstance.h"
+  /**
+   * This function is run once each time the robot enters autonomous mode
+   */
+  void AutonomousInit() override {}
 
-#include "hal/HALBase.h"
+  /**
+   * This function is called periodically during autonomous
+   */
+  void AutonomousPeriodic() override {}
 
-#include <frc/Encoder.h>
+  /**
+   * This function is called once each time the robot enters tele-operated mode
+   */
+  void TeleopInit() override {}
 
+  /**
+   * This function is called periodically during operator control
+   */
+  void TeleopPeriodic() override {}
 
-#include "frc2/command/CommandPtr.h"
-#include "frc2/command/CommandScheduler.h"
-#include "frc2/command/Commands.h"
-#include "wpigui.h"
+  /**
+   * This function is called periodically during test mode
+   */
+  void TestPeriodic() override {}
 
-#include <iostream>
-
-#include "fields/2024-crescendo.h"
-#include "fields/fields.h"
-#include <opencv2/imgcodecs.hpp>
-#include <vector>
-
-using namespace frc2;
-
-using namespace frc;
+  /**
+   * This function is called periodically during all modes
+   */
+  void RobotPeriodic() override {}
+};
 
 int main() {
-  ssh_session my_ssh_session = ssh_new();
-  if (my_ssh_session == nullptr) {
-    return -1;
-  }
-  ssh_free(my_ssh_session);
-  cv::Mat mat;
-  fmt::print("Channels: {}\n", mat.channels());
-
-  auto layout = AprilTagFieldLayout{
-      std::vector<AprilTag>{
-          AprilTag{1,
-                   Pose3d{0_ft, 0_ft, 0_ft, Rotation3d{0_deg, 0_deg, 0_deg}}},
-          AprilTag{
-              2, Pose3d{4_ft, 4_ft, 4_ft, Rotation3d{0_deg, 0_deg, 180_deg}}}},
-      54_ft, 27_ft};
-
-  layout.SetOrigin(
-      AprilTagFieldLayout::OriginPosition::kRedAllianceWallRightSide);
-
-  auto mirrorPose =
-      Pose3d{54_ft, 27_ft, 0_ft, Rotation3d{0_deg, 0_deg, 180_deg}};
-  mirrorPose = Pose3d{50_ft, 23_ft, 4_ft, Rotation3d{0_deg, 0_deg, 0_deg}};
-
-  auto inst = nt::NetworkTableInstance::Create();
-  auto nt = inst.GetTable("containskey");
-  nt->PutNumber("testkey", 5);
-  nt::ResetInstance(inst.GetHandle());
-  nt::NetworkTableInstance::Destroy(inst);
-
-  int type = HAL_GetRuntimeType();
-  fmt::print("runtime type: {}\n", type);
-
-  frc::Encoder m_encoder{1, 2, false, frc::Encoder::k4X};
-  m_encoder.SetMinRate(1.0);
-
-  int counter = 0;
-  CommandPtr movedFrom = cmd::Run([&counter] { counter++; });
-  CommandPtr movedTo = std::move(movedFrom);
-
-  wpi::gui::CreateContext();
-  wpi::gui::Exit();
-
-  static const fields::Field kField = {"2024 Crescendo",
-                                       fields::GetResource_2024_crescendo_json,
-                                       fields::GetResource_2024_field_png};
-  std::cout << kField.getJson() << "\n";
-  return 0;
+  return frc::StartRobot<MyRobot>();
 }

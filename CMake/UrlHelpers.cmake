@@ -47,7 +47,6 @@ function(GetArchStringForUrl)
 endfunction(GetArchStringForUrl)
 
 # This function sets SHARED_STRING equal to the appropriate url string for downloading wpi deps
-# TODO: Some libraries are only avaliable as shared or static. Make sure to handle this here??
 function(GetSharedOrStaticStringForUrl is_shared)
     if(${is_shared})
         set(SHARED_STRING "")
@@ -57,6 +56,28 @@ function(GetSharedOrStaticStringForUrl is_shared)
 
     return(PROPAGATE SHARED_STRING)
 endfunction(GetSharedOrStaticStringForUrl)
+
+# Gets the header and lib url for the roborio libraries. All of these are only shared and are only valid when building
+# for the roborio
+# Returns 
+    # ${library_name}_HEADER_URL - the url to the headers of the library
+    # ${library_name}_LIB_URL - the url to the lib of the library
+    # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
+function(GetNiUrl library_name version)
+    GetOsNameForUrl()
+    GetBuildTypeForUrl()
+    GetArchStringForUrl()
+    GetSharedOrStaticStringForUrl(${GET_SHARED_LIBS})
+
+    set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/${library_name}/${version}")
+    set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-${version}-headers.zip")
+    set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+
+    set(LINK_TYPE_STRING "shared")
+    set(${library_name}_PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}")
+
+    return(PROPAGATE ${library_name}_HEADER_URL ${library_name}_LIB_URL ${library_name}_PATH_SUFFIX)
+endfunction(GetNiUrl)
 
 # Gets the header and lib url for a third party wpi packages. All of these are only static except opencv
 # Returns 
