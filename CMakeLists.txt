@@ -32,5 +32,6 @@ find_package(googletest REQUIRED)
 find_package(apriltaglib REQUIRED)
 find_package(libssh REQUIRED)
 find_package(opencv REQUIRED)
+find_package(apriltag REQUIRED)
 
 add_subdirectory(robotProgram)

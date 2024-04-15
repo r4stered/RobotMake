@@ -5,7 +5,7 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
     # This is janky but it gets rid of a lot of duplicate code
     cmake_language(EVAL CODE "${url_func}(${packageName} ${version})")
 
-    # TODO: not sure if needed
+    # Makes sure frc libs are under an frc folder to keep compatibility with gradlerio programs
     if(NOT "${install_folder}" STREQUAL "")
         set(INSTALL_FOLDER_STR ${install_folder})
     else()

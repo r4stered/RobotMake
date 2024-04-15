@@ -17,9 +17,8 @@ target_link_libraries(
     Threads::Threads
     opencv
     libssh
-    apriltaglib::apriltaglib
+    apriltag::apriltag
     googletest::googletest
-    wpimath::wpimath
     wpinet::wpinet
 )
 

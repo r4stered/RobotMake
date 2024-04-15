@@ -7,7 +7,11 @@
 #include <libssh/libssh.h>
 #include <opencv2/core.hpp>
 #include <fmt/format.h>
+#include "frc/apriltag/AprilTag.h"
+#include "frc/apriltag/AprilTagFieldLayout.h"
+#include "frc/geometry/Pose3d.h"
 
+using namespace frc;
 
 int main() {
   ssh_session my_ssh_session = ssh_new();
@@ -16,5 +20,20 @@ int main() {
   ssh_free(my_ssh_session);
   cv::Mat mat;
   fmt::print("Channels: {}\n", mat.channels());
+
+  auto layout = AprilTagFieldLayout{
+      std::vector<AprilTag>{
+          AprilTag{1,
+                   Pose3d{0_ft, 0_ft, 0_ft, Rotation3d{0_deg, 0_deg, 0_deg}}},
+          AprilTag{
+              2, Pose3d{4_ft, 4_ft, 4_ft, Rotation3d{0_deg, 0_deg, 180_deg}}}},
+      54_ft, 27_ft};
+
+  layout.SetOrigin(
+      AprilTagFieldLayout::OriginPosition::kRedAllianceWallRightSide);
+
+  auto mirrorPose =
+      Pose3d{54_ft, 27_ft, 0_ft, Rotation3d{0_deg, 0_deg, 180_deg}};
+  mirrorPose = Pose3d{50_ft, 23_ft, 4_ft, Rotation3d{0_deg, 0_deg, 0_deg}};
   return 0;
 }
