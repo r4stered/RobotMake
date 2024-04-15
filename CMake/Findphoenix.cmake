@@ -606,8 +606,6 @@ if(PHOENIX_FOUND AND NOT TARGET phoenix::phoenix)
         target_link_libraries(
             phoenix
             INTERFACE
-                tools::tools
-                wpiapicpp::wpiapicpp
                 toolssim::toolssim
                 wpiapicppsim::wpiapicppsim
                 simtalonsrx::simtalonsrx
