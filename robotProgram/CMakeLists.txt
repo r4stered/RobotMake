@@ -15,15 +15,25 @@ target_link_libraries(
     robotProgram
     ${CMAKE_DL_LIBS}
     ntcoreffi::ntcoreffi
-    nilibraries
-    #fieldImages::fieldImages
-    #wpigui::wpigui
     Threads::Threads
     wpilibnewcommands
     libssh
     apriltag::apriltag
     googletest::googletest
 )
+
+if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
+    target_link_libraries(
+        robotProgram
+        nilibraries
+    )
+else()
+    target_link_libraries(
+        robotProgram
+        fieldImages::fieldImages
+        wpigui::wpigui
+    )
+endif()
 
 if(WIN32)
     add_custom_command(
