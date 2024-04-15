@@ -24,4 +24,4 @@ endif()
 list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.8)
 list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES .so.4.8.debug)
 
-FindWpiPackage(opencv "${opencv_libs}" "4.8.0-2" "" YES GetThirdpartyUrl)
+FindWpiPackage(opencv "${opencv_libs}" "4.8.0-2" "" YES NO GetThirdpartyUrl)

@@ -42,5 +42,6 @@ find_package(wpilibnewcommands REQUIRED)
 find_package(imgui REQUIRED)
 find_package(wpigui REQUIRED)
 find_package(fieldimages REQUIRED)
+find_package(ntcoreffi REQUIRED)
 
 add_subdirectory(robotProgram)

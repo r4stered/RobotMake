@@ -1,4 +1,4 @@
-function(FindWpiPackage packageName lib_names version install_folder has_debug_postfix url_func)
+function(FindWpiPackage packageName lib_names version install_folder has_debug_postfix libs_only url_func)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/DeployUtils.cmake)
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/UrlHelpers.cmake)
 
@@ -17,20 +17,22 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
         set(lib_names ${packageName})
     endif()
 
-    fetchcontent_declare(
-        ${packageName}_headers
-        DOWNLOAD_COMMAND
-        URL
-            ${${packageName}_HEADER_URL}
-            SOURCE_DIR
-            ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-src/${INSTALL_FOLDER_STR}
-            BINARY_DIR
-            ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-build/${INSTALL_FOLDER_STR}
-            SUBBUILD_DIR
-            ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-subbuild/${INSTALL_FOLDER_STR}
-    )
+    if(NOT ${libs_only})
+        fetchcontent_declare(
+            ${packageName}_headers
+            DOWNLOAD_COMMAND
+            URL
+                ${${packageName}_HEADER_URL}
+                SOURCE_DIR
+                ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-src/${INSTALL_FOLDER_STR}
+                BINARY_DIR
+                ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-build/${INSTALL_FOLDER_STR}
+                SUBBUILD_DIR
+                ${CMAKE_CURRENT_BINARY_DIR}/_deps/${packageName}_headers-subbuild/${INSTALL_FOLDER_STR}
+        )
 
-    fetchcontent_makeavailable(${packageName}_headers)
+        fetchcontent_makeavailable(${packageName}_headers)
+    endif()
 
     if(NOT "${install_folder}" STREQUAL "")
         cmake_path(GET ${packageName}_headers_SOURCE_DIR PARENT_PATH ${packageName}_FIXED_PATH)
@@ -76,10 +78,16 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
 
     include(FindPackageHandleStandardArgs)
 
+    if(NOT ${libs_only})
+        foreach(lib_name ${lib_names})
+            list(APPEND all_lib_files ${lib_name}_LIBRARY)
+            list(APPEND all_lib_files ${packageName}_HEADERS)
+        endforeach()
+    else()
     foreach(lib_name ${lib_names})
         list(APPEND all_lib_files ${lib_name}_LIBRARY)
-        list(APPEND all_lib_files ${packageName}_HEADERS)
     endforeach()
+    endif()
     
 
     find_package_handle_standard_args(

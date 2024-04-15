@@ -1,3 +1,3 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FindWpiPackage.cmake)
 
-FindWpiPackage(fieldimages "fieldImages" "" "" NO NO GetWpiUrl)
+FindWpiPackage(ntcoreffi "" "" "" NO YES GetWpiUrl)
