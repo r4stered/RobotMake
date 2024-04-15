@@ -14,30 +14,8 @@ add_subdirectory(src)
 target_link_libraries(
     robotProgram
     Threads::Threads
-    phoenix
-    rev
-    photonvision
-    playingwithfusion
-    choreo::choreo
-    pathplanner::pathplanner
-    # kauailabs::kauailabs
-    wpilibnewcommands::wpilibnewcommands
-    wpilibc::wpilibc
-    hal::hal
-    apriltag::apriltag
-    apriltaglib::apriltaglib
-    wpimath::wpimath
-    cameraserver::cameraserver
-    ntcore::ntcore
-    cscore::cscore
-    opencv
-    wpinet::wpinet
     wpiutil::wpiutil
 )
-
-if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
-    target_link_libraries(robotProgram nilibraries dl)
-endif()
 
 if(WIN32)
     add_custom_command(

@@ -1,3 +1,3 @@
-include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FindWpiPackage.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FindPackage.cmake)
 
-findwpipackage(wpiutil 2024.3.2 "")
+FindWpiPackage(wpiutil "")

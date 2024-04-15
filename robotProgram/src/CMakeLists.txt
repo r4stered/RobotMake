@@ -2,10 +2,7 @@ file(GLOB_RECURSE HEADER_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/robotProg
 
 cmake_print_variables(HEADER_LIST)
 
-target_sources(robotProgram PRIVATE Constants.cpp Robot.cpp RobotContainer.cpp ${HEADER_LIST})
-
-add_subdirectory(subsystems)
-add_subdirectory(str)
+target_sources(robotProgram PRIVATE Robot.cpp ${HEADER_LIST})
 
 source_group(
     TREE "${PROJECT_SOURCE_DIR}/robotProgram/include"

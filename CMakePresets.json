@@ -55,6 +55,7 @@
       "name": "desktop_debug_shared",
       "displayName": "Desktop Debug Shared",
       "description": "This will build for your local OS with shared libs.",
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/desktop_debug_shared",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -73,6 +74,20 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CONFIGURATION_TYPES": "Debug",
+        "GET_SHARED_LIBS": {
+          "type": "BOOL",
+          "value": "OFF"
+        }
+      }
+    },
+    {
+      "name": "desktop_release_static",
+      "displayName": "Desktop Release Static",
+      "description": "This will build for your local OS with static libs.",
+      "binaryDir": "${sourceDir}/build/desktop_release_static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CONFIGURATION_TYPES": "Release",
         "GET_SHARED_LIBS": {
           "type": "BOOL",
           "value": "OFF"
@@ -115,6 +130,10 @@
     {
       "name": "desktop_debug_static",
       "configurePreset": "desktop_debug_static"
+    },
+    {
+      "name": "desktop_release_static",
+      "configurePreset": "desktop_release_static"
     },
     {
       "name": "orangepi_release",
