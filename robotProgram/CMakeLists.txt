@@ -13,12 +13,12 @@ add_subdirectory(src)
 
 target_link_libraries(
     robotProgram
+    ${CMAKE_DL_LIBS}
     Threads::Threads
-    libssh::libssh
+    opencv
+    libssh
     apriltaglib::apriltaglib
     googletest::googletest
-    imgui::imgui
-    ${OPENGL_LIBRARIES}
     wpimath::wpimath
     wpinet::wpinet
 )

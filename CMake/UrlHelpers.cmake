@@ -78,10 +78,16 @@ function(GetThirdpartyUrl library_name version)
         set(SHARED_STRING "static")
     endif()
 
-    set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc${WPI_YEAR}/${library_name}/${version}")
 
+    set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc${WPI_YEAR}/${library_name}/${version}")
     set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-${version}-headers.zip")
     set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+
+    if(${library_name} STREQUAL "opencv")
+        set(BASE_URL "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc${WPI_YEAR}/${library_name}/${library_name}-cpp/${version}")
+        set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-cpp-${version}-headers.zip")
+        set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-cpp-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+    endif()
 
     # Sets the subdirectory to search in when calling find_library and similar functions
     if("${SHARED_STRING}" STREQUAL "")
@@ -93,7 +99,8 @@ function(GetThirdpartyUrl library_name version)
     set(${library_name}_PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}")
 
     # Libssh has the os in the subdirectories
-    if("${library_name}" STREQUAL "libssh")
+    if("${library_name}" STREQUAL "libssh" OR
+       "${library_name}" STREQUAL "opencv")
         set(${library_name}_PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}")
     endif()
 

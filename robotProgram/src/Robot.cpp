@@ -5,6 +5,8 @@
 #define LIBSSH_STATIC
 
 #include <libssh/libssh.h>
+#include <opencv2/core.hpp>
+#include <fmt/format.h>
 
 
 int main() {
@@ -12,5 +14,7 @@ int main() {
   if (my_ssh_session == NULL)
     return -1;
   ssh_free(my_ssh_session);
+  cv::Mat mat;
+  fmt::print("Channels: {}\n", mat.channels());
   return 0;
 }
