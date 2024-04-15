@@ -14,7 +14,8 @@ add_subdirectory(src)
 target_link_libraries(
     robotProgram
     Threads::Threads
-    wpiutil::wpiutil
+    wpimath::wpimath
+    wpinet::wpinet
 )
 
 if(WIN32)
