@@ -62,7 +62,34 @@ endfunction(GetSharedOrStaticStringForUrl)
     # ${library_name}_HEADER_URL - the url to the headers of the library
     # ${library_name}_LIB_URL - the url to the lib of the library
     # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
-    function(GetPathplannerLibUrl library_name version)
+function(GetPhotonvisionUrl library_name version)
+    GetOsNameForUrl()
+    GetBuildTypeForUrl()
+    GetArchStringForUrl()
+    GetSharedOrStaticStringForUrl(${GET_SHARED_LIBS})
+
+    set(BASE_URL "https://maven.photonvision.org/repository/internal/org/photonvision/${library_name}-cpp/${version}")
+    set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-cpp-${version}-headers.zip")
+    set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-cpp-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+
+    # Sets the subdirectory to search in when calling find_library and similar functions
+    if("${SHARED_STRING}" STREQUAL "")
+        set(LINK_TYPE_STRING "shared")
+    else()
+        set(LINK_TYPE_STRING "static")
+    endif()
+
+    set(${library_name}_PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}")
+
+    return(PROPAGATE ${library_name}_HEADER_URL ${library_name}_LIB_URL ${library_name}_PATH_SUFFIX)
+endfunction(GetPhotonvisionUrl)
+
+# Gets the header and lib url for the Choreo libraries.
+# Returns 
+    # ${library_name}_HEADER_URL - the url to the headers of the library
+    # ${library_name}_LIB_URL - the url to the lib of the library
+    # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
+function(GetPathplannerLibUrl library_name version)
     GetOsNameForUrl()
     GetBuildTypeForUrl()
     GetArchStringForUrl()
@@ -95,7 +122,7 @@ endfunction(GetPathplannerLibUrl)
     # ${library_name}_HEADER_URL - the url to the headers of the library
     # ${library_name}_LIB_URL - the url to the lib of the library
     # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
-    function(GetChoreoLibUrl library_name version)
+function(GetChoreoLibUrl library_name version)
     GetOsNameForUrl()
     GetBuildTypeForUrl()
     GetArchStringForUrl()
