@@ -40,6 +40,7 @@ find_package(hal)
 find_package(wpilibc REQUIRED)
 find_package(wpilibnewcommands REQUIRED)
 find_package(ntcoreffi REQUIRED)
+find_package(navx REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
     find_package(nilibraries REQUIRED)

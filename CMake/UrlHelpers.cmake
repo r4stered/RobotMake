@@ -57,6 +57,35 @@ function(GetSharedOrStaticStringForUrl is_shared)
     return(PROPAGATE SHARED_STRING)
 endfunction(GetSharedOrStaticStringForUrl)
 
+# Gets the header and lib url for the Studica Labs NavX libraries.
+# Returns 
+    # ${library_name}_HEADER_URL - the url to the headers of the library
+    # ${library_name}_LIB_URL - the url to the lib of the library
+    # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
+function(GetStudicaLabsUrl library_name version)
+    GetOsNameForUrl()
+    GetBuildTypeForUrl()
+    GetArchStringForUrl()
+    GetSharedOrStaticStringForUrl(${GET_SHARED_LIBS})
+
+    string(SUBSTRING ${version} 0 4 STUDICA_LABS_YEAR)
+
+    set(BASE_URL "https://dev.studica.com/maven/release/${STUDICA_LABS_YEAR}/com/kauailabs/${library_name}/frc/${library_name}-frc-cpp/${version}")
+    set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-frc-cpp-${version}-headers.zip")
+    set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-frc-cpp-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+
+    # Sets the subdirectory to search in when calling find_library and similar functions
+    if("${SHARED_STRING}" STREQUAL "")
+        set(LINK_TYPE_STRING "shared")
+    else()
+        set(LINK_TYPE_STRING "static")
+    endif()
+
+    set(${library_name}_PATH_SUFFIX "${ARCH_STRING}/${LINK_TYPE_STRING}")
+
+    return(PROPAGATE ${library_name}_HEADER_URL ${library_name}_LIB_URL ${library_name}_PATH_SUFFIX)
+endfunction(GetStudicaLabsUrl)
+
 # Gets the header and lib url for the roborio libraries. All of these are only shared and are only valid when building
 # for the roborio
 # Returns 

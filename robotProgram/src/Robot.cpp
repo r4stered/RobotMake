@@ -3,13 +3,14 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include <frc/TimedRobot.h>
+#include <AHRS.h>
 
 class MyRobot : public frc::TimedRobot {
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
-  void RobotInit() override {}
+  void RobotInit() override { AHRS gyro{frc::SPI::Port::kMXP}; }
 
   /**
    * This function is run once each time the robot enters autonomous mode
