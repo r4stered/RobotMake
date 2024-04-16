@@ -45,6 +45,7 @@ find_package(choreolib REQUIRED)
 find_package(pathplannerlib REQUIRED)
 find_package(photonlib REQUIRED)
 find_package(playingwithfusion REQUIRED)
+find_package(revlib REQUIRED)
 
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
     find_package(nilibraries REQUIRED)
