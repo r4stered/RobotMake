@@ -1,3 +1,5 @@
+set_target_properties(robotProgram PROPERTIES FOLDER "str")
+
 target_sources(
     robotProgram
     PRIVATE
