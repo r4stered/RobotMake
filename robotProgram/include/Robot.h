@@ -4,12 +4,38 @@
 
 #pragma once
 
-#include <fmt/format.h>
+#include <frc/PowerDistribution.h>
+#include <frc/TimedRobot.h>
+#include <frc2/command/CommandPtr.h>
 
-class Robot {
+#include <optional>
+
+#include "RobotContainer.h"
+
+class Robot : public frc::TimedRobot {
  public:
-    Robot() {
-        fmt::print("Hello world!\n");
-    }
+  void RobotInit() override;
+  void RobotPeriodic() override;
+  void DisabledInit() override;
+  void DisabledPeriodic() override;
+  void DisabledExit() override;
+  void AutonomousInit() override;
+  void AutonomousPeriodic() override;
+  void AutonomousExit() override;
+  void TeleopInit() override;
+  void TeleopPeriodic() override;
+  void TeleopExit() override;
+  void TestInit() override;
+  void TestPeriodic() override;
+  void TestExit() override;
+  void SimulationPeriodic() override;
+
  private:
+  frc2::Command* m_autonomousCommand;
+
+  RobotContainer m_container;
+
+  units::radian_t prevAngle;
+
+  frc::PowerDistribution pdh{1, frc::PowerDistribution::ModuleType::kRev};
 };

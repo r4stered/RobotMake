@@ -14,9 +14,9 @@ add_subdirectory(src)
 target_link_libraries(
     robotProgram
     ${CMAKE_DL_LIBS}
-    phoenix6
     revlib
     playingwithfusion
+    photontargeting::photontargeting
     photonlib::photonlib
     pathplannerlib
     choreolib
@@ -32,6 +32,7 @@ target_link_libraries(
 if(TOOLCHAIN_TRIPLE STREQUAL "arm-nilrt-linux-gnueabi")
     target_link_libraries(
         robotProgram
+        phoenix6
         nilibraries
     )
 else()
