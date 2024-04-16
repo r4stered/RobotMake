@@ -14,6 +14,7 @@ add_subdirectory(src)
 target_link_libraries(
     robotProgram
     ${CMAKE_DL_LIBS}
+    choreolib
     navx
     ntcoreffi::ntcoreffi
     Threads::Threads
