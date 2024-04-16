@@ -4,7 +4,7 @@ set_property(TARGET robotProgram PROPERTY CXX_STANDARD 20)
 set_property(TARGET robotProgram PROPERTY CXX_STANDARD_REQUIRED ON)
 
 if(MSVC)
-    target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj)
+    target_compile_options(robotProgram PRIVATE /Zc:preprocessor /bigobj /W4)
 endif()
 
 target_include_directories(robotProgram PRIVATE "${CMAKE_CURRENT_LIST_DIR}/include" ${OPENGL_INCLUDE_DIRS})
