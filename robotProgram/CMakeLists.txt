@@ -14,6 +14,7 @@ add_subdirectory(src)
 target_link_libraries(
     robotProgram
     ${CMAKE_DL_LIBS}
+    phoenix6
     revlib
     playingwithfusion
     photonlib::photonlib
@@ -37,6 +38,7 @@ else()
     target_link_libraries(
         robotProgram
         wpigui::wpigui
+        phoenix6sim
     )
     if(NOT WIN32)
         target_link_libraries(

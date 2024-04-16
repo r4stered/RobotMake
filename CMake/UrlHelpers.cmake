@@ -57,6 +57,82 @@ function(GetSharedOrStaticStringForUrl is_shared)
     return(PROPAGATE SHARED_STRING)
 endfunction(GetSharedOrStaticStringForUrl)
 
+# Gets the header and lib url for CTRE libraries.
+# Returns 
+    # ${library_name}_HEADER_URL - the url to the headers of the library
+    # ${library_name}_LIB_URL - the url to the lib of the library
+    # ${library_name}_PATH_SUFFIX - the subdirectory where the library files are located in the _deps folder
+function(GetCtreUrl library_name version)
+    GetOsNameForUrl()
+    GetBuildTypeForUrl()
+    GetArchStringForUrl()
+    GetSharedOrStaticStringForUrl(${GET_SHARED_LIBS})
+
+    string(FIND "${library_name}" "sim" FOUND_SIM)
+
+    if(${FOUND_SIM} EQUAL -1)
+        set(BASE_URL "https://maven.ctr-electronics.com/release/com/ctre/phoenix6/${library_name}/${version}")
+    else()
+        set(BASE_URL "https://maven.ctr-electronics.com/release/com/ctre/phoenix6/sim/${library_name}/${version}")
+    endif()
+
+    set(${library_name}_HEADER_URL "${BASE_URL}/${library_name}-${version}-headers.zip")
+    set(${library_name}_LIB_URL "${BASE_URL}/${library_name}-${version}-${OS_STRING}${ARCH_STRING}${SHARED_STRING}${BUILD_TYPE_STRING}.zip")
+
+    #Special case for wierd capitilization of ctre sim libs
+    if(${library_name} STREQUAL "simtalonsrx")
+        string(REPLACE "simtalonsrx" "simTalonSRX" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simtalonsrx" "simTalonSRX" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simtalonfx")
+        string(REPLACE "simtalonfx" "simTalonFX" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simtalonfx" "simTalonFX" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simvictorspx")
+        string(REPLACE "simvictorspx" "simVictorSPX" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simvictorspx" "simVictorSPX" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simpigeonimu")
+        string(REPLACE "simpigeonimu" "simPigeonIMU" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simpigeonimu" "simPigeonIMU" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simcancoder")
+        string(REPLACE "simcancoder" "simCANCoder" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simcancoder" "simCANCoder" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simprotalonfx")
+        string(REPLACE "simprotalonfx" "simProTalonFX" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simprotalonfx" "simProTalonFX" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simprocancoder")
+        string(REPLACE "simprocancoder" "simProCANcoder" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simprocancoder" "simProCANcoder" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+    if(${library_name} STREQUAL "simpropigeon2")
+        string(REPLACE "simpropigeon2" "simProPigeon2" ${library_name}_HEADER_URL ${${library_name}_HEADER_URL})
+        string(REPLACE "simpropigeon2" "simProPigeon2" ${library_name}_LIB_URL ${${library_name}_LIB_URL})
+    endif()
+
+
+    # Sets the subdirectory to search in when calling find_library and similar functions
+    if("${SHARED_STRING}" STREQUAL "")
+        set(LINK_TYPE_STRING "shared")
+    else()
+        set(LINK_TYPE_STRING "static")
+    endif()
+
+    set(${library_name}_PATH_SUFFIX "${OS_STRING}/${ARCH_STRING}/${LINK_TYPE_STRING}")
+
+    return(PROPAGATE ${library_name}_HEADER_URL ${library_name}_LIB_URL ${library_name}_PATH_SUFFIX)
+endfunction(GetCtreUrl)
+
 # Gets the header and lib url for the Rev libraries.
 # Returns 
     # ${library_name}_HEADER_URL - the url to the headers of the library
