@@ -64,6 +64,18 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
                     NO_DEFAULT_PATH
                     NO_CMAKE_FIND_ROOT_PATH
                 )
+
+                if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+                    find_file(
+                        ${lib_name}_PDB
+                        NAMES ${LIB_PREFIX}${lib_name}${DEBUG_STRING}.pdb
+                        HINTS ${${packageName}_libs_SOURCE_DIR}
+                        PATH_SUFFIXES ${${packageName}_PATH_SUFFIX}
+                        NO_DEFAULT_PATH
+                        NO_CMAKE_FIND_ROOT_PATH
+                    )
+                    message("PDB NAME: ${${lib_name}_PDB}")
+                endif()
             endif()
         endif()
 
@@ -88,9 +100,9 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
             list(APPEND all_lib_files ${packageName}_HEADERS)
         endforeach()
     else()
-    foreach(lib_name ${lib_names})
-        list(APPEND all_lib_files ${lib_name}_LIBRARY)
-    endforeach()
+        foreach(lib_name ${lib_names})
+            list(APPEND all_lib_files ${lib_name}_LIBRARY)
+        endforeach()
     endif()
     
 
@@ -119,7 +131,12 @@ function(FindWpiPackage packageName lib_names version install_folder has_debug_p
                         INTERFACE_INCLUDE_DIRECTORIES "${${packageName}_HEADERS}"
                         IMPORTED_LOCATION ${${lib_name}_DLL}
                         IMPORTED_IMPLIB ${${lib_name}_LIBRARY}
+                        PDB_NAME ${${lib_name}_PDB}
                 )
+
+                if(EXISTS ${${lib_name}_PDB})
+                    CopyToBin(${${lib_name}_PDB})
+                endif()
             else()
                 set_target_properties(
                     ${lib_name}::${lib_name}
